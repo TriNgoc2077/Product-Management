@@ -1,4 +1,18 @@
 extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
 
 block main 
-    h1 List product page
+    .container.my-3
+        .row 
+            .col-12 
+                +box-head("List product")
+        .row 
+            .col-4.mb-3 
+                .product-item 
+                    .inner-image
+                        img(src="https://mobileworld.com.vn/uploads/product/S24_Series/s24u_den.png", alt="Galaxy s24 Ultra")
+                    .inner-content 
+                        h3.inner-title Samsung galaxy s24 Ultra 
+                        .inner-price-new 880$
+                        .inner-price-old 1000$
+                        .inner-discount -12%
