@@ -1,0 +1,48 @@
+extends ../../layouts/default.pug
+
+
+block main
+    h1 product list page
+
+    table.table.table-hover.table-sm
+        thead  
+            tr 
+                td order 
+                td Picture 
+                td Title 
+                td Price 
+                td Status 
+                td To-do
+        tbody 
+            tr 
+                td 1
+                td 
+                    img(
+                        src="https://cdn.tgdd.vn/Products/Images/522/307178/Slider/samsung-galaxy-tab-s9-plus-thumb-yt-1020x570.jpg", 
+                        alt="Product 1"
+                        width="100px"
+                        height="auto"
+                    )
+                    td Product 1
+                    td 200$
+                    td 
+                        a(href="#" class="btn btn-success") Active 
+                    td 
+                        button(class="btn btn-warning btn-sm") Edit 
+                        button(class="btn btn-danger btn-sm ml-1") Delete 
+            tr 
+                td 2
+                td 
+                    img(
+                        src="https://cdn.tgdd.vn/Products/Images/522/307178/Slider/samsung-galaxy-tab-s9-plus-thumb-yt-1020x570.jpg", 
+                        alt="Product 1"
+                        width="100px"
+                        height="auto"
+                    )
+                td Product 2
+                td 150$
+                td 
+                    a(href="#" class="btn btn-danger") Inactive 
+                td 
+                    button(class="btn btn-warning btn-sm") Edit 
+                    button(class="btn btn-danger btn-sm ml-1") Delete 
