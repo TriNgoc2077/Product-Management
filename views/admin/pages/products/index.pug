@@ -14,35 +14,41 @@ block main
                 td Status 
                 td To-do
         tbody 
-            tr 
-                td 1
-                td 
-                    img(
-                        src="https://cdn.tgdd.vn/Products/Images/522/307178/Slider/samsung-galaxy-tab-s9-plus-thumb-yt-1020x570.jpg", 
-                        alt="Product 1"
-                        width="100px"
-                        height="auto"
-                    )
-                    td Product 1
-                    td 200$
+            each item, index in products   
+                tr 
+                    td #{index}
                     td 
-                        a(href="#" class="btn btn-success") Active 
-                    td 
-                        button(class="btn btn-warning btn-sm") Edit 
-                        button(class="btn btn-danger btn-sm ml-1") Delete 
-            tr 
-                td 2
-                td 
-                    img(
-                        src="https://cdn.tgdd.vn/Products/Images/522/307178/Slider/samsung-galaxy-tab-s9-plus-thumb-yt-1020x570.jpg", 
-                        alt="Product 1"
-                        width="100px"
-                        height="auto"
-                    )
-                td Product 2
-                td 150$
-                td 
-                    a(href="#" class="btn btn-danger") Inactive 
-                td 
-                    button(class="btn btn-warning btn-sm") Edit 
-                    button(class="btn btn-danger btn-sm ml-1") Delete 
+                        img(
+                            src=item.thumbnail, 
+                            alt=item.title
+                            width="100px"
+                            height="auto"
+                        )
+                        td #{item.title}
+                        td #{item.price}$
+                        td 
+                            if (item.status == "active")
+                                a(href="#" class="btn btn-success") #{item.status} 
+                            else 
+                                a(href="#" class="btn btn-danger") #{item.status}
+                        td 
+                            button(class="btn btn-warning btn-sm") Edit 
+                            button(class="btn btn-danger btn-sm ml-1") Delete
+
+             
+            //- tr 
+            //-     td 2
+            //-     td 
+            //-         img(
+            //-             src="https://cdn.tgdd.vn/Products/Images/522/307178/Slider/samsung-galaxy-tab-s9-plus-thumb-yt-1020x570.jpg", 
+            //-             alt="Product 1"
+            //-             width="100px"
+            //-             height="auto"
+            //-         )
+            //-     td Product 2
+            //-     td 150$
+            //-     td 
+            //-         a(href="#" class="btn btn-danger") Inactive 
+            //-     td 
+            //-         button(class="btn btn-warning btn-sm") Edit 
+            //-         button(class="btn btn-danger btn-sm ml-1") Delete 

@@ -1,0 +1,62 @@
+[
+  {
+    _id: new ObjectId('6754017a8b16b5b00dd09529'),
+    title: 'iPhone 9',
+    description: 'An apple mobile which is nothing like apple',
+    price: 549,
+    discountPercentage: 12.96,
+    stock: 94,
+    thumbnail: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
+    status: 'active',
+    position: 1,
+    deleted: false
+  },
+  {
+    _id: new ObjectId('6754017a8b16b5b00dd0952a'),
+    title: 'iPhone X',
+    description: 'SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...',
+    price: 899,
+    discountPercentage: 17.94,
+    stock: 34,
+    thumbnail: 'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
+    status: 'active',
+    position: 2,
+    deleted: false
+  },
+  {
+    _id: new ObjectId('6754017a8b16b5b00dd0952b'),
+    title: 'Samsung Universe 9',
+    description: "Samsung's new variant which goes beyond Galaxy to the Universe",
+    price: 1249,
+    discountPercentage: 15.46,
+    stock: 36,
+    thumbnail: 'https://i.dummyjson.com/data/products/3/thumbnail.jpg',
+    status: 'active',
+    position: 3,
+    deleted: false
+  },
+  {
+    _id: new ObjectId('6754017a8b16b5b00dd0952c'),
+    title: 'OPPOF19',
+    description: 'OPPO F19 is officially announced on April 2021.',
+    price: 280,
+    discountPercentage: 17.91,
+    stock: 123,
+    thumbnail: 'https://i.dummyjson.com/data/products/4/thumbnail.jpg',
+    status: 'active',
+    position: 4,
+    deleted: false
+  },
+  {
+    _id: new ObjectId('6754017a8b16b5b00dd0952d'),
+    title: 'Huawei P30',
+    description: 'Huawei’s re-badged P30 Pro New Edition was officially unveiled yesterday in Germany and now the device has made its way to the UK.',
+    price: 499,
+    discountPercentage: 10.58,
+    stock: 32,
+    thumbnail: 'https://i.dummyjson.com/data/products/5/thumbnail.jpg',
+    status: 'active',
+    position: 5,
+    deleted: false
+  }
+]
