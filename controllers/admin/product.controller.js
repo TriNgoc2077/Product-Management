@@ -36,11 +36,22 @@ module.exports.index = async (req, res) => {
     } 
     //url: localhost:3000/admin/products?status=active
 
+    let keyword = "";
+
+    if (req.query.keyword) {
+        // console.log(req.query);
+        keyword = req.query.keyword;
+        const regex = new RegExp(keyword, "i"); //regex
+        //find products with keyword, i: doesn't distinguish upper, lower case
+        find.title = regex;
+    } 
+
     const products = await Product.find(find);
 
     res.render("admin/pages/products/index.pug", {
         titlePage: "Product List",
         products: products,
-        filterStatus: filterStatus
+        filterStatus: filterStatus,
+        keyword: keyword
     });
 }
