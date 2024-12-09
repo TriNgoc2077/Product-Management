@@ -1,6 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/filterStatus.pug
-
+include ../../mixins/search.pug
 block main
     h1 Product list page
 
@@ -11,20 +11,7 @@ block main
                     .col-6
                         +filter-status(filterStatus)
                     .col-6 
-                        form(id="form-search")
-                            .input-group    
-                                input(
-                                    type="text"
-                                    placeholder="Enter keyword"
-                                    name="keyword"
-                                    value=keyword
-                                    class="form-control"
-                                )
-                                .input-group-append 
-                                    button(
-                                        class="btn btn-success"
-                                        type="submit"
-                                    ) Search
+                        +search(keyword)
     .card.mb-3 
         .card-header List
             .card-body 

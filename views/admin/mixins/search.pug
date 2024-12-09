@@ -1,0 +1,15 @@
+mixin search(keyword)
+    form(id="form-search")
+        .input-group    
+            input(
+                type="text"
+                placeholder="Enter keyword"
+                name="keyword"
+                value=keyword
+                class="form-control"
+            )
+            .input-group-append 
+                button(
+                    class="btn btn-success"
+                    type="submit"
+                ) Search
