@@ -7,13 +7,28 @@ block main
     .card.mb-3 
         .card-header Filter and Find 
             .card-body 
-                each item in filterStatus
-                    button(
-                        class=`btn btn-sm ml-1 btn-outline-success ${item.class}`
-                        button-status=item.status
-                    ) #{item.name}
+                .row
+                    .col-6
+                        each item in filterStatus
+                            button(
+                                class=`btn btn-sm ml-1 btn-outline-success ${item.class}`
+                                button-status=item.status
+                            ) #{item.name}
 
-
+                    .col-6 
+                        form(id="form-search")
+                            .input-group    
+                                input(
+                                    type="text"
+                                    placeholder="Enter keyword"
+                                    name="keyword"
+                                    class="form-control"
+                                )
+                                .input-group-append 
+                                    button(
+                                        class="btn btn-success"
+                                        type="submit"
+                                    ) Search
     .card.mb-3 
         .card-header List
             .card-body 
