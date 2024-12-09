@@ -2,38 +2,51 @@ extends ../../layouts/default.pug
 
 
 block main
-    h1 product list page
+    h1 Product list page
 
-    table.table.table-hover.table-sm
-        thead  
-            tr 
-                td order 
-                td Picture 
-                td Title 
-                td Price 
-                td Status 
-                td To-do
-        tbody 
-            each item, index in products   
-                tr 
-                    td #{index}
-                    td 
-                        img(
-                            src=item.thumbnail, 
-                            alt=item.title
-                            width="100px"
-                            height="auto"
-                        )
-                        td #{item.title}
-                        td #{item.price}$
-                        td 
-                            if (item.status == "active")
-                                a(href="#" class="btn btn-success") #{item.status} 
-                            else 
-                                a(href="#" class="btn btn-danger") #{item.status}
-                        td 
-                            button(class="btn btn-warning btn-sm") Edit 
-                            button(class="btn btn-danger btn-sm ml-1") Delete
+    .card.mb-3 
+        .card-header Filter and Find 
+            .card-body 
+                each item in filterStatus
+                    button(
+                        class=`btn btn-sm ml-1 btn-outline-success ${item.class}`
+                        button-status=item.status
+                    ) #{item.name}
+
+
+    .card.mb-3 
+        .card-header List
+            .card-body 
+                table.table.table-hover.table-sm
+                    thead  
+                        tr 
+                            td Order 
+                            td Picture 
+                            td Title 
+                            td Price 
+                            td Status 
+                            td To-do
+                    tbody 
+                        each item, index in products   
+                            tr 
+                                td #{index}
+                                td 
+                                    img(
+                                        src=item.thumbnail, 
+                                        alt=item.title
+                                        width="100px"
+                                        height="auto"
+                                    )
+                                    td #{item.title}
+                                    td #{item.price}$
+                                    td 
+                                        if (item.status == "active")
+                                            a(href="#" class="btn btn-success") #{item.status} 
+                                        else 
+                                            a(href="#" class="btn btn-danger") #{item.status}
+                                    td 
+                                        button(class="btn btn-warning btn-sm") Edit 
+                                        button(class="btn btn-danger btn-sm ml-1") Delete
 
              
             //- tr 
