@@ -3,6 +3,7 @@ const Product = require("../../models/product.model");
 const filterStatusHelpers = require("../../helpers/filterStatus");
 const searchHelpers = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
+
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
     //req.query: (require) query attributes in url, ex:localhost....?status="active"
@@ -49,4 +50,16 @@ module.exports.index = async (req, res) => {
         keyword: objectSearch.keyword,
         pagination: objectPagination
     });
+}
+
+//[GET] /admin/products/change-status/:status/:id
+//To change the state, necessary to access to database and change data
+//. but url can only accessed using get method
+module.exports.changeStatus = async (req, res) => {
+    const status = req.params.status;
+    const id = req.params.id;
+    
+    await Product.updateOne({ _id: id }, { status: status });
+
+    res.redirect("back");
 }

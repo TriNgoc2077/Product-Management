@@ -1,5 +1,6 @@
 const express = require('express');
 require("dotenv").config();
+var methodOverride = require("method-override");
 
 const database = require('./config/database');
 
@@ -15,7 +16,7 @@ const port = process.env.PORT;
 
 app.set("views", "./views");
 app.set("view engine", "pug");
-
+app.use(methodOverride("_method"));
 // App Locals Variables
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
@@ -30,3 +31,4 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 })
 //git pull origin main
+//npm i method-override, ghi de phuong thuc khi gui len

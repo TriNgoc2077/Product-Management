@@ -40,14 +40,35 @@ block main
                                     td #{item.price}$
                                     td 
                                         if (item.status == "active")
-                                            a(href="#" class="btn btn-success") #{item.status} 
+                                            a(
+                                                href="javascript:;"  
+                                                data-status="active"
+                                                data-id=item.id
+                                                button-change-status
+                                                class="btn btn-success"
+                                            ) #{item.status}
+                                        //- use java script to process logic 
                                         else 
-                                            a(href="#" class="btn btn-danger") #{item.status}
+                                            a(
+                                                href=`javascript:;`
+                                                data-status="inactive"
+                                                data-id=item.id
+                                                button-change-status
+                                                class="btn btn-danger"
+                                            ) #{item.status}
                                     td 
                                         button(class="btn btn-warning btn-sm") Edit 
                                         button(class="btn btn-danger btn-sm ml-1") Delete
 
 
     +pagination(pagination)
+
+    form(
+        action=""
+        method="POST"
+        id="form-change-status"
+        data-path=`${prefixAdmin}/products/change-status`
+    ) 
+    script(src="/admin/js/product.js") 
 
 
