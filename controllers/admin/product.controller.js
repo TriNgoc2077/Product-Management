@@ -1,32 +1,12 @@
 const Product = require("../../models/product.model");
 
+const filterStatusHelpers = require("../../helpers/filterStatus");
+
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
-    // console.log(req.query.status);
-    let filterStatus = [
-        {
-            name: "All",
-            status: "",
-            class: ""
-        },
-        {
-            name: "Active",
-            status: "active",
-            class: ""
-        },
-        {
-            name: "Inactive",
-            status: "inactive",
-            class: ""
-        }
-    ];
-
-    if(req.query.status) {
-        const index = filterStatus.findIndex(item => item.status == req.query.status);
-        filterStatus[index].class = "active";
-    } else {
-        filterStatus[0].class = "active";
-    }
+    //req.query: (require) query attributes in url, ex:localhost....?status="active"
+    //filter
+    const filterStatus = filterStatusHelpers(req.query);
 
     const find = {
         deleted: false
@@ -34,14 +14,11 @@ module.exports.index = async (req, res) => {
     if (req.query.status) {
         find.status = req.query.status;
     } 
-    //url: localhost:3000/admin/products?status=active
-
     let keyword = "";
 
     if (req.query.keyword) {
-        // console.log(req.query);
         keyword = req.query.keyword;
-        const regex = new RegExp(keyword, "i"); //regex
+        const regex = new RegExp(keyword, "i"); 
         //find products with keyword, i: doesn't distinguish upper, lower case
         find.title = regex;
     } 
