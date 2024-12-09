@@ -46,20 +46,36 @@ block main
                                         button(class="btn btn-warning btn-sm") Edit 
                                         button(class="btn btn-danger btn-sm ml-1") Delete
 
-             
-            //- tr 
-            //-     td 2
-            //-     td 
-            //-         img(
-            //-             src="https://cdn.tgdd.vn/Products/Images/522/307178/Slider/samsung-galaxy-tab-s9-plus-thumb-yt-1020x570.jpg", 
-            //-             alt="Product 1"
-            //-             width="100px"
-            //-             height="auto"
-            //-         )
-            //-     td Product 2
-            //-     td 150$
-            //-     td 
-            //-         a(href="#" class="btn btn-danger") Inactive 
-            //-     td 
-            //-         button(class="btn btn-warning btn-sm") Edit 
-            //-         button(class="btn btn-danger btn-sm ml-1") Delete 
+
+    nav 
+        ul(class="pagination") 
+            li(class="page-item")
+                button(
+                    class="page-link"
+                    button-pagination=1
+                ) First page
+
+            if (pagination.currentPage > 1)
+                li(class="page-item")
+                    button(
+                        class="page-link"
+                        button-pagination=pagination.currentPage - 1
+                    ) Previous page
+            - for (var i = (pagination.currentPage - 1 > 0 ? pagination.currentPage - 1 : 1); i <= pagination.currentPage + 1; i++) 
+                li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
+                    button(
+                        class="page-link" 
+                        button-pagination=i
+                    ) #{i} 
+            if (pagination.currentPage < pagination.totalPage)
+                li(class="page-item")
+                    button(
+                        class="page-link"
+                        button-pagination=pagination.currentPage + 1
+                    ) Next page  
+            li(class="page-item")
+                button(
+                    class="page-link"
+                    button-pagination=pagination.totalPage
+                ) Last page
+
