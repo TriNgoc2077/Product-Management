@@ -22,7 +22,7 @@ module.exports.index = async (req, res) => {
 
     if (objectSearch.regex) {
         find.title = objectSearch.regex;
-    } 
+    }
 
     //Pagination
     const countProducts = await Product.countDocuments(find);
@@ -36,7 +36,9 @@ module.exports.index = async (req, res) => {
         countProducts
     );
     //End pagination
-
+    if (find.title !== undefined) {
+        objectPagination.skip = 0;
+    }
     const products = 
         await Product
             .find(find)

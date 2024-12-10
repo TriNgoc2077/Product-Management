@@ -26,14 +26,15 @@ if (buttonStatus.length > 0){
 
 //form search
 const formSearch = document.querySelector("#form-search");
+console.log(formSearch);
 if(formSearch){
     let url = new URL(window.location.href);
 
     formSearch.addEventListener("submit", (e) => {
-        
         e.preventDefault(); //prevent redirection => search by status feature
-        // console.log(e.target.elements.keyword.value);
+
         const keyword = e.target.elements.keyword.value;
+
         if(keyword){
             url.searchParams.set("keyword", keyword);
         }
