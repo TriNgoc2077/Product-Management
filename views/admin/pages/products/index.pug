@@ -1,7 +1,9 @@
 extends ../../layouts/default.pug
-include ../../mixins/filterStatus.pug
+include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
+include ../../mixins/form-change-multi.pug
+
 block main
     h1 Product list page
 
@@ -16,18 +18,35 @@ block main
     .card.mb-3 
         .card-header List
             .card-body 
-                table.table.table-hover.table-sm
-                    thead  
-                        tr 
-                            td Order 
-                            td Picture 
-                            td Title 
-                            td Price 
-                            td Status 
-                            td To-do
+
+                +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+
+                table(
+                    class = "table.table-hover.table-sm"
+                    checkbox-multi
+                )
+                    thead
+                        tr
+                            th 
+                                input(
+                                    type="checkbox"
+                                    name="checkall"
+                                )
+                            th Order 
+                            th Picture 
+                            th Title 
+                            th Price 
+                            th Status 
+                            th To-do
                     tbody 
                         each item, index in products   
                             tr 
+                                td 
+                                    input(
+                                        type="checkbox"
+                                        name="id"
+                                        value=item.id
+                                    )
                                 td #{index}
                                 td 
                                     img(

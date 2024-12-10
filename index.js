@@ -1,7 +1,7 @@
 const express = require('express');
 require("dotenv").config();
 var methodOverride = require("method-override");
-
+const bodyParser = require("body-parser");
 const database = require('./config/database');
 
 const route = require("./routes/client/index.route");
@@ -16,11 +16,15 @@ const port = process.env.PORT;
 
 app.set("views", "./views");
 app.set("view engine", "pug");
-app.use(methodOverride("_method"));
-// App Locals Variables
 
+//bodyParser
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(methodOverride("_method"));
+
+// App Locals Variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
-//app.localv."name var" => variable prefixAdmin exists in all project files
+//app.locals."name var" => variable prefixAdmin exists in all project files
 
 app.use(express.static("public"));
 

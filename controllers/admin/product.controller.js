@@ -52,7 +52,7 @@ module.exports.index = async (req, res) => {
     });
 }
 
-//[GET] /admin/products/change-status/:status/:id
+//[PATCH] /admin/products/change-status/:status/:id
 //To change the state, necessary to access to database and change data
 //. but url can only accessed using get method
 module.exports.changeStatus = async (req, res) => {
@@ -61,5 +61,24 @@ module.exports.changeStatus = async (req, res) => {
     
     await Product.updateOne({ _id: id }, { status: status });
 
+    res.redirect("back");
+}
+
+//[PATCH] /admin/products/change-multi
+module.exports.changeMulti = async (req, res) => {
+    const type = req.body.type;
+    const ids = req.body.ids.split(", ");
+    
+    if (type == "active") {
+        await Product.updateMany(
+            { _id: { $in: ids } },
+            { status: "active" }
+        );
+    } else if (type == "inactive") {    
+        await Product.updateMany(
+            { _id: { $in: ids } },
+            { status: "inactive" }
+        );
+    }   
     res.redirect("back");
 }
