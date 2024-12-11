@@ -108,7 +108,17 @@ if (formChangeMulti) {
         const inputChecked = checkboxMulti.querySelectorAll(
             "input[name='id']:checked"
         );
-        if (inputChecked.length) {
+        const typeChange = e.target.elements.type.value;
+
+        if (typeChange == "delete-all") {
+            const isConfirm = confirm("Are you sure delete this products ? ");
+
+            if(!isConfirm) {
+                return;
+            }
+        }
+
+        if (inputChecked.length > 0) {
             let ids = [];
             const inputIds = formChangeMulti.querySelector("input[name='ids']");
             inputChecked.forEach(input => {

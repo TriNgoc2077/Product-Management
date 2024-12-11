@@ -83,7 +83,15 @@ module.exports.changeMulti = async (req, res) => {
             { _id: { $in: ids } },
             { status: "inactive" }
         );
-    }   
+    } else if (type == "delete-all") {
+        await Product.updateMany(
+            { _id: ids },
+            { 
+                deleted: true,
+                deletedAt: new Date() 
+            }
+        )
+    }
     res.redirect("back");
 }
 
