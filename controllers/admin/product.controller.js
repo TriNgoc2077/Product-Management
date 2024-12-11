@@ -44,6 +44,7 @@ module.exports.index = async (req, res) => {
     const products = 
         await Product
             .find(find)
+            .sort({ position: "asc" }) // giamdan, asc: tang dan
             .limit(objectPagination.limitItem)
             .skip(objectPagination.skip);
 
@@ -72,7 +73,7 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.changeMulti = async (req, res) => {
     const type = req.body.type;
     const ids = req.body.ids.split(", ");
-    
+    console.log(ids);
     if (type == "active") {
         await Product.updateMany(
             { _id: { $in: ids } },
@@ -91,6 +92,17 @@ module.exports.changeMulti = async (req, res) => {
                 deletedAt: new Date() 
             }
         )
+    } else if (type == "change-position") {
+        for (const item of ids) {
+            let [id, position] = item.split("-");
+            position = parseInt(position);
+            // console.log(item.split("-"));
+            await Product.updateOne(
+                { _id: id },
+                { position: position }
+            );
+        }
+
     }
     res.redirect("back");
 }
