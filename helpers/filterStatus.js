@@ -15,6 +15,11 @@ module.exports = (query) => {
             name: "Inactive",
             status: "inactive",
             class: ""
+        },
+        {
+            name: "Deleted",
+            status: "deleted",
+            class: ""
         }
     ];
 

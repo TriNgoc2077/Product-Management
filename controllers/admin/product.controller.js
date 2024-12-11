@@ -14,7 +14,9 @@ module.exports.index = async (req, res) => {
     const find = {
         deleted: false
     };
-    if (req.query.status) {
+    if (req.query.status === "deleted"){
+        find.deleted = true;
+    } else if (req.query.status) {
         find.status = req.query.status;
     } 
     //find
