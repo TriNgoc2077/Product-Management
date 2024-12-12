@@ -24,9 +24,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 
 //flash
-app.use(express.cookieParser("keyboard cat"));
-app.use(express.session({ cookie: { maxAge: 60000 }}));
-app.use(flash());
+// app.use(express.cookieParser("keyboard cat"));
+// app.use(express.session({ cookie: { maxAge: 60000 }}));
+// app.use(flash());
 //end flash
 
 

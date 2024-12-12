@@ -121,3 +121,17 @@ module.exports.deleteItem = async (req, res) => {
 
     res.redirect("back");
 }
+
+//[POST] //admin/products/restore/:id
+module.exports.restoreItem = async (req, res) => {
+    const id = req.params.id;
+
+    await Product.updateOne(
+        { _id: id }, 
+        { 
+            deleted: false
+        }        
+    );
+
+    res.redirect("back");
+}

@@ -39,57 +39,92 @@ block main
                             th Status 
                             th To-do
                     tbody 
-                        each item, index in products   
-                            tr 
-                                td 
-                                    input(
-                                        type="checkbox"
-                                        name="id"
-                                        value=item.id
-                                    )
-                                td #{index}
-                                td 
-                                    img(
-                                        src=item.thumbnail, 
-                                        alt=item.title
-                                        width="100px"
-                                        height="auto"
-                                    )
-                                    td #{item.title}
-                                    td #{item.price}$
+                        each item, index in products  
+                            if (item.deleted == false)
+                                tr 
                                     td 
                                         input(
-                                            type="number"
-                                            value=item.position 
-                                            style="width: 60px"
-                                            min="1"
-                                            name="position"
+                                            type="checkbox"
+                                            name="id"
+                                            value=item.id
                                         )
+                                    td #{index}
                                     td 
-                                        if (item.status == "active")
-                                            a(
-                                                href="javascript:;"  
-                                                data-status="active"
+                                        img(
+                                            src=item.thumbnail, 
+                                            alt=item.title
+                                            width="100px"
+                                            height="auto"
+                                        )
+                                        td #{item.title}
+                                        td #{item.price}$
+                                        td 
+                                            input(
+                                                type="number"
+                                                value=item.position 
+                                                style="width: 60px"
+                                                min="1"
+                                                name="position"
+                                            )
+                                        td 
+                                            if (item.status == "active")
+                                                a(
+                                                    href="javascript:;"  
+                                                    data-status="active"
+                                                    data-id=item.id
+                                                    button-change-status
+                                                    class="btn btn-success"
+                                                ) #{item.status}
+                                            //- use java script to process logic 
+                                            else 
+                                                a(
+                                                    href=`javascript:;`
+                                                    data-status="inactive"
+                                                    data-id=item.id
+                                                    button-change-status
+                                                    class="btn btn-danger"
+                                                ) #{item.status}
+                                        td 
+                                            button(class="btn btn-warning btn-sm") Edit 
+                                            button(
+                                                class="btn btn-success btn-sm ml-1"
+                                                button-delete
                                                 data-id=item.id
-                                                button-change-status
-                                                class="btn btn-success"
-                                            ) #{item.status}
-                                        //- use java script to process logic 
-                                        else 
-                                            a(
-                                                href=`javascript:;`
-                                                data-status="inactive"
-                                                data-id=item.id
-                                                button-change-status
-                                                class="btn btn-danger"
-                                            ) #{item.status}
+                                            ) Delete
+                            else
+                                tr 
                                     td 
-                                        button(class="btn btn-warning btn-sm") Edit 
-                                        button(
-                                            class="btn btn-danger btn-sm ml-1"
-                                            button-delete
-                                            data-id=item.id
-                                        ) Delete
+                                        input(
+                                            type="checkbox"
+                                            name="id"
+                                            value=item.id
+                                        )
+                                    td #{index}
+                                    td 
+                                        img(
+                                            src=item.thumbnail, 
+                                            alt=item.title
+                                            width="100px"
+                                            height="auto"
+                                        )
+                                        td #{item.title}
+                                        td #{item.price}$
+                                        td 
+                                            input(
+                                                type="number"
+                                                value=item.position 
+                                                style="width: 60px"
+                                                min="1"
+                                                name="position"
+                                            )
+                                        td 
+                                            button(class="btn btn-warning btn-sm") Edit 
+                                            button(
+                                                class="btn btn-success btn-sm ml-1"
+                                                button-restore
+                                                data-id=item.id
+                                            ) Restore
+
 
 
     +pagination(pagination)
@@ -105,6 +140,12 @@ block main
         method="POST"
         id="form-delete-item"
         data-path=`${prefixAdmin}/products/delete`
+    ) 
+    form(
+        action=""
+        method="POST"
+        id="form-restore-item"
+        data-path=`${prefixAdmin}/products/restore`
     ) 
     script(src="/admin/js/product.js") 
 

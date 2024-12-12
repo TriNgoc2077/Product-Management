@@ -11,4 +11,6 @@ router.patch("/change-multi", controller.changeMulti);
 
 router.delete("/delete/:id", controller.deleteItem);
 
+router.delete("/restore/:id", controller.restoreItem);
+
 module.exports = router;

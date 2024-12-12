@@ -42,3 +42,24 @@ if (buttonDelete.length > 0) {
     });
 }
 // end delete item 
+
+// restore item 
+const buttonRestore = document.querySelectorAll("[button-restore]");
+if (buttonRestore.length > 0) {
+    const formRestoreItem = document.querySelector("#form-restore-item");
+    console.log(formRestoreItem);
+    const path = formRestoreItem.getAttribute("data-path");
+    buttonRestore.forEach(button => {
+        button.addEventListener("click", () => {
+            const Isconfirm = confirm("Are you sure restore this product ?");
+
+            if (Isconfirm) {
+                const id = button.getAttribute("data-id");
+                const action = `${path}/${id}?_method=DELETE`;
+                formRestoreItem.action = action;
+                formRestoreItem.submit();
+            }
+        });
+    });
+}
+// end restore item 
