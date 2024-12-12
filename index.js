@@ -3,6 +3,7 @@ require("dotenv").config();
 var methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const database = require('./config/database');
+const flash = require("express-flash");
 
 const route = require("./routes/client/index.route");
 const routeAdmin = require("./routes/admin/index.route");
@@ -21,6 +22,13 @@ app.set("view engine", "pug");
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(methodOverride("_method"));
+
+//flash
+app.use(express.cookieParser("keyboard cat"));
+app.use(express.session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
+//end flash
+
 
 // App Locals Variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
