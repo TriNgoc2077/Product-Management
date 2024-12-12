@@ -66,6 +66,7 @@ module.exports.changeStatus = async (req, res) => {
     
     await Product.updateOne({ _id: id }, { status: status });
 
+    req.flash("success", "Update status product successfully !");
     res.redirect("back");
 }
 
@@ -76,14 +77,16 @@ module.exports.changeMulti = async (req, res) => {
     console.log(ids);
     if (type == "active") {
         await Product.updateMany(
-            { _id: { $in: ids } },
+            { _id: { $in: ids } }, 
             { status: "active" }
         );
+        req.flash("success", `Update status of ${ids.length} products successfully !`);
     } else if (type == "inactive") {    
         await Product.updateMany(
             { _id: { $in: ids } },
             { status: "inactive" }
         );
+        req.flash("success", `Update status of ${ids.length} products successfully !`);
     } else if (type == "delete-all") {
         await Product.updateMany(
             { _id: ids },
@@ -92,6 +95,7 @@ module.exports.changeMulti = async (req, res) => {
                 deletedAt: new Date() 
             }
         )
+        req.flash("success", `Delete ${ids.length} products successfully !`);
     } else if (type == "change-position") {
         for (const item of ids) {
             let [id, position] = item.split("-");
@@ -102,6 +106,7 @@ module.exports.changeMulti = async (req, res) => {
                 { position: position }
             );
         }
+        req.flash("success", `Change position successfully !`);
 
     }
     res.redirect("back");
@@ -118,7 +123,7 @@ module.exports.deleteItem = async (req, res) => {
             deletedAt: new Date() 
         }        
     );
-
+    req.flash("success", `Delete successfully !`);
     res.redirect("back");
 }
 
@@ -132,6 +137,6 @@ module.exports.restoreItem = async (req, res) => {
             deleted: false
         }        
     );
-
+    req.flash("success", `Restore successfully !`);
     res.redirect("back");
 }

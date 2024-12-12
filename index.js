@@ -4,6 +4,8 @@ var methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const database = require('./config/database');
 const flash = require("express-flash");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
 const route = require("./routes/client/index.route");
 const routeAdmin = require("./routes/admin/index.route");
@@ -21,13 +23,13 @@ app.set("view engine", "pug");
 //bodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(methodOverride("_method"));
-
 //flash
-// app.use(express.cookieParser("keyboard cat"));
-// app.use(express.session({ cookie: { maxAge: 60000 }}));
-// app.use(flash());
+app.use(cookieParser("CNTN"));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 //end flash
+
+app.use(methodOverride("_method"));
 
 
 // App Locals Variables

@@ -3,8 +3,10 @@ include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
-
+include ../../mixins/alert.pug
 block main
+    +alert-success(5000)
+
     h1(class="alert text-success alert-dismissible fade show") Product list page
 
     .card.mb-3 
@@ -87,7 +89,7 @@ block main
                                         td 
                                             button(class="btn btn-warning btn-sm") Edit 
                                             button(
-                                                class="btn btn-success btn-sm ml-1"
+                                                class="btn btn-danger btn-sm ml-1"
                                                 button-delete
                                                 data-id=item.id
                                             ) Delete
