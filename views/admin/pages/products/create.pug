@@ -1,6 +1,8 @@
 extends ../../layouts/default.pug
-
+include ../../mixins/alert.pug
 block main  
+    +alert-error(3000)
+
     h1(class="mb-4") Add new product 
 
     form(
@@ -16,7 +18,7 @@ block main
                 class="form-control"
                 id="title"
                 name="title"
-                required
+                placeholder="At least 8 character"
             )
         div(class="form-group")
             label(for="desc") Description 
