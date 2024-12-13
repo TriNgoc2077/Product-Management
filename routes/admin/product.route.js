@@ -13,4 +13,7 @@ router.delete("/delete/:id", controller.deleteItem);
 
 router.delete("/restore/:id", controller.restoreItem);
 
+router.get("/create", controller.create);
+router.post("/create", controller.createPost);
+
 module.exports = router;
