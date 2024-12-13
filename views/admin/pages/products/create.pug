@@ -7,6 +7,7 @@ block main
         action=`${prefixAdmin}/products/create`
         id="form-create-product"
         method="POST"
+        enctype="multipart/form-data"
     ) 
         div(class="form-group")
             label(for="title") Title 
@@ -58,16 +59,17 @@ block main
         div(class="form-group")
             label(for="thumbnail") Picture 
             input(
-                type="text"
+                type="file"
                 class="form-control"
                 id="thumbnail"
                 name="thumbnail"
+                accept="image/*"
             )
         div(class="form-group")
-            label(for="discount") Position 
+            label(for="discount" class="d-block") Position 
             input(
                 type="number"
-                class="form-control"
+                class="form-control-file"
                 id="position"
                 name="position"
                 placeholder="auto increase"
