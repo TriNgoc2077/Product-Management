@@ -34,7 +34,7 @@ app.use(methodOverride("_method"));
 
 // App Locals Variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
-//app.locals."name var" => variable prefixAdmin exists in all project files
+//app.locals."name var" => variable prefixAdmin exists in all views files
 
 app.use(express.static("public"));
 

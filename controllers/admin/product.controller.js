@@ -3,6 +3,7 @@ const Product = require("../../models/product.model");
 const filterStatusHelpers = require("../../helpers/filterStatus");
 const searchHelpers = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
+const systemConfig = require("../../config/system");
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -141,7 +142,6 @@ module.exports.restoreItem = async (req, res) => {
     res.redirect("back");
 }
 
-
 //[GET] //admin/products/create
 module.exports.create = async (req, res) => {
     res.render("admin/pages/products/create", {
@@ -150,6 +150,18 @@ module.exports.create = async (req, res) => {
 }
 //[POST] //admin/products/create
 module.exports.createPost = async (req, res) => {
-    res.send("ok");
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    if (req.body.position == ""){
+        const countProducts = await Product.countDocuments();
+        req.body.position = countProducts;
+    } else {
+        req.body.position = parseInt(req.body.position);
+    }
+    const product = new Product(req.body);
+    await Product.bulkSave([product]);
+
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
 }
 
