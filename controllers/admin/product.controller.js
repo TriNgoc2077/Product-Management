@@ -140,3 +140,16 @@ module.exports.restoreItem = async (req, res) => {
     req.flash("success", `Restore successfully !`);
     res.redirect("back");
 }
+
+
+//[GET] //admin/products/create
+module.exports.create = async (req, res) => {
+    res.render("admin/pages/products/create", {
+        pageTitle: "Add new product",
+    });
+}
+//[POST] //admin/products/create
+module.exports.createPost = async (req, res) => {
+    res.send("ok");
+}
+
