@@ -2,12 +2,12 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 block main  
     +alert-error(3000)
-
-    h1(class="mb-4") Add new product 
-
+    +alert-success(3000)
+    h1(class="mb-4") Edit product 
+    //- div #{product} //transmitted from the controller
     form(
-        action=`${prefixAdmin}/products/create`
-        id="form-create-product"
+        action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
+        id="form-edit-product"
         method="POST"
         enctype="multipart/form-data"
     ) 
@@ -18,7 +18,7 @@ block main
                 class="form-control"
                 id="title"
                 name="title"
-                placeholder="At least 8 character"
+                value=product.title
             )
         div(class="form-group")
             label(for="desc") Description 
@@ -27,7 +27,7 @@ block main
                 id="desc"
                 name="description"
                 rows="5"
-            )  
+            )  #{product.description}
         div(class="form-group")
             label(for="price") Price 
             input(
@@ -35,8 +35,8 @@ block main
                 class="form-control"
                 id="price"
                 name="price"
-                value="0"
                 min="0"
+                value=product.price
             ) 
         div(class="form-group")
             label(for="discount") % Discount 
@@ -45,8 +45,8 @@ block main
                 class="form-control"
                 id="discount"
                 name="discountPercentage"
-                value="0"
                 min="0"
+                value=product.discountPercentage
             ) 
         div(class="form-group")
             label(for="discount") Quantity 
@@ -55,8 +55,8 @@ block main
                 class="form-control"
                 id="stock"
                 name="stock"
-                value="0"
                 min="0"
+                value=product.stock
             )
         div(class="form-group" upload-image)
             label(for="thumbnail") Picture 
@@ -69,7 +69,8 @@ block main
                 upload-image-input
             )
             img(
-                src="" upload-image-preview
+                src=product.thumbnail
+                upload-image-preview
                 class="image-preview"
             )
         div(class="form-group")
@@ -81,6 +82,7 @@ block main
                 name="position"
                 placeholder="auto increase"
                 min="1"
+                value=product.position
             )
         div(class="form-group form-check form-check-inline")
             input(
@@ -89,7 +91,7 @@ block main
                 id="statusActive"
                 name="status"
                 value="active"
-                checked
+                checked=(product.status == "active" ? true : false)
             )
             label(for="statusActive" class="form-change-inline") Active 
         div(class="form-group form-check form-check-inline")
@@ -99,11 +101,12 @@ block main
                 id="statusInActive"
                 name="status"
                 value="inactive"
+                checked=(product.status == "inactive" ? true : false)
             )
             label(for="statusInActive" class="form-change-inline") Inactive
         div(class="form-group")
             button(
                 type="submit"
                 class="btn btn-primary"
-            ) Add new
+            ) Update
     script(src="/admin/js/product.js") 

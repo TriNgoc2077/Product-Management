@@ -94,7 +94,10 @@ block main
                                                     class="btn btn-danger"
                                                 ) #{item.status}
                                         td 
-                                            button(class="btn btn-warning btn-sm") Edit 
+                                            a(
+                                                class="btn btn-warning btn-sm"
+                                                href=`${prefixAdmin}/products/edit/${item.id}`
+                                            ) Edit 
                                             button(
                                                 class="btn btn-danger btn-sm ml-1"
                                                 button-delete
