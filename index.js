@@ -17,7 +17,7 @@ const systemConfig = require("./config/system");
 const app = express();
 const port = process.env.PORT;
 
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
 //bodyParser
@@ -36,8 +36,9 @@ app.use(methodOverride("_method"));
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 //app.locals."name var" => variable prefixAdmin exists in all views files
 
-app.use(express.static("public"));
-
+console.log(__dirname);
+app.use(express.static(`${__dirname}/public`));
+//when deploy code online, it dont understand "/public" => use __dirname
 routeAdmin(app);
 route(app);
 
