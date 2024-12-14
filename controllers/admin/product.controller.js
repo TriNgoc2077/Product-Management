@@ -26,7 +26,7 @@ module.exports.index = async (req, res) => {
     if (objectSearch.regex) {
         find.title = objectSearch.regex;
     }
-
+    
     //Pagination
     const countProducts = await Product.countDocuments(find);
 
@@ -48,6 +48,14 @@ module.exports.index = async (req, res) => {
             .sort({ position: "asc" }) // desc: giamdan, asc: tang dan
             .limit(objectPagination.limitItem)
             .skip(objectPagination.skip);
+
+    // for (const product of products) {
+    //     console.log(product);
+    //     if (!product.slug) {
+    //         product.slug = slugify(product.title, { lower: true });
+    //         await product.save();
+    //     }
+    // }
 
     res.render("admin/pages/products/index.pug", {
         titlePage: "Product List",
@@ -160,9 +168,6 @@ module.exports.createPost = async (req, res) => {
         req.body.position = countProducts + 1;
     } else {
         req.body.position = parseInt(req.body.position);
-    }
-    if (req.file) {
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
     }
 
     const product = new Product(req.body);
