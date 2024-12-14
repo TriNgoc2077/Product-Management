@@ -20,6 +20,8 @@ block main
                 span(class="btn btn-success") Active 
             else 
                 span(class="btn btn-danger") Inactive
+    if (product.position)
+        div(class="mb-4") Position: <b>#{product.position}</b>
     if  (product.description)
         div(class="mb-4") #{product.description}
     a(href=`${prefixAdmin}/products/edit/${product.id}` class="btn btn-warning") Edit 

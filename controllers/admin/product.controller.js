@@ -45,7 +45,7 @@ module.exports.index = async (req, res) => {
     const products = 
         await Product
             .find(find)
-            .sort({ position: "asc" }) // giamdan, asc: tang dan
+            .sort({ position: "asc" }) // desc: giamdan, asc: tang dan
             .limit(objectPagination.limitItem)
             .skip(objectPagination.skip);
 
@@ -225,6 +225,7 @@ module.exports.detail = async (req, res) => {
     try {
         const find = {
             deleted: false,
+            status: "active",
             _id: req.params.id
         };
 
