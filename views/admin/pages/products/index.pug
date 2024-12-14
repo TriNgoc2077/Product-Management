@@ -95,6 +95,10 @@ block main
                                                 ) #{item.status}
                                         td 
                                             a(
+                                                class="btn btn-info btn-sm"
+                                                href=`${prefixAdmin}/products/detail/${item.id}`
+                                            ) Detail 
+                                            a(
                                                 class="btn btn-warning btn-sm"
                                                 href=`${prefixAdmin}/products/edit/${item.id}`
                                             ) Edit 
