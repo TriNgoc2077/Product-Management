@@ -1,7 +1,10 @@
 .sider
     .inner-menu 
-            ul
-                li
-                    a(href=`${prefixAdmin}/dashboard`) Overview 
-                li
-                    a(href=`${prefixAdmin}/products`) Product  
+            ul(class="list-group")
+                li(class="list-group-item list-group-item list-group-item-dark")
+                    a(href=`${prefixAdmin}/dashboard` class="text-dark text-decoration-none") Overview 
+                li(class="list-group-item list-group-item list-group-item-dark")
+                    a(href=`${prefixAdmin}/product-category` class="text-dark text-decoration-none") Category 
+                li(class="list-group-item list-group-item list-group-item-dark")
+                    a(href=`${prefixAdmin}/products` class="text-dark text-decoration-none") List Product
+

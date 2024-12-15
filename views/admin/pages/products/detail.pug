@@ -23,6 +23,6 @@ block main
     if (product.position)
         div(class="mb-4") Position: <b>#{product.position}</b>
     if  (product.description)
-        div(class="mb-4") #{product.description}
+        div(class="mb-4") !{product.description}
     a(href=`${prefixAdmin}/products/edit/${product.id}` class="btn btn-warning") Edit 
     script(src="/admin/js/product.js") 

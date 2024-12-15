@@ -23,7 +23,7 @@ block main
         div(class="form-group")
             label(for="desc") Description 
             textarea(
-                class="form-control"
+                class="form-control textarea-mce"
                 id="desc"
                 name="description"
                 rows="5"
@@ -49,7 +49,7 @@ block main
                 min="0"
             ) 
         div(class="form-group")
-            label(for="discount") Quantity 
+            label(for="stock") Quantity 
             input(
                 type="number"
                 class="form-control"
@@ -73,10 +73,10 @@ block main
                 class="image-preview"
             )
         div(class="form-group")
-            label(for="discount" class="d-block") Position 
+            label(for="position" class="d-block") Position 
             input(
                 type="number"
-                class="form-control-file"
+                class="form-control"
                 id="position"
                 name="position"
                 placeholder="auto increase"
