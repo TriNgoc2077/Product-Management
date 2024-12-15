@@ -21,13 +21,16 @@ block main
                 required
             )
         div(class="form-group")
-            label(for="parent_id") Parent category 
-            input(
-                type="text"
-                class="form-control"
-                id="parent_id"
+            label(for="parent_id") Parent Category
+            select(
                 name="parent_id"
+                id="parent_id"
+                class="form-select"
             )
+                option(value="") -- Choose Parent Category --
+                if (records)
+                    each item in records 
+                        option(value=item.id) #{item.title}
         div(class="form-group")
             label(for="desc") Description 
             textarea(
