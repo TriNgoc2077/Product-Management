@@ -39,13 +39,24 @@ module.exports.index = async (req, res) => {
         countProducts
     );
     //End pagination
+
+    // sort
+    let sort = {};
+    if (req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue;
+    } else {
+        sort.position = "asc";
+    }
+    // end sort
+
+
     if (find.title !== undefined) {
         objectPagination.skip = 0;
     }
     const products = 
         await Product
             .find(find)
-            .sort({ position: "asc" }) // desc: giamdan, asc: tang dan
+            .sort(sort) // desc: giamdan, asc: tang dan
             .limit(objectPagination.limitItem)
             .skip(objectPagination.skip);
 
@@ -67,8 +78,6 @@ module.exports.index = async (req, res) => {
 }
 
 //[PATCH] /admin/products/change-status/:status/:id
-//To change the state, necessary to access to database and change data
-//. but url can only accessed using get method
 module.exports.changeStatus = async (req, res) => {
     const status = req.params.status;
     const id = req.params.id;
@@ -170,6 +179,7 @@ module.exports.createPost = async (req, res) => {
         req.body.position = parseInt(req.body.position);
     }
 
+
     const product = new Product(req.body);
     await Product.bulkSave([product]);
 
@@ -245,3 +255,4 @@ module.exports.detail = async (req, res) => {
         res.redirect(`${systemConfig.prefixAdmin}/products`);
     }
 }
+
