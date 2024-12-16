@@ -10,7 +10,7 @@ module.exports.index = async (req, res) => {
     const records = await Role.find(find);
 
     res.render("admin/pages/roles/index.pug", {
-        titlePage: "Permission Page",
+        titlePage: "Roles Page",
         records: records
     });
 }
@@ -67,5 +67,35 @@ module.exports.editPatch = async (req, res) => {
         req.flash("error", "Update Failed !");
     }
 
+    res.redirect("back");
+}
+
+// [GET] /admin/roles/permissions
+module.exports.permissions = async (req, res) => {
+    let find = {
+        deleted: false
+    }
+
+    const records = await Role.find(find);
+
+    res.render("admin/pages/roles/permissions", {
+        titlePage: "Permission Page",
+        records: records
+    });
+}
+
+// [PATCH] /admin/roles/permissions
+module.exports.permissionsPatch = async (req, res) => {
+    try {
+        // console.log(req.body.permissions);
+        const permissions = JSON.parse(req.body.permissions);
+        for (const item of permissions) {
+            await Role.updateOne({ _id: item.id }, { permissions: item.permissions });
+        }
+        req.flash("success", "Update successfully !");
+        // console.log(permissions);
+    } catch {
+        req.flash("error", "Update failed !");
+    }
     res.redirect("back");
 }
