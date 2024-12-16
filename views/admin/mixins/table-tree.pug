@@ -1,0 +1,96 @@
+mixin table-tree(items, level = -1)
+    each item in items  
+        - const prefix = Array(level + 2).join("-- ")
+            if (item.deleted == false)
+                tr 
+                    td 
+                        input(
+                            type="checkbox"
+                            name="id"
+                            value=item.id
+                        )
+                    td #{index}
+                    td 
+                        img(
+                            src=item.thumbnail, 
+                            alt=item.title
+                            width="100px"
+                            height="auto"
+                        )
+                    td #{prefix}#{item.title}
+                    td 
+                        input(
+                            type="number"
+                            value=item.position 
+                            style="width: 60px"
+                            min="1"
+                            name="position"
+                        )
+                    td 
+                        if (item.status == "active")
+                            a(
+                                href="javascript:;"  
+                                data-status="active"
+                                data-id=item.id
+                                button-change-status
+                                class="btn btn-success"
+                            ) #{item.status}
+                        //- use java script to process logic 
+                        else 
+                            a(
+                                href=`javascript:;`
+                                data-status="inactive"
+                                data-id=item.id
+                                button-change-status
+                                class="btn btn-danger"
+                            ) #{item.status}
+                    td 
+                        a(
+                            class="btn btn-info btn-sm"
+                            href=`${prefixAdmin}/product-category/detail/${item.id}`
+                        ) Detail 
+                        a(
+                            class="btn btn-warning btn-sm"
+                            href=`${prefixAdmin}/product-category/edit/${item.id}`
+                        ) Edit 
+                        button(
+                            class="btn btn-danger btn-sm ml-1"
+                            button-delete
+                            data-id=item.id
+                        ) Delete
+                if (item.children && item.children.length > 0)
+                    +table-tree(item.children, level + 2)
+            else
+                tr 
+                    td 
+                        input(
+                            type="checkbox"
+                            name="id"
+                            value=item.id
+                        )
+                    td #{index}
+                    td 
+                        img(
+                            src=item.thumbnail, 
+                            alt=item.title
+                            width="100px"
+                            height="auto"
+                        )
+                    td #{item.title}
+                    td 
+                        input(
+                            type="number"
+                            value=item.position 
+                            style="width: 60px"
+                            min="1"
+                            name="position"
+                        )
+                    td 
+                        button(class="btn btn-warning btn-sm") Edit 
+                        button(
+                            class="btn btn-success btn-sm ml-1"
+                            button-restore
+                            data-id=item.id
+                        ) Restore
+                if (item.children && item.children.length > 0)
+                    +table-tree(item.children, level + 2)
