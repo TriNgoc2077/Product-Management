@@ -1,5 +1,5 @@
 mixin table-tree(items, level = -1)
-    each item in items  
+    each item, index in items  
         - const prefix = Array(level + 2).join("-- ")
             if (item.deleted == false)
                 tr 
@@ -9,7 +9,7 @@ mixin table-tree(items, level = -1)
                             name="id"
                             value=item.id
                         )
-                    td #{index}
+                    td #{item.index}
                     td 
                         img(
                             src=item.thumbnail, 
