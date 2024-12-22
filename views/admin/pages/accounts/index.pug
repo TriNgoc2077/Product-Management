@@ -1,0 +1,71 @@
+extends ../../layouts/default.pug
+
+block main 
+    h1(class="mb-4") Accounts List 
+    .card.mb-3 
+        .card-header List
+        .card.body 
+            .row 
+                .col-8 
+                .col-4.text-right 
+                    a(
+                        href=`${prefixAdmin}/accounts/create`
+                        class="btn btn-success"
+                    ) +Add new
+            table(
+                    class = "table table-hover table-sm"
+                )
+                    thead
+                        tr 
+                            th Order 
+                            th Avatar 
+                            th Full Name 
+                            th Permission 
+                            th Email 
+                            th Status 
+                            th To-do
+                    tbody 
+                        if (records.length > 0) 
+                            each item, index in records 
+                                tr 
+                                    td #{index + 1}
+                                    td 
+                                        img(
+                                            src=item.avatar, 
+                                            alt=item.fullName
+                                            width="100px"
+                                            height="auto"
+                                        )
+                                    td #{item.fullName}
+                                    td #{item.role.title}
+                                    td #{item.email}
+                                    td  
+                                        if (item.status === "active")
+                                            a(
+                                                href="javascript:;"
+                                                class="btn btn-success"
+                                                data-status="active"
+                                            ) Active
+                                        else    
+                                            a(
+                                                href="javascript:;"
+                                                class="btn btn-danger"
+                                                data-status="inactive"
+                                            ) Inactive
+                                    td 
+                                        a(
+                                            class="btn btn-info btn-sm"
+                                            href=`${prefixAdmin}/roles/detail/${item.id}`
+                                        ) Detail 
+                                        a(
+                                            class="btn btn-warning btn-sm"
+                                            href=`${prefixAdmin}/roles/edit/${item.id}`
+                                        ) Edit 
+                                        button(
+                                            class="btn btn-danger btn-sm ml-1"
+                                            button-delete
+                                            data-id=item.id
+                                        ) Delete
+                        else 
+                            tr 
+                                td Currently there are no group account
