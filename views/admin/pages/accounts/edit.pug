@@ -5,7 +5,7 @@ block main
     h1(class="mb-4") Add new Account 
     +alert-error(5000)
     form(
-        action=`${prefixAdmin}/accounts/create?_method=POST`
+        action=`${prefixAdmin}/accounts/edit/${data.id}?_method=PATCH`
         method="POST"  
         enctype="multipart/form-data"
     )
@@ -17,6 +17,7 @@ block main
                 id="fullName"
                 name="fullName"
                 required
+                value=data.fullName
             )
         div(class="form-group")
             label(for="email") Email
@@ -25,6 +26,7 @@ block main
                 class="form-control"
                 id="email"
                 name="email"
+                value=data.email
                 required
             )
         div(class="form-group")
@@ -34,7 +36,6 @@ block main
                 class="form-control"
                 id="password"
                 name="password"
-                required
             )
         div(class="form-group")
             label(for="phone") Phone
@@ -43,6 +44,7 @@ block main
                 class="form-control"
                 id="phone"
                 name="phone"
+                value=data.phone
             )
         div(
             class="form-group"
@@ -58,7 +60,7 @@ block main
                 upload-image-input
             )
             img(
-                src=""
+                src=data.avatar
                 class="image-preview"
                 upload-image-preview
             )
@@ -67,7 +69,10 @@ block main
             select(name="role_id" id="role_id" class="form-control")
                 option(disable) -- Choose --
                 each item in roles
-                    option(value=item.id) #{item.title}
+                    option(
+                        value=item.id
+                        selected=(item.id == data.role_id ? true : false)
+                    ) #{item.title}
         div(class="form-group form-check form-check-inline")
             input(
                 type="radio"
@@ -75,7 +80,7 @@ block main
                 id="statusActive"
                 name="status"
                 value="active"
-                checked
+                checked=(data.status === "active" ? true : false)
             )
             label(for="statusActive" class="form-check-label")  Active
         div(class="form-group form-check form-check-inline")
@@ -85,10 +90,11 @@ block main
                 id="statusInActive"
                 name="status"
                 value="inactive"
+                checked=(data.status === "inactive" ? true : false)
             )
             label(for="statusInActive" class="form-check-label")  Inactive
         div(class="form-group")
             button(
                 type="submit"
                 class="btn btn-primary"
-            ) Add new
+            ) Update

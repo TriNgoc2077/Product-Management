@@ -50,3 +50,50 @@ module.exports.createPost = async (req, res) => {
         req.flash("success", "Create account successfully !");
     }
 }
+
+// [GET] /admin/accounts/edit/:id
+module.exports.edit = async (req, res) => {
+    let find = {
+        _id: req.params.id,
+        deleted: false
+    };
+    try {
+        const data = await Account.findOne(find);
+        const roles = await Role.find({
+            deleted: false
+        });
+        
+        res.render("admin/pages/accounts/edit", {
+            pageTitle: "Edit Account",
+            data: data,
+            roles: roles
+        });
+    } catch(error) {
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    }
+}
+
+// [PATCH] /admin/accounts/edit/:id
+module.exports.editPatch = async (req, res) => {
+    const id = req.params.id;
+    const emailExist = await Account.findOne({
+        _id: { $ne: id }, //not equal
+        email: req.body.email,
+        deleted: false
+    });
+
+    if (emailExist){
+        req.flash("error", "Email already exist !");
+    } else {
+        if (req.body.password) {
+            req.body.password = md5(req.body.password);
+        } else {
+            delete req.body.password;
+        }
+        await Account.updateOne({ _id: id }, req.body);
+        // console.log(req.body);
+        req.flash("success", "Update successfully !");
+
+    }
+    res.redirect("back");
+}
