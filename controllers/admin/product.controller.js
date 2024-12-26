@@ -88,12 +88,15 @@ module.exports.index = async (req, res) => {
         }
     }
     // console.log(products);
+
+    
+    
     res.render("admin/pages/products/index.pug", {
         titlePage: "Product List",
         products: products,
         filterStatus: filterStatus,
         keyword: objectSearch.keyword,
-        pagination: objectPagination
+        pagination: objectPagination,
     });
 }
 
@@ -101,8 +104,19 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     const status = req.params.status;
     const id = req.params.id;
-    
-    await Product.updateOne({ _id: id }, { status: status });
+
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updateAt: new Date()
+    };
+
+    await Product.updateOne(
+        { _id: id }, 
+        { 
+            status: status,
+            $push: { updatedBy: updatedBy }
+        }
+    );
 
     req.flash("success", "Update status product successfully !");
     res.redirect("back");
@@ -112,17 +126,23 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.changeMulti = async (req, res) => {
     const type = req.body.type;
     const ids = req.body.ids.split(", ");
+
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updateAt: new Date()
+    };
+
     console.log(ids);
     if (type == "active") {
         await Product.updateMany(
             { _id: { $in: ids } }, 
-            { status: "active" }
+            { status: "active", $push: { updatedBy: updatedBy }}
         );
         req.flash("success", `Update status of ${ids.length} products successfully !`);
     } else if (type == "inactive") {    
         await Product.updateMany(
             { _id: { $in: ids } },
-            { status: "inactive" }
+            { status: "inactive", $push: { updatedBy: updatedBy }}
         );
         req.flash("success", `Update status of ${ids.length} products successfully !`);
     } else if (type == "delete-all") {
@@ -133,7 +153,8 @@ module.exports.changeMulti = async (req, res) => {
                 deletedBy: {
                     account_id: res.locals.user.id,
                     deleteAt: new Date()
-                }  
+                },
+                $push: { updatedBy: updatedBy }
             }
         )
         req.flash("success", `Delete ${ids.length} products successfully !`);
@@ -144,7 +165,7 @@ module.exports.changeMulti = async (req, res) => {
             // console.log(item.split("-"));
             await Product.updateOne(
                 { _id: id },
-                { position: position }
+                { position: position, $push: { updatedBy: updatedBy } }
             );
         }
         req.flash("success", `Change position successfully !`);
@@ -255,9 +276,14 @@ module.exports.editPatch = async (req, res) => {
     }
 
     try {
+        const updatedBy = {
+            account_id: res.locals.user.id,
+            updateAt: new Date()
+        };
+        console.log(updatedBy);
         await Product.updateOne(
             { _id: req.params.id }, 
-            req.body
+            { ...req.body, $push: { updatedBy: updatedBy } }
         );
         req.flash("success", "Update Successfully!");
     } catch(error) {
@@ -278,9 +304,17 @@ module.exports.detail = async (req, res) => {
             _id: req.params.id
         };
 
-        const product = await Product.findOne(find);
+        let product = await Product.findOne(find);
         // console.log(product);
 
+        if (product.updatedBy && product.updatedBy.length > 0) {
+            for (let update of product.updatedBy) {
+                const account = await Account.findOne({ _id: update.account_id }).select("-password -token");
+                if (account) {
+                    update.updater = account.fullName;
+                }
+            }
+        }
         res.render("admin/pages/products/detail.pug", {
             pageTitle: product.title,
             product: product

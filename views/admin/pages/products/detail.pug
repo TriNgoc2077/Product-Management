@@ -62,5 +62,23 @@ block main
                                 button(type="button" class="btn btn-outline-danger ms-2" data-product-id=product.id)
                                     i.fas.fa-trash.me-2
                                     | Delete
+            .row
+    .col-md-4.mb-4
+        .card.shadow-sm
+            if product.updatedBy
+                .card-header.bg-light
+                    h5.mb-0
+                        i.fas.fa-history.me-2
+                        | Update History
+                .card-body.p-0
+                    .list-group.list-group-flush
+                        each item in product.updatedBy
+                            .list-group-item
+                                .d-flex.align-items-center.mb-2
+                                    i.fas.fa-user-edit.me-2.text-primary
+                                    .fw-medium #{item.updater}
+                                .d-flex.align-items-center.text-muted
+                                    i.far.fa-clock.me-2
+                                    small #{item.updateAt}
 
     script(src="/admin/js/product.js")

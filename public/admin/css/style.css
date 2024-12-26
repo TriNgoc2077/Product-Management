@@ -280,3 +280,30 @@
         height: 200px;
     }
 }
+
+/* Update History Styles */
+.list-group-item {
+    transition: background-color 0.2s;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.card-header h5 {
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+.fas.fa-history {
+    color: #6c757d;
+}
+
+.fas.fa-user-edit {
+    font-size: 0.9rem;
+}
+
+.far.fa-clock {
+    color: #6c757d;
+    font-size: 0.8rem;
+}
