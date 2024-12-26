@@ -215,3 +215,16 @@
 .table-warning {  
     background-color: rgba(255, 193, 7, 0.1);  
 }
+
+.user-profile {  
+    cursor: pointer;  
+}  
+
+.dropdown-menu {  
+    min-width: 200px;  
+    padding: 0.5rem 0;  
+}  
+
+.dropdown-item {  
+    padding: 0.5rem 1rem;  
+}

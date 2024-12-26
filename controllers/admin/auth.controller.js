@@ -1,7 +1,6 @@
 const Account = require("../../models/account.model");
 const md5 = require("md5");
 const systemConfig = require("../../config/system");
-
 //[GET] /admin/auth/login
 module.exports.login = (req, res) => {
     res.render("admin/pages/auth/login.pug", {
@@ -31,5 +30,13 @@ module.exports.loginPost = async (req, res) => {
         res.redirect("back");
         return;
     }
+    res.cookie("token", user.token);
     res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+}
+
+//[GET] /admin/auth/logout
+module.exports.logout = async (req, res) => {
+    res.clearCookie("token");
+    res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
+
 }
