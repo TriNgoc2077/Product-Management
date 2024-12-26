@@ -228,3 +228,55 @@
 .dropdown-item {  
     padding: 0.5rem 1rem;  
 }
+
+/* Product Detail Styles */
+.breadcrumb {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    border-radius: 6px;
+}
+
+.card {
+    border: none;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    object-fit: contain;
+    height: 300px;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.price-card, .discount-card, .stock-card {
+    transition: all 0.3s ease;
+}
+
+.price-card:hover, .discount-card:hover, .stock-card:hover {
+    background: #e9ecef !important;
+    transform: translateY(-3px);
+}
+
+.description {
+    line-height: 1.6;
+}
+
+.badge {
+    padding: 8px 12px;
+    font-weight: 500;
+}
+
+.actions .btn {
+    padding: 10px 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 200px;
+    }
+}

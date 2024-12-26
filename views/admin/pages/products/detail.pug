@@ -1,28 +1,66 @@
 extends ../../layouts/default.pug 
 
-block main 
-    h1(class="alert text-success alert-dismissible fade show mb-4") Product Details
-    if (product.title) 
-        h1(class="mb-4") #{product.title}
-    if (product.price)
-        div(class="mb-4") Price: <b>#{product.price}$</b>
-    if (product.discountPercentage)
-        div(class="mb-4") DiscountPercentage: <b>#{product.discountPercentage}%</b>
-    if (product.stock)
-        div(class="mb-4") Stock: <b>#{product.stock}</b>
-    if (product.thumbnail)
-        div(class="mb-4")
-            img(src=product.thumbnail style="width: 100px")
-    if (product.status)
-        div(class="mb-4")
-            span Status: 
-            if (product.status === "active")
-                span(class="btn btn-success") Active 
-            else 
-                span(class="btn btn-danger") Inactive
-    if (product.position)
-        div(class="mb-4") Position: <b>#{product.position}</b>
-    if  (product.description)
-        div(class="mb-4") !{product.description}
-    a(href=`${prefixAdmin}/products/edit/${product.id}` class="btn btn-warning") Edit 
-    script(src="/admin/js/product.js") 
+block main
+    .container-fluid
+        .row.mb-4
+            .col-12
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a(href=`${prefixAdmin}/dashboard`) Dashboard
+                        li.breadcrumb-item
+                            a(href=`${prefixAdmin}/products`) Products
+                        li.breadcrumb-item.active #{product.title}
+
+        if product
+            .row
+                .col-md-4.mb-4
+                    .card.shadow-sm
+                        if product.thumbnail
+                            img.card-img-top.p-3(src=product.thumbnail alt=product.title)
+                        .card-body
+                            if product.status
+                                if product.status === "active"
+                                    span.badge.bg-success.mb-2 Active
+                                else 
+                                    span.badge.bg-danger.mb-2 Inactive
+                            if product.position
+                                .small.text-muted Position: #{product.position}
+
+                .col-md-8
+                    .card.shadow-sm
+                        .card-body
+                            if product.title
+                                h2.card-title.mb-4 #{product.title}
+                            
+                            .row.mb-4
+                                .col-md-4
+                                    .price-card.bg-light.p-3.rounded
+                                        .text-muted Price
+                                        if product.price
+                                            h3.mb-0 $#{product.price}
+                                .col-md-4
+                                    .discount-card.bg-light.p-3.rounded
+                                        .text-muted Discount
+                                        if product.discountPercentage
+                                            h3.mb-0 #{product.discountPercentage}%
+                                .col-md-4
+                                    .stock-card.bg-light.p-3.rounded
+                                        .text-muted Stock
+                                        if product.stock
+                                            h3.mb-0 #{product.stock}
+                            
+                            if product.description
+                                .description.mt-4
+                                    h4 Description
+                                    .bg-light.p-3.rounded !{product.description}
+                            
+                            .actions.mt-4
+                                a(href=`${prefixAdmin}/products/edit/${product.id}` class="btn btn-warning")
+                                    i.fas.fa-edit.me-2
+                                    | Edit Product
+                                button(type="button" class="btn btn-outline-danger ms-2" data-product-id=product.id)
+                                    i.fas.fa-trash.me-2
+                                    | Delete
+
+    script(src="/admin/js/product.js")

@@ -66,6 +66,7 @@ block main
                                 th(width="10%") Price  
                                 th(width="10%") Position  
                                 th(width="12%") Status  
+                                th(width="12%") Created 
                                 th(width="20%") Actions  
                         tbody  
                             each item, index in products  
@@ -121,6 +122,11 @@ block main
                                                         data-status="inactive"  
                                                         data-id=item.id  
                                                     ) Inactive  
+                                        td.align-middle         
+                                            if (item.creator)
+                                                div #{item.creator}
+                                            if (item.createdBy.createAt)
+                                                div #{item.createdBy.createAt}
                                         td.align-middle  
                                             .btn-group  
                                                 a.btn.btn-sm.btn-outline-info(  

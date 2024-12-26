@@ -1,5 +1,6 @@
 const Product = require("../../models/product.model");
 const ProductCategory = require("../../models/product-category.model");
+const Account = require("../../models/account.model");
 const filterStatusHelpers = require("../../helpers/filterStatus");
 const searchHelpers = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
@@ -54,21 +55,39 @@ module.exports.index = async (req, res) => {
     if (find.title !== undefined) {
         objectPagination.skip = 0;
     }
-    const products = 
+
+    let products = 
         await Product
             .find(find)
             .sort(sort) // desc: giamdan, asc: tang dan
             .limit(objectPagination.limitItem)
             .skip(objectPagination.skip);
 
+    //update property
+    // const user = await Account.findOne({
+    //     fullName: "Cao Tri Ngoc"
+    // });
+
     // for (const product of products) {
-    //     console.log(product);
-    //     if (!product.slug) {
-    //         product.slug = slugify(product.title, { lower: true });
-    //         await product.save();
-    //     }
+    //     // console.log(product);
+
+    //     product.createdBy = {
+    //         account_id: user.id,
+    //         createAt: Date.now()
+    //     };
+    //     await product.save();
+    //     console.log(product.createdBy.account_id);
     // }
 
+    for (let product of products) {
+        const user = await Account.findOne({
+            _id: product.createdBy.account_id
+        });
+        if (user) {
+            product.creator = user.fullName;
+        }
+    }
+    // console.log(products);
     res.render("admin/pages/products/index.pug", {
         titlePage: "Product List",
         products: products,
@@ -111,7 +130,10 @@ module.exports.changeMulti = async (req, res) => {
             { _id: ids },
             { 
                 deleted: true,
-                deletedAt: new Date() 
+                deletedBy: {
+                    account_id: res.locals.user.id,
+                    deleteAt: new Date()
+                }  
             }
         )
         req.flash("success", `Delete ${ids.length} products successfully !`);
@@ -139,7 +161,10 @@ module.exports.deleteItem = async (req, res) => {
         { _id: id }, 
         { 
             deleted: true,
-            deletedAt: new Date() 
+            deletedBy: {
+                account_id: res.locals.user.id,
+                deleteAt: new Date()
+            } 
         }        
     );
     req.flash("success", `Delete successfully !`);
@@ -183,7 +208,10 @@ module.exports.createPost = async (req, res) => {
         req.body.position = parseInt(req.body.position);
     }
 
-
+    req.body.createdBy = {
+        account_id: res.locals.user.id,
+    };
+    
     const product = new Product(req.body);
     await Product.bulkSave([product]);
 
@@ -247,7 +275,6 @@ module.exports.detail = async (req, res) => {
     try {
         const find = {
             deleted: false,
-            status: "active",
             _id: req.params.id
         };
 
