@@ -56,12 +56,14 @@ block main
                                     .bg-light.p-3.rounded !{product.description}
                             
                             .actions.mt-4
-                                a(href=`${prefixAdmin}/products/edit/${product.id}` class="btn btn-warning")
-                                    i.fas.fa-edit.me-2
-                                    | Edit Product
-                                button(type="button" class="btn btn-outline-danger ms-2" data-product-id=product.id)
-                                    i.fas.fa-trash.me-2
-                                    | Delete
+                                if (role.permissions.includes("products_edit"))
+                                    a(href=`${prefixAdmin}/products/edit/${product.id}` class="btn btn-warning")
+                                        i.fas.fa-edit.me-2
+                                        | Edit Product
+                                if (role.permissions.includes("products_delete"))
+                                    button(type="button" class="btn btn-outline-danger ms-2" data-product-id=product.id)
+                                        i.fas.fa-trash.me-2
+                                        | Delete
             .row
     .col-md-4.mb-4
         .card.shadow-sm
