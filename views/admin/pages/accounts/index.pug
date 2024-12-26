@@ -1,81 +1,85 @@
 extends ../../layouts/default.pug  
 
 block main   
-    .d-flex.justify-content-between.align-items-center.mb-4  
-        h1.mb-0 Accounts Management  
-        a(  
-            href=`${prefixAdmin}/accounts/create`  
-            class="btn btn-success"  
-        )  
-            i.fas.fa-plus.mr-2  
-            | Add Account  
+    if (role.permissions.includes("accounts_view"))
+        .d-flex.justify-content-between.align-items-center.mb-4  
+            h1.mb-0 Accounts Management  
+            if (role.permissions.includes("accounts_edit"))
+                a(  
+                    href=`${prefixAdmin}/accounts/create`  
+                    class="btn btn-success"  
+                )  
+                    i.fas.fa-plus.mr-2  
+                    | Add Account  
 
-    .card.shadow-sm  
-        .card-header.bg-white.py-3  
-            .d-flex.justify-content-between.align-items-center  
-                h5.mb-0 Accounts List  
-                .input-group.w-25  
-                    input.form-control(type="search" placeholder="Search accounts...")  
-                    .input-group-append  
-                        button.btn.btn-outline-secondary  
-                            i.fas.fa-search  
-                    
-        .card-body.p-0  
-            .table-responsive  
-                table.table.table-hover.mb-0  
-                    thead.bg-light  
-                        tr   
-                            th(width="5%") #  
-                            th(width="15%") Avatar  
-                            th(width="20%") Full Name  
-                            th(width="15%") Permission  
-                            th(width="20%") Email  
-                            th(width="10%") Status  
-                            th(width="15%") Actions  
-                    tbody   
-                        if (records.length > 0)  
-                            each item, index in records   
-                                tr   
-                                    td.align-middle #{index + 1}  
-                                    td.align-middle  
-                                        img.rounded-circle(  
-                                            src=item.avatar  
-                                            alt=item.fullName  
-                                            width="40"  
-                                            height="40"  
-                                        )  
-                                    td.align-middle #{item.fullName}  
-                                    td.align-middle  
-                                        span.badge.badge-info #{item.role.title}  
-                                    td.align-middle #{item.email}  
-                                    td.align-middle  
-                                        if (item.status === "active")  
-                                            span.badge.badge-success.status-badge(  
-                                                data-status="active"  
-                                            ) Active  
-                                        else    
-                                            span.badge.badge-danger.status-badge(  
-                                                data-status="inactive"  
-                                            ) Inactive  
-                                    td.align-middle  
-                                        .btn-group  
-                                            a.btn.btn-sm.btn-outline-info(  
-                                                href=`${prefixAdmin}/accounts/detail/${item.id}`  
-                                                title="Detail"  
-                                            )  
-                                                i.fas.fa-eye  
-                                            a.btn.btn-sm.btn-outline-warning(  
-                                                href=`${prefixAdmin}/accounts/edit/${item.id}`  
-                                                title="Edit"  
-                                            )  
-                                                i.fas.fa-edit  
-                                            button.btn.btn-sm.btn-outline-danger(  
-                                                button-delete  
-                                                data-id=item.id  
-                                                title="Delete"  
-                                            )  
-                                                i.fas.fa-trash  
-                        else   
+        .card.shadow-sm  
+            .card-header.bg-white.py-3  
+                .d-flex.justify-content-between.align-items-center  
+                    h5.mb-0 Accounts List  
+                    .input-group.w-25  
+                        input.form-control(type="search" placeholder="Search accounts...")  
+                        .input-group-append  
+                            button.btn.btn-outline-secondary  
+                                i.fas.fa-search  
+                        
+            .card-body.p-0  
+                .table-responsive  
+                    table.table.table-hover.mb-0  
+                        thead.bg-light  
                             tr   
-                                td.text-center.py-4(colspan="7")  
-                                    .text-muted No accounts found
+                                th(width="5%") #  
+                                th(width="15%") Avatar  
+                                th(width="20%") Full Name  
+                                th(width="15%") Permission  
+                                th(width="20%") Email  
+                                th(width="10%") Status  
+                                th(width="15%") Actions  
+                        tbody   
+                            if (records.length > 0)  
+                                each item, index in records   
+                                    tr   
+                                        td.align-middle #{index + 1}  
+                                        td.align-middle  
+                                            img.rounded-circle(  
+                                                src=item.avatar  
+                                                alt=item.fullName  
+                                                width="40"  
+                                                height="40"  
+                                            )  
+                                        td.align-middle #{item.fullName}  
+                                        td.align-middle  
+                                            span.badge.badge-info #{item.role.title}  
+                                        td.align-middle #{item.email}  
+                                        td.align-middle  
+                                            if (item.status === "active")  
+                                                span.badge.badge-success.status-badge(  
+                                                    data-status="active"  
+                                                ) Active  
+                                            else    
+                                                span.badge.badge-danger.status-badge(  
+                                                    data-status="inactive"  
+                                                ) Inactive  
+                                        td.align-middle  
+                                            .btn-group  
+                                                a.btn.btn-sm.btn-outline-info(  
+                                                    href=`${prefixAdmin}/accounts/detail/${item.id}`  
+                                                    title="Detail"  
+                                                )  
+                                                    i.fas.fa-eye  
+                                                if (role.permissions.includes("accounts_edit"))
+                                                    a.btn.btn-sm.btn-outline-warning(  
+                                                        href=`${prefixAdmin}/accounts/edit/${item.id}`  
+                                                        title="Edit"  
+                                                    )  
+                                                        i.fas.fa-edit  
+                                                if (role.permissions.includes("accounts_delete"))
+                                                    button.btn.btn-sm.btn-outline-danger(  
+                                                        button-delete  
+                                                        data-id=item.id  
+                                                        title="Delete"  
+                                                    )  
+                                                        i.fas.fa-trash  
+                            else   
+                                tr   
+                                    td.text-center.py-4(colspan="7")  
+                                        .text-muted No accounts found

@@ -2,119 +2,121 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 block main  
-    +alert-error(3000)
+    if (role.permissions.includes("products_create"))
 
-    h1(class="mb-4") Add new product 
+        +alert-error(3000)
 
-    form(
-        action=`${prefixAdmin}/products/create`
-        id="form-create-product"
-        method="POST"
-        enctype="multipart/form-data"
-    ) 
-        div(class="form-group")
-            label(for="title") Title 
-            input(
-                type="text"
-                class="form-control"
-                id="title"
-                name="title"
-                placeholder="At least 8 character"
-            )
-        div(class="form-group")
-            label(for="product_category_id") Category
-            select(
-                name="product_category_id"
-                id="product_category_id"
-                class="form-select"
-            )
-                option(value="") -- Choose Category --
-                if (category)
-                    +select-tree(category)
-        div(class="form-group")
-            label(for="desc") Description 
-            textarea(
-                class="form-control textarea-mce"
-                id="desc"
-                name="description"
-                rows="5"
-            )  
-        div(class="form-group")
-            label(for="price") Price 
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value="0"
-                min="0"
-            ) 
-        div(class="form-group")
-            label(for="discount") % Discount 
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discountPercentage"
-                value="0"
-                min="0"
-            ) 
-        div(class="form-group")
-            label(for="stock") Quantity 
-            input(
-                type="number"
-                class="form-control"
-                id="stock"
-                name="stock"
-                value="0"
-                min="0"
-            )
-        div(class="form-group" upload-image)
-            label(for="thumbnail") Picture 
-            input(
-                type="file"
-                class="form-control"
-                id="thumbnail"
-                name="thumbnail"
-                accept="image/*"
-                upload-image-input
-            )
-            img(
-                src="" upload-image-preview
-                class="image-preview"
-            )
-        div(class="form-group")
-            label(for="position" class="d-block") Position 
-            input(
-                type="number"
-                class="form-control"
-                id="position"
-                name="position"
-                placeholder="auto increase"
-                min="1"
-            )
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusActive"
-                name="status"
-                value="active"
-                checked
-            )
-            label(for="statusActive" class="form-change-inline") Active 
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusInActive"
-                name="status"
-                value="inactive"
-            )
-            label(for="statusInActive" class="form-change-inline") Inactive
-        div(class="form-group")
-            button(
-                type="submit"
-                class="btn btn-primary"
-            ) Add new
-    script(src="/admin/js/product.js" type="module") 
+        h1(class="mb-4") Add new product 
+
+        form(
+            action=`${prefixAdmin}/products/create`
+            id="form-create-product"
+            method="POST"
+            enctype="multipart/form-data"
+        ) 
+            div(class="form-group")
+                label(for="title") Title 
+                input(
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="At least 8 character"
+                )
+            div(class="form-group")
+                label(for="product_category_id") Category
+                select(
+                    name="product_category_id"
+                    id="product_category_id"
+                    class="form-select"
+                )
+                    option(value="") -- Choose Category --
+                    if (category)
+                        +select-tree(category)
+            div(class="form-group")
+                label(for="desc") Description 
+                textarea(
+                    class="form-control textarea-mce"
+                    id="desc"
+                    name="description"
+                    rows="5"
+                )  
+            div(class="form-group")
+                label(for="price") Price 
+                input(
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    name="price"
+                    value="0"
+                    min="0"
+                ) 
+            div(class="form-group")
+                label(for="discount") % Discount 
+                input(
+                    type="number"
+                    class="form-control"
+                    id="discount"
+                    name="discountPercentage"
+                    value="0"
+                    min="0"
+                ) 
+            div(class="form-group")
+                label(for="stock") Quantity 
+                input(
+                    type="number"
+                    class="form-control"
+                    id="stock"
+                    name="stock"
+                    value="0"
+                    min="0"
+                )
+            div(class="form-group" upload-image)
+                label(for="thumbnail") Picture 
+                input(
+                    type="file"
+                    class="form-control"
+                    id="thumbnail"
+                    name="thumbnail"
+                    accept="image/*"
+                    upload-image-input
+                )
+                img(
+                    src="" upload-image-preview
+                    class="image-preview"
+                )
+            div(class="form-group")
+                label(for="position" class="d-block") Position 
+                input(
+                    type="number"
+                    class="form-control"
+                    id="position"
+                    name="position"
+                    placeholder="auto increase"
+                    min="1"
+                )
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusActive"
+                    name="status"
+                    value="active"
+                    checked
+                )
+                label(for="statusActive" class="form-change-inline") Active 
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusInActive"
+                    name="status"
+                    value="inactive"
+                )
+                label(for="statusInActive" class="form-change-inline") Inactive
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Add new
+        script(src="/admin/js/product.js" type="module") 

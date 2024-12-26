@@ -7,147 +7,167 @@ include ../../mixins/alert.pug
 include ../../mixins/sort.pug  
 
 block main  
-    +alert-success(3000)  
+    if (role.permissions.includes("products_view"))
 
-    .d-flex.justify-content-between.align-items-center.mb-4  
-        h1.mb-0 Products Management  
-        a(  
-            href=`${prefixAdmin}/products/create`  
-            class="btn btn-success"  
+        +alert-success(3000)  
+
+        .d-flex.justify-content-between.align-items-center.mb-4  
+            h1.mb-0 Products Management  
+            if (role.permissions.includes("products_edit"))
+                a(  
+                    href=`${prefixAdmin}/products/create`  
+                    class="btn btn-success"  
+                )  
+                    i.fas.fa-plus.mr-2  
+                    | Add Product  
+
+        .row.mb-4  
+            .col-md-4  
+                .card.shadow-sm  
+                    .card-header.bg-white  
+                        h6.mb-0 Filter Status  
+                    .card-body  
+                        +filter-status(filterStatus)  
+            
+            .col-md-4  
+                .card.shadow-sm  
+                    .card-header.bg-white  
+                        h6.mb-0 Search  
+                    .card-body  
+                        +search(keyword)  
+            
+            .col-md-4  
+                .card.shadow-sm  
+                    .card-header.bg-white  
+                        h6.mb-0 Sort  
+                    .card-body  
+                        +sort()  
+
+        
+        .card.shadow-sm  
+            .card-header.bg-white.py-3  
+                .d-flex.justify-content-between.align-items-center  
+                    h5.mb-0 Products List  
+                    +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)  
+
+            .card-body.p-0  
+                .table-responsive  
+                    table.table.table-hover.mb-0(checkbox-multi)  
+                        thead.bg-light  
+                            tr  
+                                th(width="3%")  
+                                    input.form-check-input(  
+                                        type="checkbox"  
+                                        name="checkall"  
+                                    )  
+                                th(width="5%") #  
+                                th(width="15%") Image  
+                                th(width="25%") Title  
+                                th(width="10%") Price  
+                                th(width="10%") Position  
+                                th(width="12%") Status  
+                                th(width="20%") Actions  
+                        tbody  
+                            each item, index in products  
+                                if (!item.deleted)  
+                                    tr  
+                                        td.align-middle  
+                                            input.form-check-input(  
+                                                type="checkbox"  
+                                                name="id"  
+                                                value=item.id  
+                                            )  
+                                        td.align-middle #{pagination.limitItem*(pagination.currentPage - 1) + index + 1}  
+                                        td.align-middle  
+                                            img.img-thumbnail(  
+                                                src=item.thumbnail  
+                                                alt=item.title  
+                                                style="max-width: 100px"  
+                                            )  
+                                        td.align-middle #{item.title}  
+                                        td.align-middle.text-primary.font-weight-bold $#{item.price}  
+                                        td.align-middle  
+                                            input.form-control.form-control-sm(  
+                                                type="number"  
+                                                value=item.position  
+                                                min="1"  
+                                                name="position"  
+                                                style="width: 70px"  
+                                            )  
+                                        if (role.permissions.includes("products_edit"))
+
+                                            td.align-middle  
+                                                if (item.status === "active")  
+                                                    span.badge.badge-success.status-badge(  
+                                                        button-change-status  
+                                                        data-status="active"  
+                                                        data-id=item.id  
+                                                    ) Active  
+                                                else  
+                                                    span.badge.badge-danger.status-badge(  
+                                                        button-change-status  
+                                                        data-status="inactive"  
+                                                        data-id=item.id  
+                                                    ) Inactive  
+                                        else 
+                                            td.align-middle  
+                                                if (item.status === "active")  
+                                                    span.badge.badge-success.status-badge(  
+                                                        data-status="active"  
+                                                        data-id=item.id  
+                                                    ) Active  
+                                                else  
+                                                    span.badge.badge-danger.status-badge(  
+                                                        data-status="inactive"  
+                                                        data-id=item.id  
+                                                    ) Inactive  
+                                        td.align-middle  
+                                            .btn-group  
+                                                a.btn.btn-sm.btn-outline-info(  
+                                                    href=`${prefixAdmin}/products/detail/${item.id}`  
+                                                    title="Detail"  
+                                                )  
+                                                    i.fas.fa-eye  
+                                                if (role.permissions.includes("products_edit"))
+                                                    a.btn.btn-sm.btn-outline-warning(  
+                                                        href=`${prefixAdmin}/products/edit/${item.id}`  
+                                                        title="Edit"  
+                                                    )  
+                                                        i.fas.fa-edit  
+                                                if (role.permissions.includes("products_delete"))
+                                                    button.btn.btn-sm.btn-outline-danger(  
+                                                        button-delete  
+                                                        data-id=item.id  
+                                                        title="Delete"  
+                                                    )  
+                                                        i.fas.fa-trash  
+                                else  
+                                    //- Deleted items row styling  
+                                    tr.table-warning  
+                                        //- [Previous deleted item content remains the same]  
+                                        //- Just add proper alignment classes and styling  
+
+        .mt-4  
+            +pagination(pagination)  
+
+        //- Hidden forms remain the same  
+        form(  
+            action=""  
+            method="POST"  
+            id="form-change-status"  
+            data-path=`${prefixAdmin}/products/change-status`  
         )  
-            i.fas.fa-plus.mr-2  
-            | Add Product  
+        form(  
+            action=""  
+            method="POST"  
+            id="form-delete-item"  
+            data-path=`${prefixAdmin}/products/delete`  
+        )  
+        form(  
+            action=""  
+            method="POST"  
+            id="form-restore-item"  
+            data-path=`${prefixAdmin}/products/restore`  
+        )  
 
-    .row.mb-4  
-        .col-md-4  
-            .card.shadow-sm  
-                .card-header.bg-white  
-                    h6.mb-0 Filter Status  
-                .card-body  
-                    +filter-status(filterStatus)  
-        
-        .col-md-4  
-            .card.shadow-sm  
-                .card-header.bg-white  
-                    h6.mb-0 Search  
-                .card-body  
-                    +search(keyword)  
-        
-        .col-md-4  
-            .card.shadow-sm  
-                .card-header.bg-white  
-                    h6.mb-0 Sort  
-                .card-body  
-                    +sort()  
-
-    .card.shadow-sm  
-        .card-header.bg-white.py-3  
-            .d-flex.justify-content-between.align-items-center  
-                h5.mb-0 Products List  
-                +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)  
-
-        .card-body.p-0  
-            .table-responsive  
-                table.table.table-hover.mb-0(checkbox-multi)  
-                    thead.bg-light  
-                        tr  
-                            th(width="3%")  
-                                input.form-check-input(  
-                                    type="checkbox"  
-                                    name="checkall"  
-                                )  
-                            th(width="5%") #  
-                            th(width="15%") Image  
-                            th(width="25%") Title  
-                            th(width="10%") Price  
-                            th(width="10%") Position  
-                            th(width="12%") Status  
-                            th(width="20%") Actions  
-                    tbody  
-                        each item, index in products  
-                            if (!item.deleted)  
-                                tr  
-                                    td.align-middle  
-                                        input.form-check-input(  
-                                            type="checkbox"  
-                                            name="id"  
-                                            value=item.id  
-                                        )  
-                                    td.align-middle #{pagination.limitItem*(pagination.currentPage - 1) + index + 1}  
-                                    td.align-middle  
-                                        img.img-thumbnail(  
-                                            src=item.thumbnail  
-                                            alt=item.title  
-                                            style="max-width: 100px"  
-                                        )  
-                                    td.align-middle #{item.title}  
-                                    td.align-middle.text-primary.font-weight-bold $#{item.price}  
-                                    td.align-middle  
-                                        input.form-control.form-control-sm(  
-                                            type="number"  
-                                            value=item.position  
-                                            min="1"  
-                                            name="position"  
-                                            style="width: 70px"  
-                                        )  
-                                    td.align-middle  
-                                        if (item.status === "active")  
-                                            span.badge.badge-success.status-badge(  
-                                                button-change-status  
-                                                data-status="active"  
-                                                data-id=item.id  
-                                            ) Active  
-                                        else  
-                                            span.badge.badge-danger.status-badge(  
-                                                button-change-status  
-                                                data-status="inactive"  
-                                                data-id=item.id  
-                                            ) Inactive  
-                                    td.align-middle  
-                                        .btn-group  
-                                            a.btn.btn-sm.btn-outline-info(  
-                                                href=`${prefixAdmin}/products/detail/${item.id}`  
-                                                title="Detail"  
-                                            )  
-                                                i.fas.fa-eye  
-                                            a.btn.btn-sm.btn-outline-warning(  
-                                                href=`${prefixAdmin}/products/edit/${item.id}`  
-                                                title="Edit"  
-                                            )  
-                                                i.fas.fa-edit  
-                                            button.btn.btn-sm.btn-outline-danger(  
-                                                button-delete  
-                                                data-id=item.id  
-                                                title="Delete"  
-                                            )  
-                                                i.fas.fa-trash  
-                            else  
-                                //- Deleted items row styling  
-                                tr.table-warning  
-                                    //- [Previous deleted item content remains the same]  
-                                    //- Just add proper alignment classes and styling  
-
-    .mt-4  
-        +pagination(pagination)  
-
-    //- Hidden forms remain the same  
-    form(  
-        action=""  
-        method="POST"  
-        id="form-change-status"  
-        data-path=`${prefixAdmin}/products/change-status`  
-    )  
-    form(  
-        action=""  
-        method="POST"  
-        id="form-delete-item"  
-        data-path=`${prefixAdmin}/products/delete`  
-    )  
-    form(  
-        action=""  
-        method="POST"  
-        id="form-restore-item"  
-        data-path=`${prefixAdmin}/products/restore`  
-    )  
-
-    script(src="/admin/js/product.js" type="module")
+        script(src="/admin/js/product.js" type="module")

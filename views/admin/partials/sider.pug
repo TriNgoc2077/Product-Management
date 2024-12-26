@@ -5,23 +5,28 @@
                 a(href=`${prefixAdmin}/dashboard` class="text-decoration-none")
                     i.fas.fa-tachometer-alt
                     | Overview 
-            li(class="list-group-item")
-                a(href=`${prefixAdmin}/product-category` class="text-decoration-none")
-                    i.fas.fa-folder
-                    | Category 
-            li(class="list-group-item")
-                a(href=`${prefixAdmin}/products` class="text-decoration-none")
-                    i.fas.fa-box
-                    | Products
-            li(class="list-group-item")
-                a(href=`${prefixAdmin}/roles` class="text-decoration-none")
-                    i.fas.fa-user-shield
-                    | Roles
-            li(class="list-group-item")
-                a(href=`${prefixAdmin}/roles/permissions` class="text-decoration-none")
-                    i.fas.fa-key
-                    | Permissions
-            li(class="list-group-item")
-                a(href=`${prefixAdmin}/accounts` class="text-decoration-none")
-                    i.fas.fa-users
-                    | Accounts
+            if (role.permissions.includes("products-category_view"))
+                li(class="list-group-item")
+                    a(href=`${prefixAdmin}/product-category` class="text-decoration-none")
+                        i.fas.fa-folder
+                        | Category 
+            if (role.permissions.includes("products_view"))
+                li(class="list-group-item")
+                    a(href=`${prefixAdmin}/products` class="text-decoration-none")
+                        i.fas.fa-box
+                        | Products
+            if (role.permissions.includes("roles_view"))
+                li(class="list-group-item")
+                    a(href=`${prefixAdmin}/roles` class="text-decoration-none")
+                        i.fas.fa-user-shield
+                        | Roles
+            if (role.permissions.includes("roles_permissions"))
+                li(class="list-group-item")
+                    a(href=`${prefixAdmin}/roles/permissions` class="text-decoration-none")
+                        i.fas.fa-key
+                        | Permissions
+            if (role.permissions.includes("accounts_view"))
+                li(class="list-group-item")
+                    a(href=`${prefixAdmin}/accounts` class="text-decoration-none")
+                        i.fas.fa-users
+                        | Accounts

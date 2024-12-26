@@ -1,22 +1,23 @@
 mixin form-change-multi(pathAction)
-    form(
-        action=pathAction
-        method="POST"
-        form-change-multi
-    ) 
-        .d-flex.align-items-start 
-            .form-group
-                select(name="type" class="form-select") 
-                    option(selected) -- Choose --
-                    option(value="active") Active 
-                    option(value="inactive") Inactive 
-                    option(value="delete-all") Delete All
-                    option(value="change-position") Change Position
-            .form-group 
-                input(
-                    type="text"
-                    name="ids"
-                    value=""
-                    class="form-control d-none"
-                )
-            button(type="submit" class="btn btn-primary") Apply
+    if (role.permissions.includes("products_edit"))
+        form(
+            action=pathAction
+            method="POST"
+            form-change-multi
+        ) 
+            .d-flex.align-items-start 
+                .form-group
+                    select(name="type" class="form-select") 
+                        option(selected) -- Choose --
+                        option(value="active") Active 
+                        option(value="inactive") Inactive 
+                        option(value="delete-all") Delete All
+                        option(value="change-position") Change Position
+                .form-group 
+                    input(
+                        type="text"
+                        name="ids"
+                        value=""
+                        class="form-control d-none"
+                    )
+                button(type="submit" class="btn btn-primary") Apply

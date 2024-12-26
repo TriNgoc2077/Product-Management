@@ -1,122 +1,126 @@
 extends ../../layouts/default.pug  
 
 block main   
-    .d-flex.justify-content-between.align-items-center.mb-4  
-        h1.mb-0  
-            i.fas.fa-user-lock.text-primary.mr-2  
-            | Roles & Permissions  
+    if (role.permissions.includes("roles_view"))
+        .d-flex.justify-content-between.align-items-center.mb-4  
+            h1.mb-0  
+                i.fas.fa-user-lock.text-primary.mr-2  
+                | Roles & Permissions  
 
-        a.btn.btn-success(  
-            href=`${prefixAdmin}/roles/create`  
-        )  
-            i.fas.fa-plus.mr-2  
-            | Add New Role  
+            if (role.permissions.includes("roles_edit"))
+                a.btn.btn-success(  
+                    href=`${prefixAdmin}/roles/create`  
+                )  
+                    i.fas.fa-plus.mr-2  
+                    | Add New Role  
 
-    .card.shadow-sm  
-        .card-header.bg-white.py-3  
-            .d-flex.justify-content-between.align-items-center  
-                h5.mb-0  
-                    i.fas.fa-list.mr-2  
-                    | Roles List  
-                .btn-group  
-                    button.btn.btn-outline-secondary.btn-sm  
-                        i.fas.fa-download.mr-1  
-                        | Export  
-                    button.btn.btn-outline-secondary.btn-sm  
-                        i.fas.fa-upload.mr-1  
-                        | Import  
+        .card.shadow-sm  
+            .card-header.bg-white.py-3  
+                .d-flex.justify-content-between.align-items-center  
+                    h5.mb-0  
+                        i.fas.fa-list.mr-2  
+                        | Roles List  
+                    .btn-group  
+                        button.btn.btn-outline-secondary.btn-sm  
+                            i.fas.fa-download.mr-1  
+                            | Export  
+                        button.btn.btn-outline-secondary.btn-sm  
+                            i.fas.fa-upload.mr-1  
+                            | Import  
 
-        .card-body.p-0  
-            if (records.length > 0)  
-                .table-responsive  
-                    table.table.table-hover.mb-0  
-                        thead.bg-light  
-                            tr   
-                                th(width="5%") #  
-                                th(width="20%") Role Name  
-                                th(width="45%") Description  
-                                th(width="30%") Actions  
-                        tbody   
-                            each item, index in records   
-                                tr.align-middle  
-                                    td.align-middle #{index + 1}  
-                                    td.align-middle  
-                                        span.font-weight-medium #{item.title}  
-                                    td.align-middle  
-                                        if item.description  
-                                            span.text-muted #{item.description}  
-                                        else  
-                                            span.text-muted.font-italic No description  
-                                    td.align-middle  
-                                        .btn-group  
-                                            a.btn.btn-sm.btn-outline-info(  
-                                                href=`${prefixAdmin}/roles/detail/${item.id}`  
-                                                title="View Details"  
-                                            )  
-                                                i.fas.fa-eye  
-                                                span.ml-1.d-none.d-md-inline   
-                                            
-                                            a.btn.btn-sm.btn-outline-warning(  
-                                                href=`${prefixAdmin}/roles/edit/${item.id}`  
-                                                title="Edit Role"  
-                                            )  
-                                                i.fas.fa-edit  
-                                                span.ml-1.d-none.d-md-inline   
-                                            
-                                            button.btn.btn-sm.btn-outline-danger(  
-                                                button-delete  
-                                                data-id=item.id  
-                                                title="Delete Role"  
-                                            )  
-                                                i.fas.fa-trash  
-                                                span.ml-1.d-none.d-md-inline   
-            else   
-                .text-center.py-5  
-                    .text-muted.mb-3  
-                        i.fas.fa-folder-open.fa-3x  
-                    h5.text-muted No roles found  
-                    p.text-muted.mb-3 There are currently no roles defined in the system  
-                    a.btn.btn-primary(  
-                        href=`${prefixAdmin}/roles/create`  
-                    )  
-                        i.fas.fa-plus.mr-2  
-                        | Create First Role  
+            .card-body.p-0  
+                if (records.length > 0)  
+                    .table-responsive  
+                        table.table.table-hover.mb-0  
+                            thead.bg-light  
+                                tr   
+                                    th(width="5%") #  
+                                    th(width="20%") Role Name  
+                                    th(width="45%") Description  
+                                    th(width="30%") Actions  
+                            tbody   
+                                each item, index in records   
+                                    tr.align-middle  
+                                        td.align-middle #{index + 1}  
+                                        td.align-middle  
+                                            span.font-weight-medium #{item.title}  
+                                        td.align-middle  
+                                            if item.description  
+                                                span.text-muted #{item.description}  
+                                            else  
+                                                span.text-muted.font-italic No description  
+                                        td.align-middle  
+                                            .btn-group  
+                                                a.btn.btn-sm.btn-outline-info(  
+                                                    href=`${prefixAdmin}/roles/detail/${item.id}`  
+                                                    title="View Details"  
+                                                )  
+                                                    i.fas.fa-eye  
+                                                    span.ml-1.d-none.d-md-inline   
+                                                
+                                                if (role.permissions.includes("roles_edit"))
+                                                    a.btn.btn-sm.btn-outline-warning(  
+                                                        href=`${prefixAdmin}/roles/edit/${item.id}`  
+                                                        title="Edit Role"  
+                                                    )  
+                                                        i.fas.fa-edit  
+                                                        span.ml-1.d-none.d-md-inline   
+                                                
+                                                if (role.permissions.includes("roles_delete"))
+                                                    button.btn.btn-sm.btn-outline-danger(  
+                                                        button-delete  
+                                                        data-id=item.id  
+                                                        title="Delete Role"  
+                                                    )  
+                                                        i.fas.fa-trash  
+                                                        span.ml-1.d-none.d-md-inline   
+                else   
+                    .text-center.py-5  
+                        .text-muted.mb-3  
+                            i.fas.fa-folder-open.fa-3x  
+                        h5.text-muted No roles found  
+                        p.text-muted.mb-3 There are currently no roles defined in the system  
+                        a.btn.btn-primary(  
+                            href=`${prefixAdmin}/roles/create`  
+                        )  
+                            i.fas.fa-plus.mr-2  
+                            | Create First Role  
 
-    style.  
-        .table td {  
-            vertical-align: middle !important;  
-        }  
-
-        .btn-group > .btn {  
-            margin-right: 2px;  
-        }  
-
-        .font-weight-medium {  
-            font-weight: 500;  
-        }  
-
-        @media (max-width: 768px) {  
-            .btn-group {  
-                display: flex;  
-                flex-direction: row;  
+        style.  
+            .table td {  
+                vertical-align: middle !important;  
             }  
-            
-            .btn-group .btn {  
-                padding: 0.25rem 0.5rem;  
+
+            .btn-group > .btn {  
+                margin-right: 2px;  
             }  
-        }  
 
-        .card {  
-            border: none;  
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);  
-        }  
+            .font-weight-medium {  
+                font-weight: 500;  
+            }  
 
-        .table thead th {  
-            border-top: none;  
-            background-color: #f8f9fa;  
-            font-weight: 500;  
-        }  
+            @media (max-width: 768px) {  
+                .btn-group {  
+                    display: flex;  
+                    flex-direction: row;  
+                }  
+                
+                .btn-group .btn {  
+                    padding: 0.25rem 0.5rem;  
+                }  
+            }  
 
-        .btn:focus {  
-            box-shadow: none !important;  
-        }
+            .card {  
+                border: none;  
+                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);  
+            }  
+
+            .table thead th {  
+                border-top: none;  
+                background-color: #f8f9fa;  
+                font-weight: 500;  
+            }  
+
+            .btn:focus {  
+                box-shadow: none !important;  
+            }
