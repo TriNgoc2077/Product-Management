@@ -1,8 +1,17 @@
 header.header   
     .container-fluid 
-        .row.align-item-center 
+        .row.align-items-center 
             .col-3 
                 .inner-logo 
-                    a(href="/admin/dashboard" class="text-decoration-none") Admin 
-
+                    a(href="/admin/dashboard" class="text-decoration-none")
+                        i.fas.fa-shield-alt.me-2
+                        | Admin Portal
             .col-9
+                .d-flex.justify-content-end.align-items-center
+                    .search-box.me-4
+                        input(type="text" placeholder="Search..." class="form-control form-control-sm")
+                    .user-info.me-3.text-end
+                        .user-name Cao Tri Ngoc
+                        .user-email caotringoc11@gmail.com
+                    .user-profile
+                        img(src="https://cdn.pixabay.com/photo/2024/04/12/19/59/cat-8692517_1280.jpg" alt="User" class="rounded-circle" width="40")

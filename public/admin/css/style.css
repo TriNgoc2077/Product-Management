@@ -1,50 +1,110 @@
-.header{
-    background: #202020;
-    padding: 10px 0;
+/* Header Styles */
+.header {
+    background: linear-gradient(to right, #1a1a1a, #2d2d2d);
+    padding: 15px 0;
     position: sticky;
     top: 0;
     z-index: 999;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.header .inner-logo a{
-    font-size: 24px;
+.header .inner-logo a {
+    font-size: 26px;
     font-weight: 700;
     color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
 }
-/* end header */
 
-.body .sider{
-    width: 150px;
-    background: #323232;
+.header .inner-logo a:hover {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+/* User Info Styles */
+.user-info {
     color: #fff;
-    height: calc(100vh - 56px);
+    padding-right: 20px;
+}
+
+.user-info .user-name {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.user-info .user-email {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* Sider Styles */
+.body .sider {
+    width: 220px;
+    background: #2c3e50;  /* Dark background */
+    height: calc(100vh - 61px);
     position: fixed;
-    top: 56px;
+    top: 61px;
     left: 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: width 0.3s ease;
 }
 
-.body .main{
-    margin: 15px;
+.body .main {
+    margin: 20px;
     position: relative;
-    left: 150px;
-    width: calc(100% - 150px);
+    left: 220px;
+    width: calc(100% - 220px);
+    transition: all 0.3s ease;
 }
-/* end body */
 
-/* sider */
+/* Sider Menu */
 .sider .inner-menu ul {
     list-style: none;
-    padding: 0;
+    padding: 15px 0;
     margin: 0;
-}
-.sider .inner-menu ul li a{
-    color: #fff;
-    display: block;
-    padding: 6px 10px;
-    border-bottom: 1px solid #515151;
+    background: #2c3e50;  /* Match sider background */
 }
 
-/* end sider */
+.sider .inner-menu ul li {
+    margin: 5px 0;
+}
+
+.sider .inner-menu ul li.list-group-item {
+    background: transparent;  /* Make li background transparent */
+    border: none;
+    padding: 0;
+}
+
+.sider .inner-menu ul li a {
+    color: #ecf0f1;  /* Light text color */
+    display: block;
+    padding: 12px 20px;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.sider .inner-menu ul li a:hover {
+    background: rgba(255,255,255,0.1);
+    border-left-color: #4CAF50;
+    text-decoration: none;
+    padding-left: 25px;
+}
+
+.sider .inner-menu ul li.active a {
+    background: rgba(255,255,255,0.1);
+    border-left-color: #4CAF50;
+}
+
+/* Add icons using Font Awesome */
+.sider .inner-menu ul li a i {
+    margin-right: 10px;
+    width: 20px;
+    display: inline-block;
+    color: #ecf0f1;  /* Light icon color */
+}
 
 /* show alert */
 [show-alert] {
@@ -93,3 +153,65 @@
     display: none;
 }
 /* end image preview */
+
+.badge {  
+    font-size: 85%;  
+    padding: 0.5em 1em;  
+}  
+
+.status-badge {  
+    cursor: pointer;  
+    padding: 0.5em 1em;  
+}  
+
+.table td {  
+    vertical-align: middle !important;  
+}  
+
+.card {  
+    border: none;  
+}  
+
+.form-check-input {  
+    cursor: pointer;  
+}  
+
+.btn-group > .btn {  
+    margin-right: 2px;  
+}  
+
+.badge {  
+    padding: 8px 12px;  
+    font-size: 0.875rem;  
+    font-weight: 500;  
+  }  
+  
+  .badge-success {  
+    background-color: #28a745;  
+    color: #fff;  
+  }  
+  
+  .badge-danger {  
+    background-color: #dc3545;  
+    color: #fff;  
+  }  
+  
+  .badge-secondary {  
+    background-color: #6c757d;  
+    color: #fff;  
+  }
+  .badge-info {  
+    background-color: #2e85d1;  
+    color: #fff;  
+  }
+
+
+.img-thumbnail {  
+    border: 1px solid #dee2e6;  
+    padding: 0.25rem;  
+    border-radius: 0.25rem;  
+}  
+
+.table-warning {  
+    background-color: rgba(255, 193, 7, 0.1);  
+}

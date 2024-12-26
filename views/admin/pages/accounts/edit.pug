@@ -2,7 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
 block main 
-    h1(class="mb-4") Add new Account 
+    h1(class="mb-4") Edit Account 
     +alert-error(5000)
     form(
         action=`${prefixAdmin}/accounts/edit/${data.id}?_method=PATCH`

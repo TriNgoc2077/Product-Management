@@ -1,96 +1,112 @@
-mixin table-tree(items, level = -1)
+mixin table-tree(items, level = -1)  
     each item, index in items  
-        - const prefix = Array(level + 2).join("-- ")
-            if (item.deleted == false)
-                tr 
-                    td 
-                        input(
-                            type="checkbox"
-                            name="id"
-                            value=item.id
-                        )
-                    td #{item.index}
-                    td 
-                        img(
-                            src=item.thumbnail, 
-                            alt=item.title
-                            width="100px"
-                            height="auto"
-                        )
-                    td #{prefix}#{item.title}
-                    td 
-                        input(
-                            type="number"
-                            value=item.position 
-                            style="width: 60px"
-                            min="1"
-                            name="position"
-                        )
-                    td 
-                        if (item.status == "active")
-                            a(
-                                href="javascript:;"  
-                                data-status="active"
-                                data-id=item.id
-                                button-change-status
-                                class="btn btn-success"
-                            ) #{item.status}
-                        //- use java script to process logic 
-                        else 
-                            a(
-                                href=`javascript:;`
-                                data-status="inactive"
-                                data-id=item.id
-                                button-change-status
-                                class="btn btn-danger"
-                            ) #{item.status}
-                    td 
-                        a(
-                            class="btn btn-info btn-sm"
-                            href=`${prefixAdmin}/product-category/detail/${item.id}`
-                        ) Detail 
-                        a(
-                            class="btn btn-warning btn-sm"
-                            href=`${prefixAdmin}/product-category/edit/${item.id}`
-                        ) Edit 
-                        button(
-                            class="btn btn-danger btn-sm ml-1"
-                            button-delete
-                            data-id=item.id
-                        ) Delete
-                if (item.children && item.children.length > 0)
-                    +table-tree(item.children, level + 2)
-            else
-                tr 
-                    td 
-                        input(
-                            type="checkbox"
-                            name="id"
-                            value=item.id
-                        )
-                    td #{index}
-                    td 
-                        img(
-                            src=item.thumbnail, 
-                            alt=item.title
-                            width="100px"
-                            height="auto"
-                        )
-                    td #{item.title}
-                    td 
-                        input(
-                            type="number"
-                            value=item.position 
-                            style="width: 60px"
-                            min="1"
-                            name="position"
-                        )
-                    td 
-                        button(class="btn btn-warning btn-sm") Edit 
-                        button(
-                            class="btn btn-success btn-sm ml-1"
-                            button-restore
-                            data-id=item.id
-                        ) Restore
-                if (item.children && item.children.length > 0)
-                    +table-tree(item.children, level + 2)
+        - const prefix = Array(level + 2).join("-- ")  
+        if (!item.deleted)  
+            tr.align-middle  
+                td   
+                    .form-check  
+                        input.form-check-input(  
+                            type="checkbox"  
+                            name="id"  
+                            value=item.id  
+                        )  
+                td.align-middle #{item.index}  
+                td.align-middle  
+                    img.img-thumbnail(  
+                        src=item.thumbnail  
+                        alt=item.title  
+                        style="max-width: 100px; height: auto;"  
+                    )  
+                td.align-middle   
+                    span.text-secondary #{prefix}  
+                    span #{item.title}  
+                td.align-middle  
+                    input.form-control.form-control-sm(  
+                        type="number"  
+                        value=item.position   
+                        style="width: 70px"  
+                        min="1"  
+                        name="position"  
+                    )  
+                td.align-middle  
+                    if (item.status === "active")  
+                        span.badge.badge-success.status-badge(  
+                            href="javascript:;"  
+                            data-status="active"  
+                            data-id=item.id  
+                            button-change-status  
+                        )   
+                            i.fas.fa-check.mr-1  
+                            | Active  
+                    else   
+                        span.badge.badge-danger.status-badge(  
+                            href="javascript:;"  
+                            data-status="inactive"  
+                            data-id=item.id  
+                            button-change-status  
+                        )  
+                            i.fas.fa-times.mr-1  
+                            | Inactive  
+                td.align-middle  
+                    .btn-group  
+                        a.btn.btn-sm.btn-outline-info(  
+                            href=`${prefixAdmin}/product-category/detail/${item.id}`  
+                            title="Detail"  
+                        )  
+                            i.fas.fa-eye  
+                        a.btn.btn-sm.btn-outline-warning(  
+                            href=`${prefixAdmin}/product-category/edit/${item.id}`  
+                            title="Edit"  
+                        )  
+                            i.fas.fa-edit  
+                        button.btn.btn-sm.btn-outline-danger(  
+                            button-delete  
+                            data-id=item.id  
+                            title="Delete"  
+                        )  
+                            i.fas.fa-trash  
+
+            if (item.children && item.children.length > 0)  
+                +table-tree(item.children, level + 2)  
+        else  
+            tr.table-warning  
+                td   
+                    .form-check  
+                        input.form-check-input(  
+                            type="checkbox"  
+                            name="id"  
+                            value=item.id  
+                        )  
+                td.align-middle #{index}  
+                td.align-middle  
+                    img.img-thumbnail(  
+                        src=item.thumbnail  
+                        alt=item.title  
+                        style="max-width: 100px; height: auto;"  
+                    )  
+                td.align-middle #{item.title}  
+                td.align-middle  
+                    input.form-control.form-control-sm(  
+                        type="number"  
+                        value=item.position   
+                        style="width: 70px"  
+                        min="1"  
+                        name="position"  
+                    )  
+                td.align-middle(colspan="2")  
+                    .btn-group  
+                        button.btn.btn-sm.btn-outline-warning(  
+                            title="Edit"  
+                        )  
+                            i.fas.fa-edit  
+                            span.ml-1 Edit  
+                        button.btn.btn-sm.btn-outline-success(  
+                            button-restore  
+                            data-id=item.id  
+                            title="Restore"  
+                        )  
+                            i.fas.fa-undo  
+                            span.ml-1 Restore  
+
+            if (item.children && item.children.length > 0)  
+                +table-tree(item.children, level + 2)

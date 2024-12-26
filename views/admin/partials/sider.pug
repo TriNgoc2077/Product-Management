@@ -1,17 +1,27 @@
 .sider
     .inner-menu 
-            ul(class="list-group")
-                li(class="list-group-item list-group-item list-group-item-dark")
-                    a(href=`${prefixAdmin}/dashboard` class="text-dark text-decoration-none") Overview 
-                li(class="list-group-item list-group-item list-group-item-dark")
-                    a(href=`${prefixAdmin}/product-category` class="text-dark text-decoration-none") Category 
-                li(class="list-group-item list-group-item list-group-item-dark")
-                    a(href=`${prefixAdmin}/products` class="text-dark text-decoration-none") List Product
-                li(class="list-group-item list-group-item list-group-item-dark")
-                    a(href=`${prefixAdmin}/roles` class="text-dark text-decoration-none") Roles
-                li(class="list-group-item list-group-item list-group-item-dark")
-                    a(href=`${prefixAdmin}/roles/permissions` class="text-dark text-decoration-none") Permissions
-                li(class="list-group-item list-group-item list-group-item-dark")
-                    a(href=`${prefixAdmin}/accounts` class="text-dark text-decoration-none") Accounts
-
-
+        ul.list-group
+            li(class="list-group-item")
+                a(href=`${prefixAdmin}/dashboard` class="text-decoration-none")
+                    i.fas.fa-tachometer-alt
+                    | Overview 
+            li(class="list-group-item")
+                a(href=`${prefixAdmin}/product-category` class="text-decoration-none")
+                    i.fas.fa-folder
+                    | Category 
+            li(class="list-group-item")
+                a(href=`${prefixAdmin}/products` class="text-decoration-none")
+                    i.fas.fa-box
+                    | Products
+            li(class="list-group-item")
+                a(href=`${prefixAdmin}/roles` class="text-decoration-none")
+                    i.fas.fa-user-shield
+                    | Roles
+            li(class="list-group-item")
+                a(href=`${prefixAdmin}/roles/permissions` class="text-decoration-none")
+                    i.fas.fa-key
+                    | Permissions
+            li(class="list-group-item")
+                a(href=`${prefixAdmin}/accounts` class="text-decoration-none")
+                    i.fas.fa-users
+                    | Accounts

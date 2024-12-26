@@ -1,35 +1,103 @@
-extends ../../layouts/default.pug
-include ../../mixins/table-tree.pug
-block main
-    h1(class="alert text-success alert-dismissible fade show") Product category page
-                           
-    .card.mb-3 
-        .card-header List
-            .card-body 
-                .row 
-                    .col-8
-                    .col-4
-                        a(
-                            href=`${prefixAdmin}/product-category/create`
-                            class="btn btn-outline-success"
-                        ) + Add new
-                table(
-                    class = "table table-hover table-sm"
-                    checkbox-multi
-                )
+extends ../../layouts/default.pug  
+include ../../mixins/table-tree.pug  
 
-                    thead
-                        tr
-                            th 
-                                input(
-                                    type="checkbox"
-                                    name="checkall"
-                                )
-                            th Order 
-                            th Picture 
-                            th Title 
-                            th Position
-                            th Status 
-                            th To-do
-                    tbody 
-                        +table-tree(records)
+block main  
+    .d-flex.justify-content-between.align-items-center.mb-4  
+        h1.mb-0   
+            i.fas.fa-layer-group.text-primary.mr-2  
+            | Product Categories  
+        a(  
+            href=`${prefixAdmin}/product-category/create`  
+            class="btn btn-success"  
+        )  
+            i.fas.fa-plus.mr-2  
+            | Add Category  
+
+    .card.shadow-sm  
+        .card-header.bg-white.py-3  
+            .d-flex.justify-content-between.align-items-center  
+                h5.mb-0  
+                    i.fas.fa-list.mr-2  
+                    | Categories List  
+                .btn-group  
+                    button.btn.btn-outline-secondary.btn-sm(  
+                        type="button"  
+                        title="Expand All"  
+                    )  
+                        i.fas.fa-expand.mr-1  
+                        | Expand All  
+                    button.btn.btn-outline-secondary.btn-sm(  
+                        type="button"  
+                        title="Collapse All"  
+                    )  
+                        i.fas.fa-compress.mr-1  
+                        | Collapse All  
+
+        .card-body.p-0  
+            .table-responsive  
+                table.table.table-hover.mb-0(checkbox-multi)  
+                    thead.bg-light  
+                        tr  
+                            th(width="3%")  
+                                .form-check  
+                                    input.form-check-input(  
+                                        type="checkbox"  
+                                        name="checkall"  
+                                    )  
+                            th(width="5%") #  
+                            th(width="15%") Image  
+                            th(width="30%") Title  
+                            th(width="10%") Position  
+                            th(width="12%") Status  
+                            th(width="25%") Actions  
+                    tbody   
+                        +table-tree(records)  
+
+    style.  
+        .category-tree-item {  
+            transition: all 0.3s ease;  
+        }  
+        
+        .category-tree-item:hover {  
+            background-color: rgba(0,0,0,0.02);  
+        }  
+
+        .table td {  
+            vertical-align: middle !important;  
+        }  
+
+        .category-thumbnail {  
+            max-width: 80px;  
+            height: auto;  
+            border-radius: 4px;  
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);  
+        }  
+
+        .badge {  
+            padding: 0.5em 1em;  
+            font-weight: 500;  
+        }  
+
+        .btn-group > .btn {  
+            margin-right: 2px;  
+        }  
+
+        .tree-indent {  
+            display: inline-block;  
+            width: 1.5rem;  
+            height: 1px;  
+        }  
+
+        .tree-icon {  
+            cursor: pointer;  
+            width: 20px;  
+            height: 20px;  
+            line-height: 20px;  
+            text-align: center;  
+            border-radius: 3px;  
+            margin-right: 5px;  
+        }  
+
+        .tree-icon:hover {  
+            background-color: rgba(0,0,0,0.05);  
+        }
