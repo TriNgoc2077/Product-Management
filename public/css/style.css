@@ -1,7 +1,7 @@
 /* header */
 .header{
     border-bottom: 1px solid #dddddd;
-    background: #dcfeff;
+    background: #e1f6f7;
 }
 
 .header .inner-logo img{
@@ -121,48 +121,6 @@
     color: #b38282 !important;  
     text-decoration: none;  
 }  
-
-/* sub-menu  */
-/* .sub-menu {
-    position: relative;
-    z-index: 999;
-}
-
-.sub-menu ul {
-    position: absolute;
-    right: 0;
-    top: 100%;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    background: #e2c6c6;
-    min-width: 100px;
-    display: none;
-}
-
-.sub-menu ul li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-
-}
-
-.sub-menu:hover > ul {
-    display: block;
-}
-
-.sub-menu ul li {
-    position: relative;
-}
-
-.sub-menu ul li ul {
-    right: 100%;
-    top: 0;
-}
-
-.sub-menu ul li:hover > ul {
-    display: block;
-} */
-
 
 /* sub-menu styling */  
 .sub-menu {  
@@ -511,3 +469,82 @@ span {
     align-items: center;
     justify-content: center;
 }
+/* background block main */
+.bg-color {
+    background-color: #f1f1f1;
+}
+
+/* product detail  */
+.product-image {
+    transition: transform 0.3s ease;
+  }
+  .product-image:hover {
+    transform: scale(1.02);
+  }
+  .product-details h1 {
+    font-weight: 600;
+  }
+  .card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .btn-lg {
+    padding: 12px 30px;
+  }
+  .display-4 {
+    font-size: 2.5rem;
+  }
+  .lead {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+  .product-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  .info-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+
+  .info-label i {
+    width: 16px;
+  }
+
+  .info-value {
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+
+  .new-price {
+    color: #dc3545;
+    margin-right: 0.5rem;
+  }
+
+  .old-price {
+    color: #6c757d;
+    font-size: 1rem;
+    text-decoration: line-through;
+    font-weight: normal;
+  }
+
+  .discount {
+    color: #28a745;
+  }
+
+  .stock {
+    color: #17a2b8;
+  }
+
+  .position {
+    color: #dc3545;
+  }

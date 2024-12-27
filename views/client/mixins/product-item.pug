@@ -7,7 +7,7 @@ mixin product-item(item)
                     | Featured
             if item.discountPercentage > 0
                 .discount-badge -#{item.discountPercentage}%
-            a(href=`/products/${item.slug}`)
+            a(href=`/products/detail/${item.slug}`)
                 img.card-img-top(
                     src=item.thumbnail
                     alt=item.title

@@ -5,3 +5,8 @@ module.exports.newPrice = (products) => {
     }); 
     return newProducts;
 }
+
+module.exports.newPriceOneProduct = (product) => {
+    product.newPrice = parseInt(product.price * (1 - product.discountPercentage * 0.01)); 
+    return product;
+}
