@@ -1,34 +1,32 @@
 mixin product-item(item)
-    .col-lg-4.col-md-6.mb-4
-      .card.product-item.h-100.shadow-hover
+    .card.product-item.h-100.shadow-hover
         .inner-image.overflow-hidden.position-relative
-          if item.featured == "1"
-            .featured-badge
-              i.fas.fa-star.mr-1
-              | Featured
-          if item.discountPercentage > 0
-            .discount-badge -#{item.discountPercentage}%
-          a(href=`/products/${item.slug}`)
-            img.card-img-top(
-              src=item.thumbnail
-              alt=item.title
-            )
-          .product-actions
-            button.btn.btn-light.btn-sm.mr-2(title="Quick View")
-              i.fas.fa-eye
-            button.btn.btn-light.btn-sm.mr-2(title="Add to Wishlist")
-              i.fas.fa-heart
-            button.btn.btn-light.btn-sm(title="Add to Cart")
-              i.fas.fa-shopping-cart
-        .card-body.inner-content.position-relative.text-center
-          h3.inner-title.h5.mb-3
-            a.text-dark(href=`/products/${item.slug}`) #{item.title}
-          .d-flex.justify-content-center.align-items-center.mb-3
+            if item.featured == "1"
+                .featured-badge
+                    i.fas.fa-star.mr-1
+                    | Featured
             if item.discountPercentage > 0
-              .price-wrapper
-                .inner-price-new.h5.text-primary.mb-0.mr-2 $#{item.priceNew}
-                .inner-price-old.h6.text-muted.text-decoration-line-through.mb-0 $#{item.price}
-            else
-              .price-wrapper
-                .inner-price-regular.h5.text-primary.mb-0 $#{item.price}
-        
+                .discount-badge -#{item.discountPercentage}%
+            a(href=`/products/${item.slug}`)
+                img.card-img-top(
+                    src=item.thumbnail
+                    alt=item.title
+                )
+            .product-actions
+                button.btn.btn-light.btn-sm.mr-2(title="Quick View")
+                    i.fas.fa-eye
+                button.btn.btn-light.btn-sm.mr-2(title="Add to Wishlist")
+                    i.fas.fa-heart
+                button.btn.btn-light.btn-sm(title="Add to Cart")
+                    i.fas.fa-shopping-cart
+        .card-body.inner-content.position-relative.text-center
+            h3.inner-title.h5.mb-3
+                a.text-dark(href=`/products/${item.slug}`) #{item.title}
+            .d-flex.justify-content-center.align-items-center.mb-3
+                if item.discountPercentage > 0
+                    .price-wrapper
+                        .inner-price-new.h5.text-primary.mb-0.mr-2 $#{item.priceNew}
+                        .inner-price-old.h6.text-muted.text-decoration-line-through.mb-0 $#{item.price}
+                else
+                    .price-wrapper
+                        .inner-price-regular.h5.text-primary.mb-0 $#{item.price}
