@@ -1,22 +1,98 @@
 extends ../../layouts/default.pug
 
-block main 
-    .container.my-3
-        .row 
-            .col-12 
-                //- h1(class="alert text-success alert-dismissible fade show mb-4") Product Details
-                if (product.title) 
-                    h1(class="mb-4") #{product.title}
+block main
+  .container.py-5
+    .row
+      .col-lg-12
+        nav(aria-label='breadcrumb')
+          ol.breadcrumb.bg-light
+            li.breadcrumb-item
+              a(href='/') Home
+            li.breadcrumb-item.active(aria-current='page') Product Details
+
+    .row
+      .col-lg-6
+        if (product.thumbnail)
+          .product-image.mb-4
+            img.img-fluid.rounded.shadow(
+              src=product.thumbnail
+              alt=product.title
+              style="object-fit: cover;"
+            )
+
+      .col-lg-6
+        .product-details
+          if (product.title)
+            h1.display-4.mb-4.text-primary #{product.title}
+          
+          .card.bg-light.mb-4
+            .card-body
+              .row
                 if (product.price)
-                    div(class="mb-4") Price: <b>#{product.price}$</b>
+                  .col-6.mb-3
+                    .d-flex.align-items-center
+                      i.fas.fa-tag.text-primary.mr-2
+                      span.text-muted Price:
+                      h3.ml-2.mb-0 $#{product.price}
+
                 if (product.discountPercentage)
-                    div(class="mb-4") DiscountPercentage: <b>#{product.discountPercentage}%</b>
+                  .col-6.mb-3
+                    .d-flex.align-items-center
+                      i.fas.fa-percent.text-success.mr-2
+                      span.text-muted Discount:
+                      h3.ml-2.mb-0.text-success #{product.discountPercentage}%
+
                 if (product.stock)
-                    div(class="mb-4") Stock: <b>#{product.stock}</b>
-                if (product.thumbnail)
-                    div(class="mb-4")
-                        img(src=product.thumbnail style="width: 100px")
+                  .col-6.mb-3
+                    .d-flex.align-items-center
+                      i.fas.fa-box.text-info.mr-2
+                      span.text-muted Stock:
+                      h3.ml-2.mb-0 #{product.stock}
+
                 if (product.position)
-                    div(class="mb-4") Position: <b>#{product.position}</b>
-                if  (product.description)
-                    div(class="mb-4") #{product.description}
+                  .col-6.mb-3
+                    .d-flex.align-items-center
+                      i.fas.fa-map-marker-alt.text-danger.mr-2
+                      span.text-muted Position:
+                      h3.ml-2.mb-0 #{product.position}
+
+          if (product.description)
+            .card.mb-4
+              .card-header.bg-primary.text-white
+                i.fas.fa-info-circle.mr-2
+                | Product Description
+              .card-body
+                p.lead.mb-0 !{product.description}
+
+          .d-flex.mt-4
+            button.btn.btn-primary.btn-lg.mr-3.me-2
+              i.fas.fa-shopping-cart.mr-2
+              | Add to Cart
+            button.btn.btn-outline-primary.btn-lg.me-2
+              i.fas.fa-heart.mr-2
+              | Add to Wishlist
+
+  style.
+    .product-image {
+      transition: transform 0.3s ease;
+    }
+    .product-image:hover {
+      transform: scale(1.02);
+    }
+    .product-details h1 {
+      font-weight: 600;
+    }
+    .card {
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn-lg {
+      padding: 12px 30px;
+    }
+    .display-4 {
+      font-size: 2.5rem;
+    }
+    .lead {
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }

@@ -1,43 +1,21 @@
-extends ../../layouts/default.pug  
-include ../../mixins/box-head.pug  
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/product-layout.pug
 
-block main   
-    .container.my-4  
-        .row.mb-4  
-            .col-12   
-                +box-head("List Products")  
-        
-        .row  
-            //- Featured Product  
-            .col-lg-4.col-md-6.mb-4  
-                .card.product-item.h-100.shadow-sm  
-                    .inner-image.overflow-hidden  
-                        img.card-img-top(  
-                            src="https://mobileworld.com.vn/uploads/product/S24_Series/s24u_den.png"  
-                            alt="Galaxy s24 Ultra"  
-                        )  
-                    .card-body.inner-content.position-relative  
-                        h3.inner-title.h5.mb-3 Samsung Galaxy S24 Ultra   
-                        .d-flex.justify-content-between.align-items-center  
-                            .price-wrapper  
-                                .inner-price-new.font-weight-bold $880  
-                                .inner-price-old.text-muted.text-decoration-line-through $1000  
-                            span.inner-discount.badge.badge-danger -12%  
-            
-            //- Product List  
-            each item in products  
-                .col-lg-4.col-md-6.mb-4  
-                    .card.product-item.h-100.shadow-sm  
-                        .inner-image.overflow-hidden  
-                            img.card-img-top(  
-                                src=item.thumbnail  
-                                alt=item.title  
-                            )   
-                        .card-body.inner-content.position-relative  
-                            h3.inner-title.h5.mb-3  
-                                a.text-dark(href=`/products/${item.slug}`) #{item.title}  
-                            .d-flex.justify-content-between.align-items-center  
-                                .price-wrapper  
-                                    .inner-price-new.font-weight-bold $#{item.priceNew}  
-                                    .inner-price-old.text-muted.text-decoration-line-through $#{item.price}  
-                                span.inner-discount.badge.badge-danger -#{item.discountPercentage}%
+block main
+  .container.py-5
+    .row.mb-4
+      .col-12
+        +box-head("Our Products")
+        .input-group.w-50.mx-auto.mb-5
+          input.form-control(type="text" placeholder="Search products...")
+          .input-group-append
+            button.btn.btn-primary
+              i.fas.fa-search
+    
+    .row.product-grid
+      +product-grid(products)
+
+
+
+    
