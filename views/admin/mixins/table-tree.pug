@@ -31,7 +31,7 @@ mixin table-tree(items, level = -1)
                 if (role.permissions.includes("products-category_edit"))
                     td.align-middle  
                         if (item.status === "active")  
-                            span.badge.badge-success.status-badge(  
+                            span.badge.bg-success(  
                                 href="javascript:;"  
                                 data-status="active"  
                                 data-id=item.id  
@@ -40,7 +40,7 @@ mixin table-tree(items, level = -1)
                                 i.fas.fa-check.mr-1  
                                 | Active  
                         else   
-                            span.badge.badge-danger.status-badge(  
+                            span.badge.bg-danger(  
                                 href="javascript:;"  
                                 data-status="inactive"  
                                 data-id=item.id  

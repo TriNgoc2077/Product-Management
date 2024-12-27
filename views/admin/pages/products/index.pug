@@ -96,16 +96,15 @@ block main
                                                 style="width: 70px"  
                                             )  
                                         if (role.permissions.includes("products_edit"))
-
                                             td.align-middle  
                                                 if (item.status === "active")  
-                                                    span.badge.badge-success.status-badge(  
+                                                    span.badge.bg-success.mb-2(  
                                                         button-change-status  
                                                         data-status="active"  
                                                         data-id=item.id  
                                                     ) Active  
                                                 else  
-                                                    span.badge.badge-danger.status-badge(  
+                                                    span.badge.bg-danger.mb-2(  
                                                         button-change-status  
                                                         data-status="inactive"  
                                                         data-id=item.id  
@@ -113,12 +112,12 @@ block main
                                         else 
                                             td.align-middle  
                                                 if (item.status === "active")  
-                                                    span.badge.badge-success.status-badge(  
+                                                    span.badge.bg-success.mb-2(  
                                                         data-status="active"  
                                                         data-id=item.id  
                                                     ) Active  
                                                 else  
-                                                    span.badge.badge-danger.status-badge(  
+                                                    span.badge.bg-danger.mb-2(  
                                                         data-status="inactive"  
                                                         data-id=item.id  
                                                     ) Inactive  

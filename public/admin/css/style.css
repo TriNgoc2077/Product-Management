@@ -521,3 +521,149 @@
     background: #ffffff;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
 }
+
+/* create product */
+.product-create-wrapper {  
+    padding: 20px;  
+}  
+
+.page-header {  
+    margin-bottom: 24px;  
+}  
+
+.page-title {  
+    font-size: 24px;  
+    font-weight: 600;  
+    color: #2c3e50;  
+}  
+
+.card {  
+    border: none;  
+    border-radius: 8px;  
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);  
+}  
+
+.card-title {  
+    font-size: 16px;  
+    font-weight: 600;  
+    color: #2c3e50;  
+    margin-bottom: 20px;  
+    padding-bottom: 10px;  
+    border-bottom: 1px solid #eee;  
+}  
+
+.form-label {  
+    font-weight: 500;  
+    color: #495057;  
+}  
+
+.form-control,  
+.form-select {  
+    border: 1px solid #ced4da;  
+    border-radius: 4px;  
+    padding: 8px 12px;  
+}  
+
+.form-control:focus,  
+.form-select:focus {  
+    border-color: #80bdff;  
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.15);  
+}  
+
+.preview-wrapper {  
+    border: 2px dashed #dee2e6;  
+    border-radius: 4px;  
+    padding: 10px;  
+    text-align: center;  
+}  
+
+.img-preview {  
+    max-height: 200px;  
+    object-fit: contain;  
+}  
+
+.form-actions {  
+    margin-top: 24px;  
+    padding: 20px;  
+    background: #f8f9fa;  
+    border-radius: 8px;  
+    text-align: right;  
+}  
+
+.btn-primary {  
+    padding: 10px 24px;  
+    font-weight: 500;  
+}  
+
+.form-check-input:checked {  
+    background-color: #0d6efd;  
+    border-color: #0d6efd;  
+}
+
+/* edit products */
+.product-edit-wrapper {  
+    padding: 20px;  
+}  
+
+.page-header {  
+    margin-bottom: 24px;  
+}  
+
+.page-title {  
+    font-size: 24px;  
+    font-weight: 600;  
+    color: #2c3e50;  
+}  
+
+.card {  
+    border: none;  
+    border-radius: 8px;  
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);  
+}  
+
+.card-title {  
+    font-size: 16px;  
+    font-weight: 600;  
+    color: #2c3e50;  
+    margin-bottom: 20px;  
+    padding-bottom: 10px;  
+    border-bottom: 1px solid #eee;  
+}  
+
+.form-label {  
+    font-weight: 500;  
+    color: #495057;  
+}  
+
+.form-control,  
+.form-select {  
+    border: 1px solid #ced4da;  
+    border-radius: 4px;  
+    padding: 8px 12px;  
+}  
+
+.preview-wrapper {  
+    border: 2px dashed #dee2e6;  
+    border-radius: 4px;  
+    padding: 10px;  
+    text-align: center;  
+}  
+
+.img-preview {  
+    max-height: 200px;  
+    object-fit: contain;  
+}  
+
+.form-actions {  
+    margin-top: 24px;  
+    padding: 20px;  
+    background: #f8f9fa;  
+    border-radius: 8px;  
+    text-align: right;  
+}  
+
+.btn-primary {  
+    padding: 10px 24px;  
+    font-weight: 500;  
+}
+
