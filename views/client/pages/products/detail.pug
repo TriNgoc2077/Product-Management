@@ -38,7 +38,7 @@ block main
                         i.fas.fa-tag.text-primary
                         span Price
                       .info-value
-                        span.new-price $#{product.newPrice}
+                        span.new-price#newPrice $#{product.newPrice}
                         if product.price != product.newPrice
                           span.old-price $#{product.price}
 
@@ -77,7 +77,7 @@ block main
                   value="1"
                   min="1"
                   max=product.stock
-                  onchange="updateCurrentPrice(this.value)"
+
                 )
               button.btn.btn-primary.btn-lg.d-inline-flex.align-items-center.btn-block(type="submit")
                 i.fas.fa-shopping-cart.me-2
@@ -104,9 +104,4 @@ block main
               .card-body
                 p.lead.mb-0 !{product.description}
 
-  script.
-    function updateCurrentPrice(quantity) {
-      const basePrice = #{product.newPrice};
-      const total = (basePrice * quantity).toFixed(1);
-      document.getElementById('currentPrice').textContent = `$${total}`;
-    }
+  script(type="module", src="/js/script.js") 
