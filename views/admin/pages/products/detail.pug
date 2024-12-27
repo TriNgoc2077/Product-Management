@@ -21,9 +21,14 @@ block main
                         .card-body
                             if product.status
                                 if product.status === "active"
-                                    span.badge.bg-success.mb-2 Active
+                                    span.badge.bg-success.mb-2.me-2 Active
                                 else 
-                                    span.badge.bg-danger.mb-2 Inactive
+                                    span.badge.bg-danger.mb-2.me-2 Inactive
+                            if product.featured
+                                if product.featured === "1"
+                                    span.badge.bg-warning.mb-2 Feature
+                                else 
+                                    span.badge.bg-dark.mb-2 Conventional 
                             if product.position
                                 .small.text-muted Position: #{product.position}
 
