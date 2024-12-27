@@ -14,12 +14,20 @@ header.header
                         .user-name #{user.fullName}  
                         .user-email #{user.email}  
                     .user-profile.dropdown  
-                        img(src="https://cdn.pixabay.com/photo/2024/04/12/19/59/cat-8692517_1280.jpg"   
+                        img(src=user.avatar  
                             alt="User"   
                             class="rounded-circle dropdown-toggle"  
                             width="40"  
                             data-bs-toggle="dropdown")  
                         ul.dropdown-menu.dropdown-menu-end  
+                            li  
+                                a.dropdown-item(href=`${prefixAdmin}/my-account`)  
+                                    i.fas.fa-user.me-2
+                                    | Profile
+                            li 
+                                a.dropdown-item(href="#")
+                                    i.fas.fa-cog.me-2
+                                    | Settings
                             li  
                                 a.dropdown-item(href=`${prefixAdmin}/auth/logout`)  
                                     i.fas.fa-sign-out-alt.me-2  

@@ -65,22 +65,38 @@ block main
                                         i.fas.fa-trash.me-2
                                         | Delete
             .row
-    .col-md-4.mb-4
-        .card.shadow-sm
-            if product.updatedBy
-                .card-header.bg-light
-                    h5.mb-0
-                        i.fas.fa-history.me-2
-                        | Update History
-                .card-body.p-0
-                    .list-group.list-group-flush
-                        each item in product.updatedBy
-                            .list-group-item
-                                .d-flex.align-items-center.mb-2
-                                    i.fas.fa-user-edit.me-2.text-primary
-                                    .fw-medium #{item.updater}
-                                .d-flex.align-items-center.text-muted
-                                    i.far.fa-clock.me-2
-                                    small #{item.updateAt}
+                .col-md-4.mb-4
+                    .card.shadow-sm
+                        if product.updatedBy
+                            .card-header.bg-light
+                                h5.mb-0
+                                    i.fas.fa-history.me-2
+                                    | Update History
+                            .card-body.p-0
+                                .list-group.list-group-flush
+                                    each item in product.updatedBy
+                                        .list-group-item
+                                            .d-flex.align-items-center.mb-2
+                                                i.fas.fa-user-edit.me-2.text-primary
+                                                .fw-medium #{item.updater}
+                                            .d-flex.align-items-center.text-muted
+                                                i.far.fa-clock.me-2
+                                                small #{item.updateAt}
+                .col-md-4.mb-4
+                    .card.shadow-sm
+                        .card-header.bg-light
+                            h5.mb-0
+                                i.fas.fa-user-plus.me-2
+                                | Creator
+                        .card-body
+                            .d-flex.align-items-center
+                                .creator-avatar.me-3
+                                    i.fas.fa-user-circle.fa-2x.text-primary
+                                .creator-info
+                                    .fw-medium #{product.creator}
+                                    small.text-muted
+                                        i.far.fa-calendar-alt.me-1
+                                        | Created at: #{product.createdBy.createAt}
+
 
     script(src="/admin/js/product.js")

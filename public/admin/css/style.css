@@ -307,3 +307,217 @@
     color: #6c757d;
     font-size: 0.8rem;
 }
+
+/* Creator Section Styles  */
+.card-header {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.card-header h5 {
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+.creator-avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.creator-info {
+    flex: 1;
+}
+
+.creator-info .fw-medium {
+    color: #2c3e50;
+    margin-bottom: 2px;
+}
+
+.creator-info small {
+    font-size: 0.85rem;
+}
+
+.fas.fa-user-plus {
+    color: #6c757d;
+}
+
+/* Profile Styles */
+.avatar-placeholder {
+    width: 150px;
+    height: 150px;
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+}
+
+.status-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+.info-group {
+    padding: 15px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.info-group:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.info-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.info-group h6 {
+    font-weight: 500;
+    margin-bottom: 0;
+    color: #2c3e50;
+}
+
+.card {
+    border: none;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.card-header h5 {
+    font-size: 1.1rem;
+    color: #2c3e50;
+}
+
+
+
+
+
+
+
+
+/* Main Content Background */
+/* #f5f7fa 0%, #e4e8ec  */
+/* #e0f2fe 0%, #f0f9ff  */
+.body .main {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+    min-height: calc(100vh - 61px);
+    padding: 20px;
+    position: relative;
+    left: 220px;
+    width: calc(100% - 220px);
+    transition: all 0.3s ease;
+}
+
+/* Subtle Grid Pattern Overlay */
+.body .main::before {
+    content: '';
+    position: fixed;
+    top: 61px;
+    left: 220px;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Card Enhancements */
+.card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Breadcrumb Enhancement */
+.breadcrumb {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Alternative Backgrounds - Uncomment to use */
+
+/* Soft Blue Waves */
+/* .body .main {
+    background: linear-gradient(135deg, #90caf9 0%, #c2e0ff 100%);
+    background-image: 
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 10px,
+            rgba(255,255,255,0.1) 10px,
+            rgba(255,255,255,0.1) 20px
+        );
+} */
+
+
+/* Geometric Pattern  */
+/* .body .main {
+    background-color: #f8fafc;
+    background-image: 
+        linear-gradient(30deg, #f1f5f9 12%, transparent 12.5%, transparent 87%, #f1f5f9 87.5%, #f1f5f9),
+        linear-gradient(150deg, #f1f5f9 12%, transparent 12.5%, transparent 87%, #f1f5f9 87.5%, #f1f5f9),
+        linear-gradient(30deg, #f1f5f9 12%, transparent 12.5%, transparent 87%, #f1f5f9 87.5%, #f1f5f9),
+        linear-gradient(150deg, #f1f5f9 12%, transparent 12.5%, transparent 87%, #f1f5f9 87.5%, #f1f5f9);
+    background-size: 80px 140px;
+    background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+} */
+
+
+/* Subtle Dots  */
+/* .body .main {
+    background-color: #f8fafc;
+    background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+    background-size: 20px 20px;
+} */
+
+
+/* Custom Cards for Dark Sections */
+.bg-dark .card {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* Table Enhancements */
+.table {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Form Control Enhancements */
+.form-control, .form-select {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus, .form-select:focus {
+    background: #ffffff;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}

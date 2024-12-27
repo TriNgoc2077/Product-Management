@@ -1,0 +1,78 @@
+extends ../../layouts/default.pug
+block main
+    .container-fluid
+        .row.mb-4
+            .col-12
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb.bg-light.p-3.rounded
+                        li.breadcrumb-item
+                            a(href=`${prefixAdmin}/dashboard`)
+                                i.fas.fa-home.me-1
+                                | Dashboard
+                        li.breadcrumb-item.active Profile
+
+        .row
+            .col-xl-4.col-lg-5
+                // Profile Card
+                .card.shadow-sm.mb-4
+                    .card-body.text-center.pt-4
+                        .position-relative.d-inline-block.mb-4
+                            if (user.avatar)
+                                img.rounded-circle.border.shadow-sm(
+                                    src=user.avatar,
+                                    width="150",
+                                    height="150",
+                                    style="object-fit: cover;"
+                                )
+                            else
+                                .avatar-placeholder.rounded-circle.d-flex.align-items-center.justify-content-center
+                                    i.fas.fa-user.fa-4x.text-secondary
+                            
+                            .status-badge(class=user.status === "active" ? "bg-success" : "bg-danger")
+                                i.fas.fa-circle.fa-xs
+                        
+                        h4.card-title.mb-1 #{user.fullName || "No Name"}
+                        p.text-muted.mb-3
+                            i.fas.fa-user-shield.me-2
+                            | #{role.title || "No Role"}
+                        
+                        a(href=`${prefixAdmin}/my-account/edit` class="btn btn-primary w-100")
+                            i.fas.fa-edit.me-2
+                            | Edit Profile
+
+            .col-xl-8.col-lg-7
+                // Info Card
+                .card.shadow-sm
+                    .card-header.bg-light
+                        h5.mb-0 
+                            i.fas.fa-info-circle.me-2
+                            | Account Information
+                    .card-body
+                        .row.g-4
+                            .col-md-6
+                                .info-group
+                                    label.text-muted.mb-1 Full Name
+                                    .d-flex.align-items-center
+                                        i.fas.fa-user.me-2.text-primary
+                                        h6.mb-0 #{user.fullName || "Not set"}
+                            
+                            .col-md-6
+                                .info-group
+                                    label.text-muted.mb-1 Email
+                                    .d-flex.align-items-center
+                                        i.fas.fa-envelope.me-2.text-primary
+                                        h6.mb-0 #{user.email || "Not set"}
+                            
+                            .col-md-6
+                                .info-group
+                                    label.text-muted.mb-1 Phone
+                                    .d-flex.align-items-center
+                                        i.fas.fa-phone.me-2.text-primary
+                                        h6.mb-0 #{user.phone || "Not set"}
+                            
+                            .col-md-6
+                                .info-group
+                                    label.text-muted.mb-1 Status
+                                    .d-flex.align-items-center
+                                        i.fas.fa-circle.me-2(class=user.status === "active" ? "text-success" : "text-danger")
+                                        h6.mb-0 #{user.status === "active" ? "Active" : "Inactive"}

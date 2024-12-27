@@ -315,6 +315,14 @@ module.exports.detail = async (req, res) => {
                 }
             }
         }
+        
+        const user = await Account.findOne({
+            _id: product.createdBy.account_id
+        });
+        if (user) {
+            product.creator = user.fullName;
+        }
+        
         res.render("admin/pages/products/detail.pug", {
             pageTitle: product.title,
             product: product
