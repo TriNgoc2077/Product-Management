@@ -1,14 +1,21 @@
+include ../mixins/sub-menu.pug
 header.header  
-    .container 
-        .row.align-items-center 
-            .col-3 
-                .inner-logo 
-                    a(href="/")
-                        img(src="/images/logo.svg", alt="Logo") 
-            .col-9 
-                .inner-menu 
-                    ul 
-                        li 
-                            a(href="/") Home 
-                        li 
-                            a(href="/products") Product  
+    .container  
+        nav.navbar.navbar-expand-md  
+            a.navbar-brand(href="/")  
+                img(src="/images/logo.svg", alt="Logo", class="img-fluid")  
+            button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")  
+                span.navbar-toggler-icon  
+            #navbarNav.collapse.navbar-collapse  
+                ul.navbar-nav.ms-auto
+                    li.nav-item
+                        a.nav-link(href="/") Home  
+                    li.nav-item.sub-menu
+                        -const patchProduct = "/products";
+                        a.nav-link(href=`${patchProduct}`) Products 
+                        +sub-menu(layoutProductsCategory, patchProduct) 
+                        
+                    li.nav-item  
+                        a.nav-link(href="/about") About Us  
+                    li.nav-item  
+                        a.nav-link(href="/contact") Contact

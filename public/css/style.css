@@ -1,6 +1,7 @@
 /* header */
 .header{
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #dddddd;
+    background: #dcfeff;
 }
 
 .header .inner-logo img{
@@ -24,7 +25,7 @@
 
 /* footer */
 .footer{
-    background: #333;
+    background: #525252;
     color: #fff;
     text-align: center;
     padding: 10px;
@@ -93,3 +94,168 @@
     padding: 3px 10px;
     border-radius: 8px;
 }
+
+
+/* product  */
+.product-item {  
+    transition: transform 0.2s;  
+}  
+
+.product-item:hover {  
+    transform: translateY(-5px);  
+}  
+
+.inner-image img {  
+    transition: transform 0.3s;  
+}  
+
+.product-item:hover .inner-image img {  
+    transform: scale(1.05);  
+}  
+
+.inner-title a {  
+    text-decoration: none;  
+}  
+
+.inner-title a:hover {  
+    color: #b38282 !important;  
+    text-decoration: none;  
+}  
+
+/* sub-menu  */
+/* .sub-menu {
+    position: relative;
+    z-index: 999;
+}
+
+.sub-menu ul {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #e2c6c6;
+    min-width: 100px;
+    display: none;
+}
+
+.sub-menu ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+
+}
+
+.sub-menu:hover > ul {
+    display: block;
+}
+
+.sub-menu ul li {
+    position: relative;
+}
+
+.sub-menu ul li ul {
+    right: 100%;
+    top: 0;
+}
+
+.sub-menu ul li:hover > ul {
+    display: block;
+} */
+
+
+/* sub-menu styling */  
+.sub-menu {  
+    position: relative;  
+    z-index: 999;  
+}  
+
+.sub-menu ul {  
+    position: absolute;  
+    right: 0;  
+    top: 100%;  
+    list-style: none;  
+    padding: 8px 0;  
+    margin: 0;  
+    background: #ffffff;  
+    min-width: 220px;  
+    display: none;  
+    border-radius: 8px;  
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);  
+    animation: fadeIn 0.3s ease;  
+}  
+
+.sub-menu ul li {  
+    padding: 0;  
+    position: relative;  
+}  
+
+.sub-menu ul li a {  
+    padding: 12px 20px;  
+    color: #333;  
+    display: block;  
+    text-decoration: none;  
+    font-size: 14px;  
+    transition: all 0.3s ease;  
+    white-space: nowrap;  
+}  
+
+.sub-menu ul li:hover > a {  
+    background: #f8f9fa;  
+    color: #007bff;  
+    padding-left: 25px;  
+}  
+
+.sub-menu:hover > ul {  
+    display: block;  
+}  
+
+.sub-menu ul li ul {  
+    right: 100%;  
+    top: 0;  
+}  
+
+.sub-menu ul li:hover > ul {  
+    display: block;  
+}  
+
+/* Thêm mũi tên cho các mục có submenu */  
+.sub-menu ul li:has(> ul) > a::after {  
+    content: '›';  
+    position: absolute;  
+    right: 15px;  
+    transform: rotate(180deg);  
+}  
+
+/* Animation cho menu */  
+@keyframes fadeIn {  
+    from {  
+        opacity: 0;  
+        transform: translateY(10px);  
+    }  
+    to {  
+        opacity: 1;  
+        transform: translateY(0);  
+    }  
+}  
+
+/* Thêm separator giữa các mục menu */  
+.sub-menu ul li:not(:last-child) {  
+    border-bottom: 1px solid #eee;  
+}  
+
+/* Hover effect cho menu chính */  
+.sub-menu > a.nav-link {  
+    position: relative;  
+}  
+
+.sub-menu > a.nav-link::after {  
+    content: '▾';  
+    margin-left: 5px;  
+    display: inline-block;  
+    transition: transform 0.3s ease;  
+}  
+
+.sub-menu:hover > a.nav-link::after {  
+    transform: rotate(180deg);  
+}  

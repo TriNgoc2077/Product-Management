@@ -1,0 +1,8 @@
+mixin sub-menu(items, patchProduct)
+    ul 
+        if items
+            each item in items 
+                li 
+                    a(href=`${patchProduct}/${item.slug}`) #{item.title}
+                    if item.children && item.children.length > 0
+                        +sub-menu(item.children, patchProduct) 

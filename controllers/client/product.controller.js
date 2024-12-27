@@ -1,6 +1,6 @@
-// [GET] /products
-
 const Product = require('../../models/product.model');
+
+// [GET] /products
 
 module.exports.index = async (req, res) => {
 
@@ -13,10 +13,9 @@ module.exports.index = async (req, res) => {
         item.priceNew = parseInt(item.price * (1 - item.discountPercentage * 0.01)); 
         return item;
     });
-
     res.render("client/pages/products/index.pug", {
         titlePage: "Product",
-        products: newProducts
+        products: newProducts,
     });
 }
 
