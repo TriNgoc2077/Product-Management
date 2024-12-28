@@ -46,17 +46,18 @@ block main
                                         td.align-middle.text-center
                                             .input-group.justify-content-center
                                                 .input-group-prepend
-                                                    button.btn.btn-outline-secondary(type="button") -
+                                                    button.btn.btn-outline-secondary(type="button" btn-quantity-decrease) -
                                                 input.form-control.text-center(
                                                     type="number"
                                                     name="quantity"
                                                     value=item.quantity
-                                                    min="1"
+                                                    min=1
+                                                    max=item.productInfo.stock
                                                     product-id=item.product_id
                                                     style="width: 60px"
                                                 )
                                                 .input-group-append
-                                                    button.btn.btn-outline-secondary(type="button") +
+                                                    button.btn.btn-outline-secondary(type="button" btn-quantity-increase) +
                                         td.align-middle.text-center $#{item.totalPrice}
                                         td.align-middle.text-center
                                             a.btn.btn-sm.btn-outline-danger(
@@ -86,3 +87,4 @@ block main
                     a.btn.btn-primary.mt-3(href="/products")
                         i.fas.fa-arrow-left.mr-2
                         | Start Shopping
+    script(type="module", src="/js/cart.js") 
