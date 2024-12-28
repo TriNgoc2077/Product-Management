@@ -1,0 +1,57 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alert-error(5000)
+
+    .container.my-5
+        .row.justify-content-center
+            .col-md-6.col-lg-5
+                .card.shadow-lg
+                    .card-body.p-5
+                        h3.text-center.mb-4.font-weight-bold Login
+                        
+                        form(
+                            action=`/user/login`
+                            method="POST"
+                        )
+                            .form-group.mb-4
+                                label.text-muted(for="email") Email Address
+                                .input-group
+                                    .input-group-prepend
+                                        span.input-group-text
+                                            i.fas.fa-envelope
+                                    input(
+                                        type="email"
+                                        class="form-control"
+                                        id="email"
+                                        name="email"
+                                        placeholder="Enter your email"
+                                        required
+                                    )
+
+                            .form-group.mb-4
+                                label.text-muted(for="password") Password
+                                .input-group
+                                    .input-group-prepend
+                                        span.input-group-text
+                                            i.fas.fa-lock
+                                    input(
+                                        type="password"
+                                        class="form-control" 
+                                        id="password"
+                                        name="password"
+                                        placeholder="Enter your password"
+                                        required
+                                    )
+                                    
+                            .form-group.mb-0.text-center
+                                button(
+                                    type="submit"
+                                    class="btn btn-primary btn-block py-2"
+                                ) Login
+
+                            hr.my-4
+
+                            .text-center.text-muted
+                                small Your satisfaction is our priority
