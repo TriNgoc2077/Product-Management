@@ -22,7 +22,6 @@ module.exports.index = async (req, res) => {
 
 // [GET] /products/detail/:slugProduct
 module.exports.detail = async (req, res) => {
-    console.log(req.params.slugProduct);
     try {
         const find = {
             deleted: false,

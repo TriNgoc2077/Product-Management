@@ -1,6 +1,8 @@
 extends ../../layouts/default.pug
-
+include ../../mixins/alert.pug
 block main
+  +alert-success(2000)
+  +alert-error(2000)
   .container.py-5
     .row
       .col-lg-12
@@ -78,7 +80,12 @@ block main
                   value="1"
                   min="1"
                   max=product.stock
-
+                )
+                input.form-control(
+                  type="text"
+                  name="thumbnail" 
+                  id="thumbnail"
+                  value=product.thumbnail
                 )
               button.btn.btn-primary.btn-lg.d-inline-flex.align-items-center.btn-block(type="submit")
                 i.fas.fa-shopping-cart.me-2
@@ -87,7 +94,7 @@ block main
               .col-6.mb-3
                   //- .product-info-item
                   label.form-label
-                    i.fas.fa-percent.text-success
+                    i.fas.text-success
                     span Current Price:
                   span.info-value.discount#currentPrice $#{product.newPrice}
               //- label.form-label Current Price: 
