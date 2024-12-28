@@ -58,12 +58,27 @@ module.exports.cart = async (req, res) => {
             }
         }  
         cart.totalAmount = cart.products.reduce((sum, item) => sum + item.totalPrice,0);
-        console.log(cart);
             
         res.render("client/pages/cart/index.pug", {
             titlePage: "Cart",
             cart: cart,
         });
+    } catch(error) {
+
+    }
+}
+
+//[GET] /cart/delete/:productId
+module.exports.delete = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const cartId = req.cookies.cartId;
+        await Cart.updateOne(
+            { _id: cartId },
+            { '$pull': { products: { 'product_id': productId } } }
+        );
+        req.flash("success", "Removed !");
+        res.redirect("back");
     } catch(error) {
 
     }

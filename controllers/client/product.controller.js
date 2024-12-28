@@ -50,7 +50,7 @@ module.exports.detail = async (req, res) => {
         }
         productHelper.newPriceOneProduct(product);
         res.render("client/pages/products/detail.pug", {
-            pageTitle: product.title,
+            titlePage: product.title,
             product: product
         });
     } catch(error) {

@@ -10,6 +10,8 @@ block main
           ol.breadcrumb.bg-color(data-bs-separator='/')
             li.breadcrumb-item
               a(href='/') Home  
+            li.breadcrumb-item
+              a(href='/products') Product  
             if (product.category)
               each item in product.category
                 li.breadcrumb-item.active(aria-current='page')
