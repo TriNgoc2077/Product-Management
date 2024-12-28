@@ -1,39 +1,153 @@
 include ../mixins/sub-menu.pug
-header.header  
-    .container  
-        nav.navbar.navbar-expand-md  
-            a.navbar-brand.me-2(href="/")  
-                img(src="https://res.cloudinary.com/daq721xar/image/upload/v1735363338/bnxtcu0ma1ystkbamkds.svg", alt="Logo", class="img-fluid" width="100px" height="200px")  
-            
-            button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")  
-                span.navbar-toggler-icon  
-            
-            #navbarNav.collapse.navbar-collapse  
-                form.d-flex.mx-4.flex-grow-1.max-w-50(
-                    action="/search" 
+
+header.header.border-bottom
+    // Top bar
+    .bg-light.py-2.d-none.d-lg-block
+        .container
+            .d-flex.justify-content-between.align-items-center
+                .d-flex.align-items-center
+                    span.text-muted.me-3
+                        i.fas.fa-phone-alt.me-2
+                        | Hotline: 0396-642-975
+                    span.text-muted.me-3
+                        i.fas.fa-envelope.me-2
+                        | Email: caonguyentringoc@gmail.com
+                .d-flex.align-items-center
+                    a.text-muted.me-3(href="https://www.facebook.com/ngoc.tri.148116" target="_blank") 
+                        i.fab.fa-facebook
+                    a.text-muted.me-3(href="https://www.instagram.com/tri_ngocj/?next=%2F" target="_blank")
+                        i.fab.fa-instagram
+                    a.text-muted.me-3(href="https://x.com/trisngocj" target="_blank")
+                        i.fab.fa-twitter
+
+    // Main header
+    .container.py-3
+        nav.navbar.navbar-expand-lg.p-0
+            a.navbar-brand.me-4(href="/")
+                img(
+                    src="https://res.cloudinary.com/daq721xar/image/upload/v1735363338/bnxtcu0ma1ystkbamkds.svg"
+                    alt="Logo"
+                    class="img-fluid"
+                    width="100px"
+                    height="200px"
+                )
+
+            button.navbar-toggler(
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            )
+                span.navbar-toggler-icon
+
+            #navbarNav.collapse.navbar-collapse
+                // Search form
+                form.d-flex.mx-4.flex-grow-1(
+                    action="/search"
                     method="GET"
                 )
                     .input-group
+                        select.form-select(
+                            style="max-width: 150px;"
+                            name="category"
+                        )
+                            option(value="") All Categories
+                            each category in layoutProductsCategory
+                                option(
+                                    value=category.id
+                                    selected=(category.id == selectedCategory)
+                                ) #{category.title}
                         input.form-control(
-                            type="text" 
+                            type="text"
                             placeholder="Search products..."
                             value=keyword
                             name="keyword"
                         )
-                        button.btn.btn-primary(type="submit" class="btn btn-primary")
-                            i.fas.fa-search.mr-2        
-                
-                ul.navbar-nav.ms-auto
+                        button.btn.btn-primary(type="submit")
+                            i.fas.fa-search
+
+                // Navigation
+                ul.navbar-nav.ms-auto.align-items-center
                     li.nav-item
-                        a.nav-link(href="/") Home  
+                        a.nav-link.active(href="/")
+                            i.fas.fa-home.me-1
+                            | Home
                     li.nav-item.sub-menu
                         -const patchProduct = "/products";
-                        a.nav-link(href=`${patchProduct}`) Products 
-                        +sub-menu(layoutProductsCategory, patchProduct) 
+                        a.nav-link(href=`${patchProduct}`)
+                            i.fas.fa-th-large.me-1
+                            | Products
+                        +sub-menu(layoutProductsCategory, patchProduct)
+                    
+                    // Cart
                     li.nav-item
-                        a.nav-link.position-relative(href="/cart")
+                        a.nav-link.position-relative(
+                            href="/cart"
+                            data-bs-toggle="tooltip"
+                            title="Shopping Cart"
+                        )
                             i.fas.fa-shopping-cart.fs-5
                             span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger #{miniCart ? miniCart.products.length : 0}
+
+                    // Wishlist
+                    li.nav-item
+                        a.nav-link.position-relative(
+                            href="/wishlist"
+                            data-bs-toggle="tooltip"
+                            title="Wishlist"
+                        )
+                            i.fas.fa-heart.fs-5
+                            span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger 0
+
+                    // Auth buttons
+                    if user
+                        li.nav-item.dropdown
+                            a.nav-link.dropdown-toggle(
+                                href="#"
+                                id="userDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            )
+                                img.rounded-circle.me-2(
+                                    src=user.avatar || "https://via.placeholder.com/32"
+                                    alt="User Avatar"
+                                    width="32"
+                                    height="32"
+                                )
+                                span #{user.fullName}
+                            ul.dropdown-menu.dropdown-menu-end(
+                                aria-labelledby="userDropdown"
+                            )
+                                li
+                                    a.dropdown-item(href="/account/profile")
+                                        i.fas.fa-user.me-2
+                                        | My Profile
+                                li
+                                    a.dropdown-item(href="/account/orders")
+                                        i.fas.fa-shopping-bag.me-2
+                                        | My Orders
+                                li
+                                    a.dropdown-item(href="/account/wishlist")
+                                        i.fas.fa-heart.me-2
+                                        | My Wishlist
+                                li
+                                    hr.dropdown-divider
+                                li
+                                    a.dropdown-item.text-danger(href="/auth/logout")
+                                        i.fas.fa-sign-out-alt.me-2
+                                        | Logout
+                    else
+                        li.nav-item.ms-2
+                            a.btn.btn-outline-primary(href="/user/login")
+                                i.fas.fa-sign-in-alt.me-2
+                                | Login
+                        li.nav-item.ms-2
+                            a.btn.btn-primary(href="/user/register")
+                                i.fas.fa-user-plus.me-2
+                                | Register
     style.
         /* sub-menu styling */  
         .sub-menu {  

@@ -2,7 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/alert.pug
 
-block main 
+block main
     +alert-success(2000)
     +alert-error(2000)
 
@@ -40,7 +40,7 @@ block main
                                                 td.align-middle #{index + 1}
                                                 td.align-middle
                                                     .d-flex.align-items-center
-                                                        img.rounded.mr-3(
+                                                        img.rounded.me-3(
                                                             src=item.productInfo.thumbnail
                                                             alt=item.productInfo.title
                                                             style="width: 80px; height: 80px; object-fit: cover;"

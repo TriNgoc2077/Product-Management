@@ -74,7 +74,7 @@ block main
                                         tr
                                             td.align-middle
                                                 .d-flex.align-items-center
-                                                    img.rounded.mr-3(
+                                                    img.rounded.me-3(
                                                         src=item.productInfo.thumbnail
                                                         alt=item.productInfo.title
                                                         style="width: 60px; height: 60px; object-fit: cover;"
@@ -129,13 +129,3 @@ block main
                     h4.mb-4 You May Also Like
                     .row
                         +product-grid(featuredProducts)
-        style.
-            /* product item  */
-            .shadow-hover {
-                transition: all 0.3s ease;
-                border: none;
-            }
-            .shadow-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
-            }
