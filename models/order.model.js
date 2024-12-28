@@ -7,7 +7,12 @@ const orderSchema = new mongoose.Schema(
         userInfo: {
             fullName: String,
             phone: String,
-            address: String
+            address: String,
+            notes: String,
+        },
+        createAt: {
+            type: Date,
+            default: Date.now
         },
         products: [
             {

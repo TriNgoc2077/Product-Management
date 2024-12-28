@@ -108,17 +108,14 @@ block main
                                 span $#{cart.totalAmount}
                             .d-flex.justify-content-between.mb-2
                                 span Shipping
-                                if (cart.totalAmount >= 50)
-                                    span.text-success Free
-                                else 
-                                    span.text-primary $5
+                                span.text-success #{cart.totalAmount >= 50 ? "Free" : "$5"}
                             .d-flex.justify-content-between.mb-2
                                 span Estimated Tax
                                 span Calculated at checkout
                             hr
                             .d-flex.justify-content-between.mb-3
                                 span.h5 Total
-                                span.h5.font-weight-bold $#{cart.totalAmount}
+                                span.h5.font-weight-bold $#{cart.totalAmount >= 50 ? cart.totalAmount : cart.totalAmount + 5}
                             a.btn.btn-primary.btn-block(href="/checkout")
                                 i.fas.fa-credit-card.mr-2
                                 | Proceed to Checkout
@@ -143,10 +140,10 @@ block main
                             h5.mb-0 We Accept
                         .card-body
                             .d-flex.justify-content-between.align-items-center
-                                i.fab.fa-cc-visa.fa-2x.text-muted
-                                i.fab.fa-cc-mastercard.fa-2x.text-muted
-                                i.fab.fa-cc-amex.fa-2x.text-muted
-                                i.fab.fa-cc-paypal.fa-2x.text-muted
+                                i.fab.fa-cc-visa.fa-2x(style="color: #1A1F71;")
+                                i.fab.fa-cc-mastercard.fa-2x(style="color: #EB001B;")
+                                i.fab.fa-cc-amex.fa-2x(style="color: #006FCF;")
+                                i.fab.fa-cc-paypal.fa-2x(style="color: #003087;")
 
             .card.shadow-sm.mb-4
                 .card-body

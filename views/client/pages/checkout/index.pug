@@ -71,10 +71,13 @@ block main
                                             td.text-right $#{cart.totalAmount}
                                         tr
                                             td Shipping:
-                                            td.text-right Free
+                                            td.text-right #{cart.totalAmount >= 50 ? "Free" : "$5"}
+                                        tr
+                                            td Estimated Tax:
+                                            td.text-right $0
                                         tr
                                             td.h5 Total:
-                                            td.text-right.h5 $#{cart.totalAmount}
+                                            td.text-right.h5 $#{cart.totalAmount >= 50 ? cart.totalAmount : cart.totalAmount + 5}
 
             if (cart.products.length > 0)
                 .col-12.mt-4
@@ -145,9 +148,9 @@ block main
                                             i.fas.fa-info-circle.fa-lg.mr-3
                                             div
                                                 | By placing this order, you agree to our 
-                                                a(href="#") Terms of Service
+                                                a(href="https://hotro.tiki.vn/s/article/dieu-khoan-su-dung") Terms of Service
                                                 |  and 
-                                                a(href="#") Privacy Policy
+                                                a(href="https://tiki.vn/thong-tin/privacy-policy") Privacy Policy
 
                                         button(
                                             type="submit"
