@@ -1,0 +1,88 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alert-success(2000)
+    +alert-error(2000)
+
+    .container.my-4
+        .row.mb-4
+            .col-12
+                .d-flex.justify-content-between.align-items-center
+                    +box-head("Shopping Cart")
+                    if cart.products.length
+                        span.text-muted #{cart.products.length} items in your cart
+
+        if cart.products.length
+            .card.shadow-sm
+                .card-body.p-0
+                    .table-responsive
+                        table.table.table-hover.mb-0
+                            thead.bg-light
+                                tr
+                                    th.border-top-0 #
+                                    th.border-top-0 Product
+                                    th.border-top-0.text-center Price
+                                    th.border-top-0.text-center Quantity
+                                    th.border-top-0.text-center Total
+                                    th.border-top-0.text-center Action
+                            tbody
+                                each item, index in cart.products
+                                    tr
+                                        td.align-middle #{index + 1}
+                                        td.align-middle
+                                            .d-flex.align-items-center
+                                                img.rounded.mr-3(
+                                                    src=item.productInfo.thumbnail
+                                                    alt=item.productInfo.title
+                                                    style="width: 80px; height: 80px; object-fit: cover;"
+                                                )
+                                                .ml-3
+                                                    a.text-dark.font-weight-bold.text-decoration-none(
+                                                        href=`/products/detail/${item.productInfo.slug}`
+                                                    ) #{item.productInfo.title}
+                                        td.align-middle.text-center $#{item.productInfo.newPrice}
+                                        td.align-middle.text-center
+                                            .input-group.justify-content-center
+                                                .input-group-prepend
+                                                    button.btn.btn-outline-secondary(type="button") -
+                                                input.form-control.text-center(
+                                                    type="number"
+                                                    name="quantity"
+                                                    value=item.quantity
+                                                    min="1"
+                                                    product-id=item.product_id
+                                                    style="width: 60px"
+                                                )
+                                                .input-group-append
+                                                    button.btn.btn-outline-secondary(type="button") +
+                                        td.align-middle.text-center $#{item.totalPrice}
+                                        td.align-middle.text-center
+                                            a.btn.btn-sm.btn-outline-danger(
+                                                href=`/cart/deleted/${item.product_id}`
+                                            )
+                                                i.fas.fa-trash-alt.mr-1
+                                                | Remove
+
+                .card-footer.bg-white
+                    .d-flex.justify-content-between.align-items-center
+                        a.btn.btn-link.text-muted(href="/products")
+                            i.fas.fa-arrow-left.mr-2
+                            | Continue Shopping
+                        .text-right
+                            .h5.mb-2
+                                | Total: 
+                                span.font-weight-bold $#{cart.totalAmount}
+                            button.btn.btn-primary.px-4(type="button")
+                                i.fas.fa-credit-card.mr-2
+                                | Proceed to Checkout
+
+        else
+            .card.shadow-sm
+                .card-body.text-center.py-5
+                    i.fas.fa-shopping-cart.fa-3x.text-muted.mb-3
+                    h4.text-muted No products in your cart!
+                    a.btn.btn-primary.mt-3(href="/products")
+                        i.fas.fa-arrow-left.mr-2
+                        | Start Shopping

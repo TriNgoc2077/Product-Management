@@ -30,3 +30,139 @@ mixin product-item(item)
                 else
                     .price-wrapper
                         .inner-price-regular.h5.text-primary.mb-0 $#{item.price}
+    style.
+        /* product item  */
+        .shadow-hover {
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .shadow-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+        }
+        .product-item {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .inner-image {
+            height: 250px;
+            overflow: hidden;
+        }
+        .inner-image img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 1;
+        }
+        .product-actions {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.9);
+            padding: 10px;
+            transition: all 0.3s ease;
+            text-align: center;
+            z-index: 1;
+        }
+        .product-item:hover .product-actions {
+            bottom: 0;
+        }
+        .inner-title a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+        .inner-title a:hover {
+            color: #007bff;
+        }
+        .btn-light {
+            background: white;
+            border: 1px solid #dee2e6;
+        }
+        .btn-light:hover {
+            background: #f8f9fa;
+            border-color: #c1c9d0;
+        }
+        .price-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Style mới cho featured badge */
+        .featured-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ffc107;
+            color: #000;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        /* Điều chỉnh vị trí discount badge khi có featured badge */
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 1;
+        }
+        /* Các styles khác giữ nguyên */
+        .product-actions {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.9);
+            padding: 10px;
+            transition: all 0.3s ease;
+            text-align: center;
+            z-index: 1;
+        }
+        .product-item:hover .product-actions {
+            bottom: 0;
+        }
+        .inner-title a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+        .inner-title a:hover {
+            color: #007bff;
+        }
+        .btn-light {
+            background: white;
+            border: 1px solid #dee2e6;
+        }
+        .btn-light:hover {
+            background: #f8f9fa;
+            border-color: #c1c9d0;
+        }
+        .price-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
