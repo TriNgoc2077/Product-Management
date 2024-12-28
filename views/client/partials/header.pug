@@ -49,16 +49,16 @@ header.header.border-bottom
                     method="GET"
                 )
                     .input-group
-                        select.form-select(
-                            style="max-width: 150px;"
-                            name="category"
-                        )
-                            option(value="") All Categories
-                            each category in layoutProductsCategory
-                                option(
-                                    value=category.id
-                                    selected=(category.id == selectedCategory)
-                                ) #{category.title}
+                        //- select.form-select(
+                        //-     style="max-width: 150px;"
+                        //-     name="category"
+                        //- )
+                        //-     option(value="") All Categories
+                        //-     each category in layoutProductsCategory
+                        //-         option(
+                        //-             value=category.id
+                        //-             selected=(category.id == selectedCategory)
+                        //-         ) #{category.title}
                         input.form-control(
                             type="text"
                             placeholder="Search products..."
