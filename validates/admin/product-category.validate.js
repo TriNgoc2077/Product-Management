@@ -4,7 +4,7 @@ module.exports.createPost = (req, res, next) => {
         res.redirect("back");
         return;
     }
-    if (req.body.title.length < 4) {
+    if (req.body.title.length < 2) {
         req.flash("error", "Enter at least 8 character!");
         res.redirect("back");
         return;

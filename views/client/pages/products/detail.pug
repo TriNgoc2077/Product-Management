@@ -9,8 +9,9 @@ block main
             li.breadcrumb-item
               a(href='/') Home  
             if (product.category)
-              li.breadcrumb-item.active(aria-current='page')
-                a(href=`/products/${product.category.slug}`) #{product.category.title}
+              each item in product.category
+                li.breadcrumb-item.active(aria-current='page')
+                  a(href=`/products/${item.slug}`) #{item.title}
             li.breadcrumb-item.active(aria-current='page') #{product.title}
 
     .row

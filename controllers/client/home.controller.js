@@ -8,7 +8,7 @@ module.exports.index = async (req, res) => {
             featured: "1",
             status: "active"
         }
-    );
+    ).limit(3);
     const newFeaturedProducts = productHelper.newPrice(featuredProducts);
 
     const products = await Product.find({

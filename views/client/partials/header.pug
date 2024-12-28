@@ -2,11 +2,27 @@ include ../mixins/sub-menu.pug
 header.header  
     .container  
         nav.navbar.navbar-expand-md  
-            a.navbar-brand(href="/")  
-                img(src="/images/logo.svg", alt="Logo", class="img-fluid")  
+            a.navbar-brand.me-2(href="/")  
+                img(src="https://res.cloudinary.com/daq721xar/image/upload/v1735363338/bnxtcu0ma1ystkbamkds.svg", alt="Logo", class="img-fluid" width="100px" height="200px")  
+            
             button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")  
                 span.navbar-toggler-icon  
+            
             #navbarNav.collapse.navbar-collapse  
+                form.d-flex.mx-4.flex-grow-1.max-w-50(
+                    action="/search" 
+                    method="GET"
+                )
+                    .input-group
+                        input.form-control(
+                            type="text" 
+                            placeholder="Search products..."
+                            value=keyword
+                            name="keyword"
+                        )
+                        button.btn.btn-primary(type="submit" class="btn btn-primary")
+                            i.fas.fa-search.mr-2        
+                
                 ul.navbar-nav.ms-auto
                     li.nav-item
                         a.nav-link(href="/") Home  

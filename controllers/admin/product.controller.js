@@ -35,7 +35,7 @@ module.exports.index = async (req, res) => {
     let objectPagination = paginationHelper(
         {
             currentPage: 1,
-            limitItem: 4
+            limitItem: 8
         },
         req.query,
         countProducts
