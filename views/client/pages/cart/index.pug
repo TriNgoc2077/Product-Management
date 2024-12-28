@@ -13,78 +13,174 @@ block main
                     +box-head("Shopping Cart")
                     if cart.products.length
                         span.text-muted #{cart.products.length} items in your cart
+        .row 
+            .col-12     
+                .progress.mb-4(style="height: 30px;")
+                    .progress-bar.bg-success(style="width: 33%")
+                        span.p-2 Step 1 of 3: Product
 
         if cart.products.length
-            .card.shadow-sm
-                .card-body.p-0
-                    .table-responsive
-                        table.table.table-hover.mb-0
-                            thead.bg-light
-                                tr
-                                    th.border-top-0 #
-                                    th.border-top-0 Product
-                                    th.border-top-0.text-center Price
-                                    th.border-top-0.text-center Quantity
-                                    th.border-top-0.text-center Total
-                                    th.border-top-0.text-center Action
-                            tbody
-                                each item, index in cart.products
-                                    tr
-                                        td.align-middle #{index + 1}
-                                        td.align-middle
-                                            .d-flex.align-items-center
-                                                img.rounded.mr-3(
-                                                    src=item.productInfo.thumbnail
-                                                    alt=item.productInfo.title
-                                                    style="width: 80px; height: 80px; object-fit: cover;"
-                                                )
-                                                .ml-3
-                                                    a.text-dark.font-weight-bold.text-decoration-none(
-                                                        href=`/products/detail/${item.productInfo.slug}`
-                                                    ) #{item.productInfo.title}
-                                        td.align-middle.text-center $#{item.productInfo.newPrice}
-                                        td.align-middle.text-center
-                                            .input-group.justify-content-center
-                                                .input-group-prepend
-                                                    button.btn.btn-outline-secondary(type="button" btn-quantity-decrease) -
-                                                input.form-control.text-center(
-                                                    type="number"
-                                                    name="quantity"
-                                                    value=item.quantity
-                                                    min=1
-                                                    max=item.productInfo.stock
-                                                    product-id=item.product_id
-                                                    style="width: 60px"
-                                                )
-                                                .input-group-append
-                                                    button.btn.btn-outline-secondary(type="button" btn-quantity-increase) +
-                                        td.align-middle.text-center $#{item.totalPrice}
-                                        td.align-middle.text-center
-                                            a.btn.btn-sm.btn-outline-danger(
-                                                href=`/cart/delete/${item.product_id}`
-                                            )
-                                                i.fas.fa-trash-alt.mr-1
-                                                | Remove
+            .row
+                .col-lg-8
+                    .card.shadow-sm.mb-4
+                        .card-body.p-0
+                            .table-responsive
+                                table.table.table-hover.mb-0
+                                    thead.bg-light
+                                        tr
+                                            th.border-top-0 #
+                                            th.border-top-0 Product
+                                            th.border-top-0.text-center Price
+                                            th.border-top-0.text-center Quantity
+                                            th.border-top-0.text-center Total
+                                            th.border-top-0.text-center Action
+                                    tbody
+                                        each item, index in cart.products
+                                            tr
+                                                td.align-middle #{index + 1}
+                                                td.align-middle
+                                                    .d-flex.align-items-center
+                                                        img.rounded.mr-3(
+                                                            src=item.productInfo.thumbnail
+                                                            alt=item.productInfo.title
+                                                            style="width: 80px; height: 80px; object-fit: cover;"
+                                                        )
+                                                        .ml-3
+                                                            a.text-dark.font-weight-bold.text-decoration-none(
+                                                                href=`/products/detail/${item.productInfo.slug}`
+                                                            ) #{item.productInfo.title}
+                                                            .text-muted.small
+                                                                if item.productInfo.stock > 10
+                                                                    span.text-success
+                                                                        i.fas.fa-check-circle.mr-1
+                                                                        | In Stock
+                                                                else if item.productInfo.stock > 0
+                                                                    span.text-warning
+                                                                        i.fas.fa-exclamation-circle.mr-1
+                                                                        | Only #{item.productInfo.stock} left
+                                                                else
+                                                                    span.text-danger
+                                                                        i.fas.fa-times-circle.mr-1
+                                                                        | Out of Stock
+                                                td.align-middle.text-center
+                                                    .font-weight-bold $#{item.productInfo.newPrice}
+                                                    if item.productInfo.oldPrice
+                                                        small.text-muted.text-decoration-line-through $#{item.productInfo.oldPrice}
+                                                td.align-middle.text-center
+                                                    .input-group.justify-content-center
+                                                        .input-group-prepend
+                                                            button.btn.btn-outline-secondary(type="button" btn-quantity-decrease) -
+                                                        input.form-control.text-center(
+                                                            type="number"
+                                                            name="quantity"
+                                                            value=item.quantity
+                                                            min=1
+                                                            max=item.productInfo.stock
+                                                            product-id=item.product_id
+                                                            style="width: 60px"
+                                                        )
+                                                        .input-group-append
+                                                            button.btn.btn-outline-secondary(type="button" btn-quantity-increase) +
+                                                td.align-middle.text-center $#{item.totalPrice}
+                                                td.align-middle.text-center
+                                                    a.btn.btn-sm.btn-outline-danger(
+                                                        href=`/cart/delete/${item.product_id}`
+                                                    )
+                                                        i.fas.fa-trash-alt.mr-1
+                                                        | Remove
 
-                .card-footer.bg-white
-                    .d-flex.justify-content-between.align-items-center
-                        a.btn.btn-link.text-muted(href="/products")
-                            i.fas.fa-arrow-left.mr-2
-                            | Continue Shopping
-                        .text-right
-                            .h5.mb-2
-                                | Total: 
-                                span.font-weight-bold $#{cart.totalAmount}
-                            button.btn.btn-primary.px-4(type="button")
+                        .card-footer.bg-white
+                            .d-flex.justify-content-between.align-items-center
+                                a.btn.btn-link.text-muted(href="/products")
+                                    i.fas.fa-arrow-left.mr-2
+                                    | Continue Shopping
+                                button.btn.btn-outline-secondary(type="button" onclick="window.location.reload()")
+                                    i.fas.fa-sync-alt.mr-2
+                                    | Update Cart
+
+                .col-lg-4
+                    .card.shadow-sm.mb-4
+                        .card-header.bg-light
+                            h5.mb-0 Order Summary
+                        .card-body
+                            .d-flex.justify-content-between.mb-2
+                                span Subtotal
+                                span $#{cart.totalAmount}
+                            .d-flex.justify-content-between.mb-2
+                                span Shipping
+                                if (cart.totalAmount >= 50)
+                                    span.text-success Free
+                                else 
+                                    span.text-primary $5
+                            .d-flex.justify-content-between.mb-2
+                                span Estimated Tax
+                                span Calculated at checkout
+                            hr
+                            .d-flex.justify-content-between.mb-3
+                                span.h5 Total
+                                span.h5.font-weight-bold $#{cart.totalAmount}
+                            a.btn.btn-primary.btn-block(href="/checkout")
                                 i.fas.fa-credit-card.mr-2
                                 | Proceed to Checkout
+
+                    .card.shadow-sm.mb-4
+                        .card-header.bg-light
+                            h5.mb-0 Shipping Information
+                        .card-body
+                            ul.list-unstyled.mb-0
+                                li.mb-2
+                                    i.fas.fa-truck.text-primary.mr-2
+                                    | Free shipping on orders over $50
+                                li.mb-2
+                                    i.fas.fa-clock.text-primary.mr-2
+                                    | Delivery within 3-5 business days
+                                li.mb-2
+                                    i.fas.fa-undo.text-primary.mr-2
+                                    | 30-day return policy
+
+                    .card.shadow-sm.mb-4
+                        .card-header.bg-light
+                            h5.mb-0 We Accept
+                        .card-body
+                            .d-flex.justify-content-between.align-items-center
+                                i.fab.fa-cc-visa.fa-2x.text-muted
+                                i.fab.fa-cc-mastercard.fa-2x.text-muted
+                                i.fab.fa-cc-amex.fa-2x.text-muted
+                                i.fab.fa-cc-paypal.fa-2x.text-muted
+
+            .card.shadow-sm.mb-4
+                .card-body
+                    h5.mb-3 Recently Viewed Items
+                    .row
+                        each i in [1, 2, 3, 4]
+                            .col-md-3.col-6
+                                .card.border-0
+                                    img.card-img-top(src="/api/placeholder/200/200" alt="Product")
+                                    .card-body.px-0
+                                        h6.card-title.mb-1 Sample Product
+                                        .text-primary.font-weight-bold $99.99
 
         else
             .card.shadow-sm
                 .card-body.text-center.py-5
                     i.fas.fa-shopping-cart.fa-3x.text-muted.mb-3
                     h4.text-muted No products in your cart!
+                    p.text-muted.mb-4 Browse our collection and find something you love
                     a.btn.btn-primary.mt-3(href="/products")
                         i.fas.fa-arrow-left.mr-2
                         | Start Shopping
-    script(type="module", src="/js/cart.js") 
+
+            .card.shadow-sm.mt-4
+                .card-header.bg-light
+                    h5.mb-0 You Might Like
+                .card-body
+                    .row
+                        each i in [1, 2, 3, 4]
+                            .col-md-3.col-6.mb-4
+                                .card.border-0
+                                    img.card-img-top(src="/api/placeholder/200/200" alt="Product")
+                                    .card-body.px-0
+                                        h6.card-title.mb-1 Sample Product
+                                        .text-primary.font-weight-bold $99.99
+
+    script(type="module", src="/js/cart.js")
