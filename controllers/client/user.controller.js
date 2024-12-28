@@ -78,7 +78,6 @@ module.exports.loginPost = async (req, res) => {
             return;
         }
         res.cookie("userToken", user.userToken);
-        res.locals.user = user;
         res.redirect("/");
     } catch(error) {
 
