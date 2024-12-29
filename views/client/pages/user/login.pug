@@ -43,8 +43,11 @@ block main
                                         name="password"
                                         placeholder="Enter your password"
                                         required
-                                    )
-                                    
+                                    )   
+                                    span.input-group-text.text-right.display-password
+                                        i.fas.fa-eye-slash
+                                a(href="/user/password/forgot" class="text-decoration-none text-dark") Forgot password ? 
+   
                             .form-group.mb-0.text-center
                                 button(
                                     type="submit"
@@ -55,3 +58,4 @@ block main
 
                             .text-center.text-muted
                                 small Your satisfaction is our priority
+    script(type="module", src="/js/script")

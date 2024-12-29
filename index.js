@@ -47,5 +47,4 @@ route(app);
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 })
-//git pull origin main
 //npm i method-override, ghi de phuong thuc khi gui len
