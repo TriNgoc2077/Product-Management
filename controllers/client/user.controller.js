@@ -169,10 +169,7 @@ module.exports.otpPasswordPost = async (req, res) => {
             email: email,
             otp: otp
         });
-        
-        console.log(request);
-        
-        
+                
         if (!request) {
             req.flash("error", "OTP is invalid !");
             res.redirect("back");
@@ -185,6 +182,34 @@ module.exports.otpPasswordPost = async (req, res) => {
             res.cookie("userToken", userToken);
             res.redirect("/user/password/reset");
         }
+    } catch(error) {
+        console.log(error);
+    }
+};
+
+
+//[GET] /user/password/reset 
+module.exports.passwordReset = async (req, res) => {
+    try {
+        res.render("client/pages/user/reset-password", {
+            titlePage: "Reset password"
+        });
+    } catch(error) {
+        console.log(error);
+    }
+};
+
+//[POST] /user/password/reset 
+module.exports.passwordResetPost = async (req, res) => {
+    try {
+        const password = md5(req.body.newPassword);
+        const userToken = req.cookies.userToken;
+        await User.updateOne(
+            { userToken: userToken.userToken },
+            { password: password }
+        );
+        req.flash("success", "Update password successfully ! Login now");
+        res.redirect("/user/login");
     } catch(error) {
         console.log(error);
     }

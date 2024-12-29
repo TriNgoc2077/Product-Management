@@ -48,5 +48,4 @@ if (inputPassword) {
     }
 }
 
-
 //end display pass
