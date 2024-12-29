@@ -84,3 +84,14 @@ module.exports.loginPost = async (req, res) => {
     }
 };
 
+//[GET] /user/logout
+module.exports.logout = async (req, res) => {
+    try {
+        res.clearCookie("userToken");
+        req.flash("success", "Log out successfully !");
+        res.redirect("/");
+
+    } catch(error) {
+        console.log(error);
+    }
+};
