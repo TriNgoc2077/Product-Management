@@ -1,8 +1,39 @@
-footer.footer.py-5  
-    .container  
-        .row  
-            .col-12.text-center  
-                p.mb-1  
-                    | Created by Cao Tri Ngoc  
-                p.mb-0  
-                    | © 2024 All rights reserved.
+link(href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet")
+
+.footer.py-5.bg-dark.text-white
+  .container
+    .row.gy-4
+      // Company Info
+      .col-lg-3
+        h5.mb-3 About Us
+        p.mb-3 Welcome to TCN, your one-stop shop for superior products.
+        p.mb-3 We strive to bring you products that add value to your life.
+      .col-lg-3
+        h5.mb-3 Vision
+        p.mb-3 To become the first e-commerce platform, providing customers with superior shopping experiences.
+      // Quick Links
+      .col-lg-3
+        h5.mb-3 Legal Issues
+        p.mb-3 Learn about our: 
+            a(href="https://hotro.tiki.vn/s/article/dieu-khoan-su-dung") Terms of Service
+            |  and
+            a(href="https://tiki.vn/thong-tin/privacy-policy")  Privacy Policy
+      // Contact Info
+      .col-lg-3
+        h5.mb-3 Contact with us
+        .social-links.mb-3
+          a.text-white.me-3(href='https://www.facebook.com/ngoc.tri.148116')
+            i.bi.bi-facebook
+          a.text-white.me-3(href='https://www.instagram.com/tri_ngocj/')
+            i.bi.bi-instagram
+          a.text-white.me-3(href='#')
+            i.bi.bi-github
+        p.mb-1 Email: caonguyentringoc@gmail.com
+        p.mb-0 Phone: (84) 396-642-975
+        p.mb-0 Address: 2 Vo Oanh, Ward 25, Binh Thanh, Ho Chi Minh, Vietnam
+    hr.my-4
+    // Copyright
+    .row
+      .col-12.text-center
+        p.mb-1 Created by Cao Tri Ngoc
+        p.mb-0 &copy; 2024 All rights reserved.
