@@ -2,7 +2,7 @@ const User = require("../../models/user.model");
 const ForgotPassword = require("../../models/forgot-password.model");
 const generateHelper = require("../../helpers/generate");
 const md5 = require("md5");
-
+const sendMailHelper = require("../../helpers/sendMail");
 //[GET] /user/register
 module.exports.register = async (req, res) => {
     try {
@@ -116,7 +116,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
         const user = await User.findOne({
             email: email,
             deleted: false
-        });
+        }).select("-password -userToken");
         if (!email) {
             req.flash("error", "Email does not exist !");
             res.redirect("back");
@@ -134,7 +134,10 @@ module.exports.forgotPasswordPost = async (req, res) => {
         console.log(objectForgotPassword);
         const request = new ForgotPassword(objectForgotPassword);
         await request.save();
+        
         //send mail
+        const subject = "Your OTP";
+        sendMailHelper.sendMail(email, subject, user, otp);
 
         res.redirect(`/user/password/otp?email=${email}`);
     } catch(error) {
