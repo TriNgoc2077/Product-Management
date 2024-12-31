@@ -11,8 +11,10 @@ block main
 
         +alert-success(3000)  
 
-        .d-flex.justify-content-between.align-items-center.mb-4  
-            h1.mb-0 Products Management  
+        .d-flex.justify-content-between.align-items-center.mb-4
+            h1.mb-0
+                i.fas.fa-box.text-primary.mr-2
+                | Products Management
             if (role.permissions.includes("products_edit"))
                 a(  
                     href=`${prefixAdmin}/products/create`  

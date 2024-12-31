@@ -2,7 +2,10 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 block main 
     if (role.permissions.includes("roles_permissions"))
-        h1(class="mb-4") Permissions 
+        .d-flex.justify-content-between.align-items-center.mb-4
+            h1.mb-0
+                i.fas.fa-key.text-primary.mr-2
+                | Permissions
         +alert-success(4000)
         +alert-error(4000)
         if (records)

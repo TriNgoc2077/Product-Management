@@ -1,5 +1,229 @@
 extends ../../layouts/default.pug
 
-
 block main
-    h1 Overview page
+    .d-flex.justify-content-between.align-items-center.mb-4
+        h1.mb-0
+            i.fas.fa-tachometer-alt.text-primary.mr-2
+            | Dashboard Overview
+            .header-actions
+                button.btn.btn-primary.me-2
+                    i.fas.fa-download.me-2
+                    | Export Report
+                button.btn.btn-outline-primary
+                    i.fas.fa-sync-alt.me-2
+                    | Refresh Data
+
+    .row.mt-4
+        .col-12
+            .card.mb-4.profile-card
+                .card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center
+                    h5.mb-0
+                        i.fas.fa-user.me-2
+                        | Admin Profile
+                    a(href=`${prefixAdmin}/my-account`).btn.btn-light.btn-sm Edit Profile
+                .card-body
+                    .row.align-items-center
+                        .col-auto
+                            if (user.avatar)
+                                img.rounded-circle.profile-avatar(
+                                    src=user.avatar,
+                                    alt="Profile Avatar",
+                                    style="width: 100px; height: 100px; object-fit: cover"
+                                )
+                            else
+                                .avatar-placeholder.rounded-circle.bg-secondary.text-white.d-flex.align-items-center.justify-content-center(
+                                    style="width: 100px; height: 100px; font-size: 2.5rem;"
+                                ) #{user.fullName ? user.fullName[0].toUpperCase() : 'A'}
+                        .col
+                            .row
+                                .col-md-6
+                                    if (user.fullName)
+                                        .profile-item
+                                            i.fas.fa-user-circle.text-primary.me-2
+                                            strong Full name: 
+                                            span #{user.fullName}
+                                    if (user.email)
+                                        .profile-item.mt-2
+                                            i.fas.fa-envelope.text-primary.me-2
+                                            strong Email: 
+                                            span #{user.email}
+                                .col-md-6
+                                    if (user.phone)
+                                        .profile-item
+                                            i.fas.fa-phone.text-primary.me-2
+                                            strong Phone: 
+                                            span #{user.phone}
+                                    if (role.title)
+                                        .profile-item.mt-2
+                                            i.fas.fa-user-shield.text-primary.me-2
+                                            strong Role: 
+                                            span.badge.bg-primary #{role.title}
+
+    .row
+        .col-md-6.col-xl-3.mb-4
+            .card.h-100.border-left-primary
+                .card-body
+                    .row.align-items-center
+                        .col
+                            .text-uppercase.mb-1.text-muted Product Categories
+                            h2.mb-0.font-weight-bold #{statistic.productCategory.total}
+                            .mt-2
+                                .progress(style="height: 8px")
+                                    .progress-bar(
+                                        style=`width: ${(statistic.productCategory.active/statistic.productCategory.total)*100}%`
+                                    )
+                            .mt-2.small
+                                span.text-success
+                                    i.fas.fa-circle.me-1
+                                    | Active: #{statistic.productCategory.active}
+                                span.text-danger.ms-3
+                                    i.fas.fa-circle.me-1
+                                    | Inactive: #{statistic.productCategory.inactive}
+                        .col-auto
+                            i.fas.fa-folder.fa-2x.text-primary
+
+        .col-md-6.col-xl-3.mb-4
+            .card.h-100.border-left-success
+                .card-body
+                    .row.align-items-center
+                        .col
+                            .text-uppercase.mb-1.text-muted Products
+                            h2.mb-0.font-weight-bold #{statistic.product.total}
+                            .mt-2
+                                .progress(style="height: 8px")
+                                    .progress-bar.bg-success(
+                                        style=`width: ${(statistic.product.active/statistic.product.total)*100}%`
+                                    )
+                            .mt-2.small
+                                span.text-success
+                                    i.fas.fa-circle.me-1
+                                    | Active: #{statistic.product.active}
+                                span.text-danger.ms-3
+                                    i.fas.fa-circle.me-1
+                                    | Inactive: #{statistic.product.inactive}
+                        .col-auto
+                            i.fas.fa-box.fa-2x.text-success
+
+        .col-md-6.col-xl-3.mb-4
+            .card.h-100.border-left-info
+                .card-body
+                    .row.align-items-center
+                        .col
+                            .text-uppercase.mb-1.text-muted Admin Accounts
+                            h2.mb-0.font-weight-bold #{statistic.account.total}
+                            .mt-2
+                                .progress(style="height: 8px")
+                                    .progress-bar.bg-info(
+                                        style=`width: ${(statistic.account.active/statistic.account.total)*100}%`
+                                    )
+                            .mt-2.small
+                                span.text-success
+                                    i.fas.fa-circle.me-1
+                                    | Active: #{statistic.account.active}
+                                span.text-danger.ms-3
+                                    i.fas.fa-circle.me-1
+                                    | Inactive: #{statistic.account.inactive}
+                        .col-auto
+                            i.fas.fa-user-shield.fa-2x.text-info
+
+        .col-md-6.col-xl-3.mb-4
+            .card.h-100.border-left-warning
+                .card-body
+                    .row.align-items-center
+                        .col
+                            .text-uppercase.mb-1.text-muted User Accounts
+                            h2.mb-0.font-weight-bold #{statistic.user.total}
+                            .mt-2
+                                .progress(style="height: 8px")
+                                    .progress-bar.bg-warning(
+                                        style=`width: ${(statistic.user.active/statistic.user.total)*100}%`
+                                    )
+                            .mt-2.small
+                                span.text-success
+                                    i.fas.fa-circle.me-1
+                                    | Active: #{statistic.user.active}
+                                span.text-danger.ms-3
+                                    i.fas.fa-circle.me-1
+                                    | Inactive: #{statistic.user.inactive}
+                        .col-auto
+                            i.fas.fa-users.fa-2x.text-warning
+
+    .row
+        .col-xl-8.mb-4
+            .card
+                .card-header.bg-light
+                    h5.mb-0 Recent Activities
+                .card-body
+                    .timeline
+                        .timeline-item
+                            i.fas.fa-plus.bg-primary
+                            .timeline-content
+                                h6.mb-1 New product added
+                                p.text-muted.mb-0 Lorem ipsum dolor sit amet
+                                small.text-muted 3 mins ago
+                        .timeline-item
+                            i.fas.fa-user.bg-success
+                            .timeline-content
+                                h6.mb-1 New user registered
+                                p.text-muted.mb-0 Lorem ipsum dolor sit amet
+                                small.text-muted 1 hour ago
+                        .timeline-item
+                            i.fas.fa-tasks.bg-info
+                            .timeline-content
+                                h6.mb-1 System updated
+                                p.text-muted.mb-0 Lorem ipsum dolor sit amet
+                                small.text-muted 2 hours ago
+
+        .col-xl-4.mb-4
+            .card
+                .card-header.bg-light
+                    h5.mb-0 Quick Actions
+                .card-body
+                    .list-group
+                        a.list-group-item.list-group-item-action(href=`${prefixAdmin}/products/create`)
+                            i.fas.fa-plus.me-2
+                            | Add New Product
+                        a.list-group-item.list-group-item-action(href=`${prefixAdmin}/accounts/create`)
+                            i.fas.fa-user-plus.me-2
+                            | Create Admin Account
+                        a.list-group-item.list-group-item-action(href=`#`)
+                            i.fas.fa-cog.me-2
+                            | System Settings
+                        a.list-group-item.list-group-item-action(href=`#`)
+                            i.fas.fa-file-alt.me-2
+                            | View Reports
+
+    style.
+        .border-left-primary { border-left: 4px solid #4e73df; }
+        .border-left-success { border-left: 4px solid #1cc88a; }
+        .border-left-info { border-left: 4px solid #36b9cc; }
+        .border-left-warning { border-left: 4px solid #f6c23e; }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-item i {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+        
+        .profile-item {
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }

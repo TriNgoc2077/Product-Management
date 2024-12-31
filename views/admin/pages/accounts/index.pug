@@ -2,8 +2,10 @@ extends ../../layouts/default.pug
 
 block main   
     if (role.permissions.includes("accounts_view"))
-        .d-flex.justify-content-between.align-items-center.mb-4  
-            h1.mb-0 Accounts Management  
+        .d-flex.justify-content-between.align-items-center.mb-4
+            h1.mb-0
+                i.fas.fa-users.text-primary.mr-2
+                | Accounts Management
             if (role.permissions.includes("accounts_edit"))
                 a(  
                     href=`${prefixAdmin}/accounts/create`  

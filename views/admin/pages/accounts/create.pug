@@ -3,7 +3,7 @@ include ../../mixins/alert.pug
 
 block main 
     if (role.permissions.includes("accounts_create"))
-        h1(class="mb-4") Add new Account 
+        h1(class="mb-4") Add Account 
         +alert-error(5000)
         form(
             action=`${prefixAdmin}/accounts/create?_method=POST`
@@ -92,4 +92,4 @@ block main
                 button(
                     type="submit"
                     class="btn btn-primary"
-                ) Add new
+                ) Add

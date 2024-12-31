@@ -2,10 +2,10 @@ extends ../../layouts/default.pug
 
 block main   
     if (role.permissions.includes("roles_view"))
-        .d-flex.justify-content-between.align-items-center.mb-4  
-            h1.mb-0  
-                i.fas.fa-user-lock.text-primary.mr-2  
-                | Roles & Permissions  
+        .d-flex.justify-content-between.align-items-center.mb-4
+            h1.mb-0
+                i.fas.fa-user-lock.text-primary.mr-2
+                | Roles
 
             if (role.permissions.includes("roles_edit"))
                 a.btn.btn-success(  

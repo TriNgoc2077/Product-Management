@@ -6,7 +6,10 @@ block main
     +alert-error(3000)
     
     .container.py-4
-        h1.display-5.mb-4 General Settings
+        .d-flex.justify-content-between.align-items-center.mb-4
+            h1.mb-0
+                i.fas.fa-cog.text-primary.mr-2
+                | General Settings
 
         form(
             action=`${prefixAdmin}/setting/general?_method=PATCH` 
