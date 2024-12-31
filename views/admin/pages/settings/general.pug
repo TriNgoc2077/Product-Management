@@ -1,0 +1,150 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main
+    +alert-success(3000)
+    +alert-error(3000)
+    
+    .container.py-4
+        h1.display-5.mb-4 General Settings
+
+        form(
+            action=`${prefixAdmin}/setting/general?_method=PATCH` 
+            method="POST" 
+            enctype="multipart/form-data"
+        )
+            // Basic Information Section
+            .card.mb-4
+                .card-header 
+                    h4.card-title.mb-0 Basic Information
+                .card-body
+                    .row.g-3
+                        .col-md-6
+                            label.form-label(for="website-name") Website Name
+                            input#website-name.form-control(
+                                type="text"
+                                name="websiteName"
+                                required
+                                value=(generalSetting.websiteName ? generalSetting.websiteName : "")
+                            )
+                        
+                        .col-md-6
+                            label.form-label(for="logo") Logo (.svg)
+                            .form-group(upload-image)
+                                input#logo.form-control(
+                                    type="file"
+                                    name="logo"
+                                    accept=".svg"
+                                    upload-image-input
+                                )
+                                .preview-wrapper.mt-2  
+                                    img.img-preview(  
+                                        src=generalSetting.logo
+                                        upload-image-preview  
+                                    )
+                            if settings.logo
+                                img.mt-2.img-thumbnail(
+                                    src=(generalSetting.logo ? generalSetting.logo : "")
+                                    alt="Current logo"
+                                    style="max-height: 100px"
+                                ) 
+
+            // Contact Information Section
+            .card.mb-4
+                .card-header
+                    h4.card-title.mb-0 Contact Information
+                .card-body
+                    .row.g-3
+                        .col-md-6
+                            label.form-label(for="phone") Phone
+                            input#phone.form-control(
+                                type="tel"
+                                name="phone"
+                                value=(generalSetting.phone ? generalSetting.phone : "")
+                            )
+                        
+                        .col-md-6
+                            label.form-label(for="email") Email
+                            input#email.form-control(
+                                type="email"
+                                name="email"
+                                value=(generalSetting.email ? generalSetting.email : "")
+                            )
+                        
+                        .col-12
+                            label.form-label(for="address") Address
+                            textarea#address.form-control(
+                                name="address"
+                                rows="3"
+                            )= (generalSetting.address ? generalSetting.address : "")
+
+            // Social Media Links Section
+            .card.mb-4
+                .card-header
+                    h4.card-title.mb-0 Social Media Links
+                .card-body
+                    .row.g-3
+                        .col-md-4
+                            label.form-label(for="facebook") Facebook URL
+                            .input-group
+                                span.input-group-text
+                                    i.fab.fa-facebook
+                                input#facebook.form-control(
+                                    type="url"
+                                    name="facebook"
+                                    value=(generalSetting.facebook ? generalSetting.facebook : "")
+                                )
+                        
+                        .col-md-4
+                            label.form-label(for="instagram") Instagram URL
+                            .input-group
+                                span.input-group-text
+                                    i.fab.fa-instagram
+                                input#instagram.form-control(
+                                    type="url"
+                                    name="instagram"
+                                    value=(generalSetting.instagram ? generalSetting.instagram : "")
+                                )
+                        
+                        .col-md-4
+                            label.form-label(for="github") Github URL
+                            .input-group
+                                span.input-group-text
+                                    i.fab.fa-github
+                                input#github.form-control(
+                                    type="url" 
+                                    name="github"
+                                    value=(generalSetting.github ? generalSetting.github : "")
+                                )
+
+            // Company Information Section
+            .card.mb-4
+                .card-header
+                    h4.card-title.mb-0 Company Information
+                .card-body
+                    .row.g-3
+                        .col-12
+                            label.form-label(for="about") About Us
+                            textarea#about.form-control.textarea-mce(
+                                name="aboutUs"
+                                rows="5"
+                            )= (generalSetting.aboutUs ? generalSetting.aboutUs : "")
+                        
+                        .col-12
+                            label.form-label(for="vision") Vision
+                            textarea#vision.form-control.textarea-mce(
+                                name="vision"
+                                rows="5"
+                            )= (generalSetting.vision ? generalSetting.vision : "")
+                        
+                        .col-12
+                            label.form-label(for="legal") Legal Issues
+                            textarea#legal.form-control.textarea-mce(
+                                name="legalIssues"
+                                rows="5"
+                            )= (generalSetting.legalIssues ? generalSetting.legalIssues : "")
+
+            .d-flex.justify-content-end
+                button.btn.btn-primary(type="submit")
+                    i.fas.fa-save.me-2
+                    | Save Changes
