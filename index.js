@@ -7,6 +7,9 @@ const database = require('./config/database');
 const flash = require("express-flash");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+//socket io
+const http = require("http");
+const { Server } = require("socket.io");
 
 const route = require("./routes/client/index.route");
 const routeAdmin = require("./routes/admin/index.route");
@@ -49,8 +52,13 @@ app.get("*", (req, res) => {
         titlePages: "404 Not Found"
     })
 });
-
-app.listen(port, () => {
+const server = http.createServer(app);
+const io = new Server(server);
+io.on('connection', (socket) => {
+  console.log('a user connected !');
+});
+//server listen to use socket io, not app ! 
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 })
 //npm i method-override, ghi de phuong thuc khi gui len
