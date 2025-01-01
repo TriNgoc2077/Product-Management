@@ -2,42 +2,31 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main 
-    .container.my-3 
-        .row 
-            .col-12 
+    .container.my-3
+        .row
+            .col-12
                 +box-head("Chat")
-        .row 
-            .col-12 
-                .chat-container
+        .row
+            .col-12
+                .chat-container.chat
                     .chat-messages#chatMessages
-                        .message.received
-                            .avatar
-                                img(src="https://via.placeholder.com/40" alt="User avatar")
-                            .message-content
-                                .message-bubble Xin chào! Bạn khỏe không?
-                                .message-time 10:30 AM
-                        
-                        .message.sent
-                            .message-content
-                                .message-bubble Chào bạn! Tôi khỏe, còn bạn thế nào?
-                                .message-time 10:31 AM
-                        
-                        .message.received
-                            .avatar
-                                img(src="https://via.placeholder.com/40" alt="User avatar")
-                            .message-content
-                                .message-bubble Tôi cũng rất tốt. Hôm nay thời tiết đẹp quá!
-                                .message-time 10:32 AM
-                        
-                        .message.sent
-                            .message-content
-                                .message-bubble Đúng vậy! Rất thích hợp để đi dạo.
-                                .message-time 10:33 AM
+                        each chat in chats
+                            if (chat.inforUser.id != user.id)
+                                .inner-name #{chat.inforUser.fullName}
+                            .message
+                                div(class=(chat.inforUser.id == user.id ? "sent" : "received"))
+                                    .message-wrapper
+                                        .avatar
+                                            img(src="https://via.placeholder.com/30" alt="User avatar")
+                                        .message-content
+                                            .message-bubble #{chat.content}
+                                            .message-time 10:30 AM
 
                     .chat-input
-                        input(type="text" placeholder="Nhập tin nhắn của bạn...")
-                        button.send-button
-                            i.fas.fa-paper-plane 
+                        form(action="" class="d-flex align-items-center gap-2 w-100 inner-form")
+                            input(type="text" placeholder="Enter your message..." class="form-control" name="content")
+                            button.send-button
+                                i.fas.fa-paper-plane 
     style.
         .chat-container {
             background: #fff;
@@ -59,8 +48,10 @@ block main
             margin-bottom: 20px;
         }
 
-        .message.sent {
+        /* Điều chỉnh tin nhắn sent sang phải */
+        .message .sent {
             justify-content: flex-end;
+            margin-left: auto;
         }
 
         .avatar {
@@ -75,6 +66,7 @@ block main
 
         .message-content {
             max-width: 60%;
+            word-wrap: break-word;
         }
 
         .message-bubble {
@@ -82,6 +74,10 @@ block main
             border-radius: 18px;
             font-size: 14px;
             line-height: 1.4;
+            margin: 0 8px;
+            word-wrap: break-word; 
+            word-break: break-word; 
+            overflow-wrap: break-word;
         }
 
         .received .message-bubble {
@@ -150,4 +146,22 @@ block main
 
         .chat-messages::-webkit-scrollbar-thumb:hover {
             background: #555;
+        }
+
+        .sent .message-wrapper {
+            justify-content: flex-end;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .received .message-wrapper {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .inner-name {
+            margin-bottom: 5px;
+            padding-left: 50px;
         }

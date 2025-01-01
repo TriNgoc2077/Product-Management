@@ -52,11 +52,12 @@ app.get("*", (req, res) => {
         titlePages: "404 Not Found"
     })
 });
+
 const server = http.createServer(app);
 const io = new Server(server);
-io.on('connection', (socket) => {
-  console.log('a user connected !');
-});
+global._io = io;
+
+
 //server listen to use socket io, not app ! 
 server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
