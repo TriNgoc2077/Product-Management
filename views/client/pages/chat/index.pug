@@ -8,7 +8,7 @@ block main
                 +box-head("Chat")
         .row
             .col-12
-                .chat-container.chat
+                .chat-container.chat(my-id=user.id)
                     .chat-messages#chatMessages
                         each chat in chats
                             if (chat.inforUser.id != user.id)
