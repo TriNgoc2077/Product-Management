@@ -228,3 +228,12 @@
         grid-template-columns: 1fr;  
     }  
 }
+
+/* emoji picker element  */
+.tooltip {
+    visibility: hidden;
+}
+.tooltip.shown {
+    visibility: visible;
+    opacity: 1;
+}
