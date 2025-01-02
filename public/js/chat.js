@@ -55,4 +55,14 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     divName.innerHTML = `${fullName}`;
     body.appendChild(divName);
     body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
 });
+
+
+//scroll chat to bottom 
+const bodyChat = document.querySelector(".chat-messages");
+if (bodyChat) {
+    console.log(bodyChat);
+    bodyChat.scrollTop = bodyChat.scrollHeight;
+
+}
