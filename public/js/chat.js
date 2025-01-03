@@ -8,14 +8,17 @@ if (formSendData) {
         if (content) {
             socket.emit("CLIENT_SEND_MESSAGE", content);
             e.target.elements.content.value = "";
+            socket.emit("CLIENT_SEND_TYPING", "hidden");
+
         }
     });
 }
 
 //SERVER_RETURN_MESSAGE
 socket.on("SERVER_RETURN_MESSAGE", (data) => {
-    const body = document.querySelector(".chat .chat-messages");
+    const bodyChat = document.querySelector(".chat-messages");
     const myId = document.querySelector("[my-id]").getAttribute("my-id");
+    const boxTyping = document.querySelector(".inner-list-typing");
 
     const div = document.createElement("div");
     div.classList.add("message");
@@ -54,9 +57,9 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     const divName = document.createElement("div");
     divName.classList.add("inner-name");
     divName.innerHTML = `${fullName}`;
-    body.appendChild(divName);
-    body.appendChild(div);
-    body.scrollTop = body.scrollHeight;
+    bodyChat.insertBefore(divName, boxTyping);
+    bodyChat.insertBefore(div, boxTyping);
+    bodyChat.scrollTop = bodyChat.scrollHeight;
 });
 
 
@@ -66,6 +69,19 @@ if (bodyChat) {
     bodyChat.scrollTop = bodyChat.scrollHeight;
 
 }
+//Show Typing
+var timeOut;
+const showTyping = () => {
+    socket.emit("CLIENT_SEND_TYPING", "show");
+        // keyup 1 => clearTimeout in queue, but it's empty, then setTimeOut 1 is include queue(start countdown)
+        //key up 2 => clearTimeout -> clear setTimeout 1, then setTimeOut 2 is include queue
+        //continue while user stop typing
+        clearTimeout(timeOut);
+        timeOut = setTimeout(() => {
+            socket.emit("CLIENT_SEND_TYPING", "hidden");
+        }, 1000);
+};
+
 
 //emoji click
 const buttonIcon = document.querySelector(".button-icon");
@@ -83,6 +99,8 @@ if (buttonIcon) {
         tooltip.classList.toggle("shown");
     });
 }
+
+//insert emoji
 const emojiPicker = document.querySelector('emoji-picker');
 
 if (emojiPicker) {
@@ -92,8 +110,60 @@ if (emojiPicker) {
         const icon = e.detail.unicode;
         console.log(icon);
         if (inputChat) {
-            inputChat.value = inputChat.value + icon;
+            const start = inputChat.selectionStart;
+            const end = inputChat.selectionEnd;
+
+            const textBefore = inputChat.value.substring(0, start);
+            const textAfter = inputChat.value.substring(end);
+
+            inputChat.value = textBefore + icon + textAfter;
+
+            const newCursorPosition = start + icon.length;
+            inputChat.setSelectionRange(newCursorPosition, newCursorPosition);
+            
+            inputChat.focus();
+
+            showTyping();
         }
     });
-    
+    var timeOut;
+    inputChat.addEventListener("keyup", () => {
+        showTyping();
+    });
+
+}
+
+//SERVER_RETURN_TYPING
+const listElementTyping = document.querySelector(".chat .inner-list-typing");
+if (listElementTyping) {
+    socket.on("SERVER_RETURN_TYPING", (data) => {
+        if (data.type == "show") {
+            const existTyping = listElementTyping.querySelector(`[user-id="${data.userId}"]`);
+            if (!existTyping) {
+                const boxTyping = document.createElement("div");
+                boxTyping.classList.add("box-typing");
+                boxTyping.setAttribute("user-id", data.userId);
+                boxTyping.innerHTML = `
+                    <div class="inner-list-typing">
+                        <div class="box-typing">
+                            <div class="inner-name">${data.fullName}</div>
+                            <div class="inner-dots">
+                                <span> </span>
+                                <span> </span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div> 
+                `;
+                listElementTyping.appendChild(boxTyping);
+                bodyChat.scrollTop = bodyChat.scrollHeight;
+            }
+        } else {
+            const boxTypingToRemove = listElementTyping.querySelector(`[user-id="${data.userId}"]`);
+            if (boxTypingToRemove) {
+                listElementTyping.removeChild(boxTypingToRemove);
+            }
+        }
+        
+    });
 }
