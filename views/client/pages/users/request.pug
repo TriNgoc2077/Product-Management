@@ -2,17 +2,17 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main 
-    .container.my-3 
+    .container
         //- .mb-4
             //- include ../../partials/list-btn-users.pug 
 
         .row  
             .col-12
-                +box-head("List user")
+                +box-head("List request")
         .row 
             each user in users
                 .col-6 
-                    div(class="box-user")
+                    div(class="box-user add")
                         div(class="inner-avatar")
                             img(
                                 src=user.avatar, 
@@ -32,21 +32,6 @@ block main
         max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
-        }
-
-        /* Box head styles */
-        .box-head {
-        background-color: #f8f9fa;
-        padding: 15px 20px;
-        border-radius: 8px;
-        margin-bottom: 25px;
-        border-bottom: 2px solid #e9ecef;
-        }
-
-        .box-head h2 {
-        margin: 0;
-        color: #2c3e50;
-        font-size: 1.5rem;
         }
 
         /* User list grid */

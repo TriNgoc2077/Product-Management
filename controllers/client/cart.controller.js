@@ -7,9 +7,9 @@ module.exports.addPost = async (req, res) => {
         const cartId = req.cookies.cartId;
         const productId = req.params.productId;
         const quantity = parseInt(req.body.quantity);
-        const thumbnail = req.body.thumbnail;
-
+        console.log(cartId, productId, quantity);
         const cart = await Cart.findOne({ _id: cartId });
+        console.log(cart);
         let existProductInCart = cart.products.find(item => item.product_id == productId);
         if (existProductInCart) {
             const newQuantity = quantity + existProductInCart.quantity;
@@ -24,7 +24,6 @@ module.exports.addPost = async (req, res) => {
         else {
             const objectCart = {
                 product_id: productId,
-                thumbnail: thumbnail,
                 quantity: quantity,
             };
     
@@ -36,6 +35,7 @@ module.exports.addPost = async (req, res) => {
         
         req.flash("success", "Added product to cart !");
         res.redirect("back");
+
     } catch(error) {
         req.flash("error", "Added failed !");
         res.redirect("back");

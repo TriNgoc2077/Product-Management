@@ -11,6 +11,7 @@ html
     body 
         include ../partials/header.pug
 
+        include ../partials/list-btn-users.pug
         block main
 
         include ../partials/footer.pug
@@ -23,11 +24,12 @@ html
         script(src="/socket.io/socket.io.js") 
         script(src="/js/socket.js") 
         //- file-upload-with-preview
-        script(src="https://unpkg.com/file-upload-with-preview/dist/index.js") 
+        //- script(src="https://unpkg.com/file-upload-with-preview/dist/index.js") 
 
         script(src="/js/chat.js", type="module") 
 
         script(src="/js/script.js")
+        block users
     style.
         body {
             background-color: #f1f1f1;  
