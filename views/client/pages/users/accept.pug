@@ -8,11 +8,11 @@ block main
 
         .row  
             .col-12
-                +box-head("List request sent")
+                +box-head("List request received")
         .row 
             each user in users
                 .col-6 
-                    div(class="box-user add")
+                    div(class="box-user")
                         div(class="inner-avatar")
                             img(
                                 src=user.avatar, 
@@ -21,12 +21,44 @@ block main
                         div(class="inner-info")
                             div(class="inner-name") #{user.fullName}
                             div(class="inner-buttons")
-                                button(class="btn btn-sm btn-primary mr-3" button-add-friend=user.id) Add friend
-                                button(class="btn btn-sm btn-secondary mr-1" button-cancel-friend=user.id) Cancel
+                                button(class="btn btn-sm btn-primary mr-3" button-accept-friend=user.id) Accept
+                                button(class="btn btn-sm btn-secondary mr-1" button-refuse-friend=user.id) Refuse
+                                button(class="btn btn-sm btn-secondary mr-1" button-deleted-friend=user.id disabled) Deleted
+                                button(class="btn btn-sm btn-primary mr-1" button-accepted-friend=user.id disabled) Accepted
+
     
     block users
         script(type="module", src="/js/users.js") 
     style.
+        .box-user [button-deleted-friend] {
+            display: none;
+        }
+        .box-user [button-accepted-friend] {
+            display: none;
+        }
+
+
+        .box-user.refuse [button-accept-friend] {
+            display: none;
+        }
+        .box-user.refuse [button-refuse-friend] {
+            display: none;
+        }
+        .box-user.refuse [button-deleted-friend] {
+            display: inline-block;
+        }
+        
+
+        .box-user.accepted [button-accept-friend] {
+            display: none;
+        }
+        .box-user.accepted [button-refuse-friend] {
+            display: none;
+        }
+        .box-user.accepted [button-accepted-friend] {
+            display: inline-block;
+        }
+
         /* Container styles */
         .container {
         max-width: 1200px;
@@ -138,12 +170,3 @@ block main
             justify-content: center;
         }
         }    
-        .box-user [button-cancel-friend] {
-            display: none;
-        }
-        .box-user.add [button-add-friend] {
-            display: none;
-        }
-        .box-user.add [button-cancel-friend] {
-            display: inline-block;
-        }

@@ -26,3 +26,42 @@ if (listButtonCancelFriend.length > 0) {
         }); 
     }); 
 }
+
+//refuse friend
+const listButtonRefuseFriend = document.querySelectorAll("[button-refuse-friend]");
+if (listButtonRefuseFriend.length > 0) {
+    listButtonRefuseFriend.forEach((button) => {
+        button.addEventListener("click", (e) => {
+
+            button.closest(".box-user").classList.add("refuse");
+            const userId = button.getAttribute("button-refuse-friend");
+            console.log(userId);
+            socket.emit("CLIENT_REFUSE_FRIEND", userId);
+        }); 
+    }); 
+}
+
+
+//accept friend
+const listButtonAcceptFriend = document.querySelectorAll("[button-accept-friend]");
+if (listButtonAcceptFriend.length > 0) {
+    listButtonAcceptFriend.forEach((button) => {
+        button.addEventListener("click", (e) => {
+
+            button.closest(".box-user").classList.add("accepted");
+            const userId = button.getAttribute("button-accept-friend");
+            console.log(userId);
+            socket.emit("CLIENT_ACCEPT_FRIEND", userId);
+        }); 
+    }); 
+}
+
+
+//SERVER_RETURN_LENGTH_ACCEPT_FRIEND
+socket.on("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", (data) => {
+    const badgeUsersAccept = document.querySelector("[badge-users-accept]");
+    const userId = badgeUsersAccept.getAttribute("badge-users-accept");
+    if (userId == data.userId) {
+        badgeUsersAccept.innerHTML = data.lengthAcceptFriend;
+    }
+});

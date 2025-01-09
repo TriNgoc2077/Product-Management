@@ -1,10 +1,28 @@
 .container.my-3
     .row 
         .col-12
-            a(href="/users/not-friend" class="btn btn-primary") List User 
-            a(href="/users/friends" class="btn btn-primary") List friend
-            a(href="/users/request" class="btn btn-primary") Request sent 
-            a(href="/users/accept" class="btn btn-primary") Friend request 
+            if (user)
+                a(href="/users/not-friend" class="btn btn-primary") 
+                    | List User 
+                    span(
+                        class="btn btn-light"
+                    ) #{users.length ? users.length : 0}
+                a(href="/users/friends" class="btn btn-primary") 
+                    | List friend
+                    span(
+                        class="btn btn-light"
+                    ) #{user.listFriend.length ? user.listFriend.length : 0}
+                a(href="/users/request" class="btn btn-primary") 
+                    | Request sent 
+                    span(
+                        class="btn btn-light"
+                    ) #{user.requestFriend.length ? user.requestFriend.length : 0}
+                a(href="/users/accept" class="btn btn-primary") 
+                    | Friend request 
+                    span(
+                        class="btn btn-light"
+                        badge-users-accept=user.id
+                    ) #{user.acceptFriend.length ? user.acceptFriend.length : 0}
     style.
 
         /* Button styles */

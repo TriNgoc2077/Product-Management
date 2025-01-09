@@ -31,12 +31,19 @@ module.exports = async (res) => {
                     }
                 );
             }
+
+            //length accept friend of account 
+            const inforUser = await User.findOne({ _id: userId });
+            const lengthAcceptFriend = inforUser.acceptFriend.length;
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
+                userId: userId,
+                lengthAcceptFriend: lengthAcceptFriend
+            });
         });
 
         //cancel add friend
         socket.on("CLIENT_CANCEL_FRIEND", async (userId) => {
             const myUserId = res.locals.user.id;
-            console.log(myUserId);
             //myUserId: id of account
             //userId: id of another accounts
             const existUserAinB = await User.findOne({ _id: userId, acceptFriend: myUserId });
@@ -63,6 +70,80 @@ module.exports = async (res) => {
                     }
                 );
             }
+        });
+
+        //refuse friend
+        socket.on("CLIENT_REFUSE_FRIEND", async (userId) => {
+            const myUserId = res.locals.user.id;
+            //myUserId: id of account
+            //userId: id of another accounts
+            const existUserAinB = await User.findOne({ _id: myUserId, acceptFriend: userId });
+            if (existUserAinB) {
+                await User.updateOne(
+                    {
+                        _id: myUserId
+                    }, 
+                    { 
+                        $pull: { acceptFriend: userId }
+                    }
+                );
+            }
+
+
+            const existUserBinA = await User.findOne({ _id: userId, requestFriend: myUserId });
+            if (existUserBinA) {
+                await User.updateOne(
+                    {
+                        _id: userId
+                    }, 
+                    { 
+                        $pull: { requestFriend: myUserId }
+                    }
+                );
+            }
+        });
+
+        //accept friend
+        socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
+            const myUserId = res.locals.user.id;
+            // similar refuse friend
+            const existUserAinB = await User.findOne({ _id: myUserId, acceptFriend: userId });
+            if (existUserAinB) {
+                await User.updateOne(
+                    {
+                        _id: myUserId
+                    }, 
+                    { 
+                        //add id to friend list
+                        $push: { 
+                            listFriend: { 
+                                userId, 
+                                room_chat_id: "" 
+                            }, 
+                        },
+                        $pull: { acceptFriend: userId }
+                    }
+                );
+            }
+
+
+            const existUserBinA = await User.findOne({ _id: userId, requestFriend: myUserId });
+            if (existUserBinA) {
+                await User.updateOne(
+                    {
+                        _id: userId
+                    }, 
+                    { 
+                        $push: { 
+                            listFriend: {
+                                myUserId,
+                                room_chat_id: ""
+                            },
+                        },
+                        $pull: { requestFriend: myUserId }
+                    }
+                );
+            }            
         });
     });
 }
