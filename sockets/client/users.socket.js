@@ -87,9 +87,11 @@ module.exports = async (res) => {
             });
 
             //this account cancel add friend request
+            const inforRequester = await User.findOne({ _id: myUserId }).select("_id avatar fullName");
             socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL", {
                 idReceiver: userId,
-                idRequester: myUserId
+                idRequester: myUserId,
+                inforRequester: inforRequester
             });
         });
 

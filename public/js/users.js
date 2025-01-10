@@ -69,48 +69,62 @@ socket.on("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", (data) => {
 // SERVER_RETURN_INFOR_ACCEPT_FRIEND
 socket.on("SERVER_RETURN_INFOR_ACCEPT_FRIEND", (data) => {
     const dataUserAccept = document.querySelector("[data-user-accept]");
-    const userId = dataUserAccept.getAttribute("data-user-accept");
-    if (userId == data.userId) {
-        const newBoxUser = document.createElement("div");
-        newBoxUser.classList.add("col-6");
-        newBoxUser.setAttribute("user-id", data.inforRequester._id);
-        //img dont have source
-        const html = `
-            <div class="box-user">
-                <div class="inner-avatar">
-                    <img alt="avatar">
-                </div>
-                <div class="inner-info">
-                    <div class="inner-name">${data.inforRequester.fullName}</div>
-                    <div class="inner-buttons">
-                        <button class="btn btn-sm btn-primary mr-3" button-accept-friend=${data.inforRequester._id}>Accept</button>
-                        <button class="btn btn-sm btn-secondary mr-1" button-refuse-friend=${data.inforRequester._id}>Refuse</button>
-                        <button class="btn btn-sm btn-secondary mr-1" button-deleted-friend=${data.inforRequester._id} disabled="disabled">Deleted</button>
-                        <button class="btn btn-sm btn-primary mr-1" button-accepted-friend=${data.inforRequester._id} disabled="disabled">Accepted</button>
+    //page request friend
+    if (dataUserAccept) {
+        const userId = dataUserAccept.getAttribute("data-user-accept");
+        if (userId == data.userId) {
+            const newBoxUser = document.createElement("div");
+            newBoxUser.classList.add("col-6");
+            newBoxUser.setAttribute("user-id", data.inforRequester._id);
+            //img dont have source
+            const html = `
+                <div class="box-user">
+                    <div class="inner-avatar">
+                        <img alt="avatar">
+                    </div>
+                    <div class="inner-info">
+                        <div class="inner-name">${data.inforRequester.fullName}</div>
+                        <div class="inner-buttons">
+                            <button class="btn btn-sm btn-primary mr-3" button-accept-friend=${data.inforRequester._id}>Accept</button>
+                            <button class="btn btn-sm btn-secondary mr-1" button-refuse-friend=${data.inforRequester._id}>Refuse</button>
+                            <button class="btn btn-sm btn-secondary mr-1" button-deleted-friend=${data.inforRequester._id} disabled="disabled">Deleted</button>
+                            <button class="btn btn-sm btn-primary mr-1" button-accepted-friend=${data.inforRequester._id} disabled="disabled">Accepted</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
-        newBoxUser.innerHTML = html;
-        dataUserAccept.appendChild(newBoxUser);
-        //add listener for button refuse 
-        const buttonRefuseFriend = newBoxUser.querySelector("[button-refuse-friend]");
-        if (buttonRefuseFriend) {
-            buttonRefuseFriend.addEventListener("click", (e) => {
-                buttonRefuseFriend.closest(".box-user").classList.add("refuse");
-                const userId = buttonRefuseFriend.getAttribute("button-refuse-friend");
-                socket.emit("CLIENT_REFUSE_FRIEND", userId);
-            });
+            `;
+            newBoxUser.innerHTML = html;
+            dataUserAccept.appendChild(newBoxUser);
+            //add listener for button refuse 
+            const buttonRefuseFriend = newBoxUser.querySelector("[button-refuse-friend]");
+            if (buttonRefuseFriend) {
+                buttonRefuseFriend.addEventListener("click", (e) => {
+                    buttonRefuseFriend.closest(".box-user").classList.add("refuse");
+                    const userId = buttonRefuseFriend.getAttribute("button-refuse-friend");
+                    socket.emit("CLIENT_REFUSE_FRIEND", userId);
+                });
+            }
+            //add listener for button accept
+            const buttonAcceptFriend = newBoxUser.querySelector("[button-accept-friend]");
+            if (buttonAcceptFriend) {
+                buttonAcceptFriend.addEventListener("click", (e) => {
+    
+                    buttonAcceptFriend.closest(".box-user").classList.add("accepted");
+                    const userId = buttonAcceptFriend.getAttribute("button-accept-friend");
+                    socket.emit("CLIENT_ACCEPT_FRIEND", userId);
+                });
+            }
         }
-        //add listener for button accept
-        const buttonAcceptFriend = newBoxUser.querySelector("[button-accept-friend]");
-        if (buttonAcceptFriend) {
-            buttonAcceptFriend.addEventListener("click", (e) => {
-
-                buttonAcceptFriend.closest(".box-user").classList.add("accepted");
-                const userId = buttonAcceptFriend.getAttribute("button-accept-friend");
-                socket.emit("CLIENT_ACCEPT_FRIEND", userId);
-            });
+    }
+    //page list user
+    const dataUserNotFriend = document.querySelector("[data-users-not-friend]");
+    if (dataUserNotFriend) {
+        const userId = dataUserNotFriend.getAttribute("data-users-not-friend");
+        if (userId == data.userId) {
+            const boxRequester = dataUserNotFriend.querySelector(`[user-id="${data.inforRequester._id}"]`);
+            if (boxRequester) {
+                dataUserNotFriend.removeChild(boxRequester);
+            }
         }
     }
 });
@@ -118,12 +132,61 @@ socket.on("SERVER_RETURN_INFOR_ACCEPT_FRIEND", (data) => {
 //SERVER_RETURN_USER_ID_CANCEL
 socket.on("SERVER_RETURN_USER_ID_CANCEL", (data) => {
     const dataUserAccept = document.querySelector("[data-user-accept]");
-    const userId = dataUserAccept.getAttribute("data-user-accept");
-    if (userId == data.idReceiver) {
-        //remove requester
-        const boxRequester = dataUserAccept.querySelector(`[user-id="${data.idRequester}"]`);
-        if (boxRequester) {
-            dataUserAccept.removeChild(boxRequester);
+    //page request friend
+    if (dataUserAccept) {
+        const userId = dataUserAccept.getAttribute("data-user-accept");
+        if (userId == data.idReceiver) {
+            //remove requester
+            const boxRequester = dataUserAccept.querySelector(`[user-id="${data.idRequester}"]`);
+            if (boxRequester) {
+                dataUserAccept.removeChild(boxRequester);
+            }
         }
     }
+    //page list user  
+    const dataUserNotFriend = document.querySelector("[data-users-not-friend]");
+    if (dataUserNotFriend) {
+        const userId = dataUserNotFriend.getAttribute("data-users-not-friend");
+        if (userId == data.idReceiver) {
+            const newBoxUser = document.createElement("div");
+            newBoxUser.classList.add("col-6");
+            newBoxUser.setAttribute("user-id", data.inforRequester._id);
+            //img dont have source
+            const html = `
+                <div class="box-user">
+                    <div class="inner-avatar">
+                        <img alt="avatar">
+                    </div>
+                    <div class="inner-info">
+                        <div class="inner-name">Cao Nguyen Tri Ngoc</div>
+                        <div class="inner-buttons">
+                            <button class="btn btn-sm btn-primary mr-3" button-add-friend="67703f3ab0b1276336149d0b">Add friend</button>
+                            <button class="btn btn-sm btn-secondary mr-1" button-cancel-friend="67703f3ab0b1276336149d0b">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            newBoxUser.innerHTML = html;
+            dataUserNotFriend.appendChild(newBoxUser);
+            //add listener for button add fr 
+            const buttonAddFriend = newBoxUser.querySelector("[button-add-friend]");
+            if (buttonAddFriend) {
+                buttonAddFriend.addEventListener("click", (e) => {
+                    buttonAddFriend.closest(".box-user").classList.add("add");
+                    const userId = buttonAddFriend.getAttribute("button-add-friend");        
+                    socket.emit("CLIENT_ADD_FRIEND", userId);
+                });
+            }
+            //add listener for button cancel
+            const buttonCancelFriend = newBoxUser.querySelector("[button-cancel-friend]");
+            if (buttonCancelFriend) {
+                buttonCancelFriend.addEventListener("click", (e) => {
+                    buttonCancelFriend.closest(".box-user").classList.remove("add");
+                    const userId = buttonCancelFriend.getAttribute("button-cancel-friend");
+                    socket.emit("CLIENT_CANCEL_FRIEND", userId);
+                });
+            }
+        }
+    }
+
 });
