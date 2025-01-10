@@ -9,7 +9,7 @@ block main
         .row  
             .col-12
                 +box-head("List request received")
-        .row 
+        .row(data-user-accept=user.id)
             each user in users
                 .col-6 
                     div(class="box-user")

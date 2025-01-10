@@ -9,7 +9,6 @@ module.exports.notFriend = async (req, res) => {
     const myUser = await User.findOne({ _id: userId });
     const requestFriend = myUser.requestFriend;
     const acceptFriend = myUser.acceptFriend;
-    console.log(requestFriend);
     const users = await User.find({
         _id: { $nin: requestFriend, $ne: userId, $nin: acceptFriend },
         status: "active",

@@ -39,6 +39,13 @@ module.exports = async (res) => {
                 userId: userId,
                 lengthAcceptFriend: lengthAcceptFriend
             });
+
+            //display request to friend request 
+            const inforRequester = await User.findOne({ _id: myUserId }).select("_id avatar fullName");
+            socket.broadcast.emit("SERVER_RETURN_INFOR_ACCEPT_FRIEND", {
+                userId: userId,
+                inforRequester: inforRequester
+            });
         });
 
         //cancel add friend
@@ -70,6 +77,14 @@ module.exports = async (res) => {
                     }
                 );
             }
+
+            //length accept friend of account 
+            const inforUser = await User.findOne({ _id: userId });
+            const lengthAcceptFriend = inforUser.acceptFriend.length;
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
+                userId: userId,
+                lengthAcceptFriend: lengthAcceptFriend
+            });
         });
 
         //refuse friend
