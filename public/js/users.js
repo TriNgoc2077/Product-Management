@@ -73,6 +73,7 @@ socket.on("SERVER_RETURN_INFOR_ACCEPT_FRIEND", (data) => {
     if (userId == data.userId) {
         const newBoxUser = document.createElement("div");
         newBoxUser.classList.add("col-6");
+        newBoxUser.setAttribute("user-id", data.inforRequester._id);
         //img dont have source
         const html = `
             <div class="box-user">
@@ -110,6 +111,19 @@ socket.on("SERVER_RETURN_INFOR_ACCEPT_FRIEND", (data) => {
                 const userId = buttonAcceptFriend.getAttribute("button-accept-friend");
                 socket.emit("CLIENT_ACCEPT_FRIEND", userId);
             });
+        }
+    }
+});
+
+//SERVER_RETURN_USER_ID_CANCEL
+socket.on("SERVER_RETURN_USER_ID_CANCEL", (data) => {
+    const dataUserAccept = document.querySelector("[data-user-accept]");
+    const userId = dataUserAccept.getAttribute("data-user-accept");
+    if (userId == data.idReceiver) {
+        //remove requester
+        const boxRequester = dataUserAccept.querySelector(`[user-id="${data.idRequester}"]`);
+        if (boxRequester) {
+            dataUserAccept.removeChild(boxRequester);
         }
     }
 });

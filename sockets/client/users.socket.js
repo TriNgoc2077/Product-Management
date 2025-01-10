@@ -85,6 +85,12 @@ module.exports = async (res) => {
                 userId: userId,
                 lengthAcceptFriend: lengthAcceptFriend
             });
+
+            //this account cancel add friend request
+            socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL", {
+                idReceiver: userId,
+                idRequester: myUserId
+            });
         });
 
         //refuse friend
