@@ -140,7 +140,7 @@ module.exports = async (res) => {
                         //add id to friend list
                         $push: { 
                             listFriend: { 
-                                userId, 
+                                user_id: userId, 
                                 room_chat_id: "" 
                             }, 
                         },
@@ -159,7 +159,7 @@ module.exports = async (res) => {
                     { 
                         $push: { 
                             listFriend: {
-                                myUserId,
+                                user_id: myUserId,
                                 room_chat_id: ""
                             },
                         },

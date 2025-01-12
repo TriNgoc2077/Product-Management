@@ -76,9 +76,8 @@ module.exports.loginPost = async (req, res) => {
 		}
 		res.cookie("userToken", user.userToken);
 		//save user_id to cart
-		console.log(user.id);
-		console.log(req.cookies.cartId);
 		await Cart.updateOne({ _id: req.cookies.cartId }, { user_id: user.id });
+		await User.updateOne({ _id: user.id }, { online: "online" });
 		res.redirect("/");
 	} catch (error) {}
 };
@@ -86,6 +85,7 @@ module.exports.loginPost = async (req, res) => {
 //[GET] /user/logout
 module.exports.logout = async (req, res) => {
 	try {
+		await User.updateOne({ _id: res.locals.user.id }, { online: "offline" });
 		res.clearCookie("userToken");
 		req.flash("success", "Log out successfully !");
 		res.redirect("/");

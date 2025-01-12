@@ -158,10 +158,10 @@ socket.on("SERVER_RETURN_USER_ID_CANCEL", (data) => {
                         <img alt="avatar">
                     </div>
                     <div class="inner-info">
-                        <div class="inner-name">Cao Nguyen Tri Ngoc</div>
+                        <div class="inner-name">${data.inforRequester.fullName}</div>
                         <div class="inner-buttons">
-                            <button class="btn btn-sm btn-primary mr-3" button-add-friend="67703f3ab0b1276336149d0b">Add friend</button>
-                            <button class="btn btn-sm btn-secondary mr-1" button-cancel-friend="67703f3ab0b1276336149d0b">Cancel</button>
+                            <button class="btn btn-sm btn-primary mr-3" button-add-friend=${data.inforRequester._id}>Add friend</button>
+                            <button class="btn btn-sm btn-secondary mr-1" button-cancel-friend=${data.inforRequester._id}>Cancel</button>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,35 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+    .container.py-4
+        .row.mb-4
+            .col-12
+                +box-head("List request received")
+        
+        .row.g-4
+            each user in users
+                .col-12.col-md-4
+                    .card.h-100.shadow-sm
+                        .card-body
+                            .d-flex.align-items-center.position-relative
+                                .position-relative.me-3
+                                    img.rounded-circle(
+                                        src=user.avatar
+                                        alt="avatar"
+                                        style="width: 80px; height: 80px; object-fit: cover;"
+                                    )
+                                    //- Status indicator repositioned to bottom-right of avatar
+                                    .position-absolute.bottom-0.end-0.translate-middle-y
+                                        i.fa-solid.fa-circle.fs-6(
+                                            class=user.online ? "text-success" : "text-secondary"
+                                            style="opacity: " + (user.online ? "1" : "0") + ";"
+                                        )
+                                
+                                .flex-grow-1
+                                    .fw-semibold.mb-2.fs-5 #{user.fullName}
+                                    .d-flex.gap-2
+                                        a.btn.btn-primary.btn-sm(href="#") Inbox
+
+block users
+    script(type="module", src="/js/users.js")
