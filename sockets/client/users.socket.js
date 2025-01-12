@@ -1,4 +1,5 @@
 const User = require("../../models/user.model");
+const RoomChat = require("../../models/room-chat.model");
 module.exports = async (res) => {
     _io.once('connection', (socket) => {
         //add friend
@@ -130,7 +131,30 @@ module.exports = async (res) => {
         socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
             const myUserId = res.locals.user.id;
             // similar refuse friend
+            
             const existUserAinB = await User.findOne({ _id: myUserId, acceptFriend: userId });
+            const existUserBinA = await User.findOne({ _id: userId, requestFriend: myUserId });
+            
+            let roomChat;
+            
+            //create room chat
+            if (existUserAinB && existUserBinA) {
+                roomChat = new RoomChat({
+                    typeRoom: "friend",
+                    users: [
+                        {
+                            user_id: userId,
+                            role: "superAdmin"
+                        },
+                        {
+                            user_id: myUserId,
+                            role: "superAdmin"
+                        }
+                    ],
+                });
+                await roomChat.save();
+            }
+
             if (existUserAinB) {
                 await User.updateOne(
                     {
@@ -141,7 +165,7 @@ module.exports = async (res) => {
                         $push: { 
                             listFriend: { 
                                 user_id: userId, 
-                                room_chat_id: "" 
+                                room_chat_id: roomChat.id
                             }, 
                         },
                         $pull: { acceptFriend: userId }
@@ -150,7 +174,6 @@ module.exports = async (res) => {
             }
 
 
-            const existUserBinA = await User.findOne({ _id: userId, requestFriend: myUserId });
             if (existUserBinA) {
                 await User.updateOne(
                     {
@@ -160,7 +183,7 @@ module.exports = async (res) => {
                         $push: { 
                             listFriend: {
                                 user_id: myUserId,
-                                room_chat_id: ""
+                                room_chat_id: roomChat.id
                             },
                         },
                         $pull: { requestFriend: myUserId }

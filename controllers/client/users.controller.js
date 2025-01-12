@@ -74,15 +74,21 @@ module.exports.friends = async (req, res) => {
         _id: userId
     });
 
-    const listFriend = myUser.listFriend.map(item => item.user_id);
-        const users = await User.find(
-        {
-            _id: { $in: listFriend },
-            status: "active",
-            deleted: false
-        }
+    const listFriend = myUser.listFriend;
+    const listIdFriend = listFriend.map(item => item.user_id);
+    const users = await User.find(
+    {
+        _id: { $in: listIdFriend },
+        status: "active",
+        deleted: false
+    }
     ).select("id fullName avatar online");
     
+    users.forEach(user => {
+        const inforUser = listFriend.find(friend => friend.user_id == user.id);
+        user.roomChatId = inforUser.room_chat_id;
+    });
+
     res.render("client/pages/users/friends", {
         titlePage: "List request received",
         users: users

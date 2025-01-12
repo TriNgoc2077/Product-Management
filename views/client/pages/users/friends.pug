@@ -30,7 +30,7 @@ block main
                                 .flex-grow-1
                                     .fw-semibold.mb-2.fs-5 #{user.fullName}
                                     .d-flex.gap-1
-                                        a.btn.btn-primary.btn-sm(href="#") Inbox
+                                        a.btn.btn-primary.btn-sm(href=`/chat/${user.roomChatId}`) Inbox
                                         a.btn.btn-secondary.btn-sm(href="#") Unfriend
 
 block users
