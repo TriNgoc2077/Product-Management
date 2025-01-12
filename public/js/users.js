@@ -190,3 +190,24 @@ socket.on("SERVER_RETURN_USER_ID_CANCEL", (data) => {
     }
 
 });
+
+const onlineMarkup = (userId, status) => {
+    const dataUsersFriend = document.querySelector("[data-users-friend]");
+    if (dataUsersFriend) {
+        const boxUser = dataUsersFriend.querySelector(`[user-id="${userId}"]`);
+        if (boxUser) {
+            boxUser.querySelector("[status]").setAttribute("status", status);
+
+        }
+    }
+} 
+
+// SERVER_RETURN_USER_ONLINE
+socket.on("SERVER_RETURN_USER_ONLINE", (userId) => {
+    onlineMarkup(userId, "online");
+});
+
+// SERVER_RETURN_USER_OFFLINE
+socket.on("SERVER_RETURN_USER_OFFLINE", (userId) => {
+    onlineMarkup(userId, "offline");
+});

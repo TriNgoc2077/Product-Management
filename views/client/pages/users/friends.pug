@@ -7,9 +7,9 @@ block main
             .col-12
                 +box-head("List request received")
         
-        .row.g-4
+        .row.g-4(data-users-friend)
             each user in users
-                .col-12.col-md-4
+                .col-12.col-md-4(user-id=user.id)
                     .card.h-100.shadow-sm
                         .card-body
                             .d-flex.align-items-center.position-relative
@@ -22,8 +22,7 @@ block main
                                     //- Status indicator repositioned to bottom-right of avatar
                                     .position-absolute.bottom-0.end-0.translate-middle-y
                                         i.fa-solid.fa-circle.fs-6(
-                                            class=user.online ? "text-success" : "text-secondary"
-                                            style="opacity: " + (user.online ? "1" : "0") + ";"
+                                            status=user.online
                                         )
                                 
                                 .flex-grow-1
@@ -33,3 +32,11 @@ block main
 
 block users
     script(type="module", src="/js/users.js")
+
+    style.
+        .fa-solid.fa-circle[status="online"] {
+            color: #00d800;
+        }
+        .fa-solid.fa-circle[status="offline"] {
+            color: #6c757d;
+        }

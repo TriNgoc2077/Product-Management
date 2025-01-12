@@ -78,6 +78,12 @@ module.exports.loginPost = async (req, res) => {
 		//save user_id to cart
 		await Cart.updateOne({ _id: req.cookies.cartId }, { user_id: user.id });
 		await User.updateOne({ _id: user.id }, { online: "online" });
+
+		//socket 
+		_io.once('connection', (socket) => {
+			socket.broadcast.emit("SERVER_RETURN_USER_ONLINE", user.id);
+		});
+
 		res.redirect("/");
 	} catch (error) {}
 };
@@ -86,6 +92,10 @@ module.exports.loginPost = async (req, res) => {
 module.exports.logout = async (req, res) => {
 	try {
 		await User.updateOne({ _id: res.locals.user.id }, { online: "offline" });
+		//socket 
+		_io.once('connection', (socket) => {
+			socket.broadcast.emit("SERVER_RETURN_USER_OFFLINE", res.locals.user.id);
+		});
 		res.clearCookie("userToken");
 		req.flash("success", "Log out successfully !");
 		res.redirect("/");
