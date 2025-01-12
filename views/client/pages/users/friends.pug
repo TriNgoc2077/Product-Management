@@ -2,10 +2,12 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main 
+    include ../../partials/list-btn-users.pug
+    
     .container.py-4
         .row.mb-4
             .col-12
-                +box-head("List request received")
+                +box-head("List friend")
         
         .row.g-4(data-users-friend)
             each user in users
@@ -27,8 +29,9 @@ block main
                                 
                                 .flex-grow-1
                                     .fw-semibold.mb-2.fs-5 #{user.fullName}
-                                    .d-flex.gap-2
+                                    .d-flex.gap-1
                                         a.btn.btn-primary.btn-sm(href="#") Inbox
+                                        a.btn.btn-secondary.btn-sm(href="#") Unfriend
 
 block users
     script(type="module", src="/js/users.js")

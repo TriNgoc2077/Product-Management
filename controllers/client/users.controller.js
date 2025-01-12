@@ -9,8 +9,9 @@ module.exports.notFriend = async (req, res) => {
     const myUser = await User.findOne({ _id: userId });
     const requestFriend = myUser.requestFriend;
     const acceptFriend = myUser.acceptFriend;
+    const listFriend = myUser.listFriend.map(item => item.user_id);
     const users = await User.find({
-        _id: { $nin: requestFriend, $ne: userId, $nin: acceptFriend },
+        _id: { $nin: requestFriend, $ne: userId, $nin: acceptFriend, $nin: listFriend },
         status: "active",
         deleted: false
     }).select("avatar fullName");
@@ -74,16 +75,13 @@ module.exports.friends = async (req, res) => {
     });
 
     const listFriend = myUser.listFriend.map(item => item.user_id);
-    console.log(listFriend);
-    const users = await User.find(
+        const users = await User.find(
         {
             _id: { $in: listFriend },
             status: "active",
             deleted: false
         }
     ).select("id fullName avatar online");
-
-    console.log(users);
     
     res.render("client/pages/users/friends", {
         titlePage: "List request received",
