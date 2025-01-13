@@ -1,0 +1,42 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.py-4
+        .row.mb-4
+            .col-12
+                +box-head("Chat Rooms")
+        
+        .row.mb-4
+            .col-12
+                a(
+                    href="/rooms-chat/create"
+                    class="btn btn-success"
+                )
+                    i.bi.bi-plus-circle.me-2
+                    | Create New Chat Room
+        
+        .row.row-cols-1.row-cols-md-2.row-cols-lg-3.g-4
+            each room in listRoom
+                .col
+                    .card.h-100.shadow-sm.hover-shadow
+                        .card-body
+                            .d-flex.align-items-center
+                                .flex-shrink-0
+                                    img(
+                                        src=(room.avatar ? room.avatar : "")
+                                        alt="Room Avatar"
+                                        class="rounded-circle"
+                                        style="width: 64px; height: 64px; object-fit: cover;"
+                                    )
+                                .flex-grow-1.ms-3
+                                    h5.card-title.mb-1 #{room.typeRoom == "group" ? room.title : room.name}
+                                    p.card-text.text-muted.small #{room.typeRoom == "group" ? room.users.length + " Members" : ""}
+                            hr.my-3
+                            .d-grid.gap-2
+                                a(
+                                    href=`/chat/${room.id}`
+                                    class="btn btn-primary"
+                                )
+                                    i.bi.bi-chat-dots.me-2
+                                    | Join Chat

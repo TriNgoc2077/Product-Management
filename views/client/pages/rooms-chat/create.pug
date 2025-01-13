@@ -1,0 +1,84 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.py-4
+        .row.mb-4
+            .col-12
+                +box-head("Create New Chat Room")
+
+        .row.justify-content-center
+            .col-12.col-md-8.col-lg-6
+                .card.shadow-sm
+                    .card-body.p-4
+                        form(
+                            action="/rooms-chat/create"
+                            method="POST"
+                        )
+                            .mb-4
+                                label(
+                                    for="title"
+                                    class="form-label fw-semibold"
+                                ) Room Name
+                                input(
+                                    type="text"
+                                    class="form-control form-control-lg"
+                                    id="title"
+                                    name="title"
+                                    placeholder="Enter room name"
+                                    required
+                                )
+
+                            //- .mb-4
+                            //-     label(
+                            //-         for="roomAvatar"
+                            //-         class="form-label fw-semibold"
+                            //-     ) Room Avatar
+                            //-     .input-group
+                            //-         input(
+                            //-             type="file"
+                            //-             class="form-control"
+                            //-             id="roomAvatar"
+                            //-             name="roomAvatar"
+                            //-             accept="image/*"
+                            //-         )
+                            //-     .form-text.text-muted Recommended size: 200x200px. Max file size: 2MB
+
+                            .mb-4
+                                label(
+                                    class="form-label fw-semibold d-block"
+                                ) Add Members
+                                .member-list.border.rounded.p-3.bg-light
+                                    //- Add member in list friend
+                                    each friend in listFriend
+                                        .form-check.mb-2
+                                            input(
+                                                type="checkbox"
+                                                class="form-check-input"
+                                                id=`user-${friend.user_id}`
+                                                name="userId"
+                                                value=friend.user_id
+                                            )
+                                            label(
+                                                class="form-check-label"
+                                                for=`user-${friend.user_id}`
+                                            ) 
+                                                img(
+                                                    src=friend.infor.avatar
+                                                    alt="Member Avatar"
+                                                    class="rounded-circle me-2"
+                                                    style="width: 32px; height: 32px; object-fit: cover;"
+                                                ) 
+                                                | #{friend.infor.fullName}
+
+                            .d-grid.gap-2
+                                button(
+                                    type="submit"
+                                    class="btn btn-primary btn-lg"
+                                )
+                                    i.bi.bi-plus-circle.me-2
+                                    | Create Room
+                                a(
+                                    href="/rooms-chat"
+                                    class="btn btn-light"
+                                ) Cancel
