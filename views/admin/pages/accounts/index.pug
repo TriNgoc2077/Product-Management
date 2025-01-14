@@ -39,8 +39,8 @@ block main
                         tbody   
                             if (records.length > 0)  
                                 each item, index in records   
-                                    tr   
-                                        td.align-middle #{index + 1}  
+                                    tr(data-href=`${prefixAdmin}/accounts/detail/${item.id}`) 
+                                        td.align-middle.not-click #{index + 1}  
                                         td.align-middle  
                                             img.rounded-circle(  
                                                 src=item.avatar  
@@ -50,18 +50,18 @@ block main
                                             )  
                                         td.align-middle #{item.fullName}  
                                         td.align-middle  
-                                            span.badge.badge-info #{item.role.title}  
+                                            span.badge.badge-info.not-click #{item.role.title}  
                                         td.align-middle #{item.email}  
-                                        td.align-middle  
+                                        td.align-middle.not-click
                                             if (item.status === "active")  
-                                                span.badge.badge-success.status-badge(  
+                                                span.badge.bg-success(  
                                                     data-status="active"  
                                                 ) Active  
                                             else    
-                                                span.badge.badge-danger.status-badge(  
+                                                span.badge.bg-danger(  
                                                     data-status="inactive"  
                                                 ) Inactive  
-                                        td.align-middle  
+                                        td.align-middle.not-click
                                             .btn-group  
                                                 a.btn.btn-sm.btn-outline-info(  
                                                     href=`${prefixAdmin}/accounts/detail/${item.id}`  

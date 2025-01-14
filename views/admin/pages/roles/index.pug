@@ -40,7 +40,7 @@ block main
                                     th(width="30%") Actions  
                             tbody   
                                 each item, index in records   
-                                    tr.align-middle  
+                                    tr.align-middle(data-href=`${prefixAdmin}/roles/detail/${item.id}`) 
                                         td.align-middle #{index + 1}  
                                         td.align-middle  
                                             span.font-weight-medium #{item.title}  
@@ -49,7 +49,7 @@ block main
                                                 span.text-muted #{item.description}  
                                             else  
                                                 span.text-muted.font-italic No description  
-                                        td.align-middle  
+                                        td.align-middle.not-click
                                             .btn-group  
                                                 a.btn.btn-sm.btn-outline-info(  
                                                     href=`${prefixAdmin}/roles/detail/${item.id}`  
@@ -86,7 +86,7 @@ block main
                             i.fas.fa-plus.mr-2  
                             | Create First Role  
 
-        style.  
+    style.
             .table td {  
                 vertical-align: middle !important;  
             }  
