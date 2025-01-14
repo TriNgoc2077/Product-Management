@@ -12,6 +12,8 @@ const uploadCloud = require("../../middlewares/admin/uploadCloud.middleware");
 router.get("/", controller.index);
 
 router.get("/create", controller.create);
+router.get("/detail/:id", controller.detail);
+router.patch("/change-status/:status/:id", controller.changeStatus);
 
 router.post(
     "/create", 
@@ -30,5 +32,7 @@ router.patch(
     validate.createPost,
     controller.editPatch
 );
+router.delete("/delete/:id", controller.deleteItem);
+router.post("/restore/:id", controller.restoreItem);
 
 module.exports = router;

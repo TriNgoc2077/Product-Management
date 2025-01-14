@@ -1,21 +1,59 @@
 const ProductCategory = require("../../models/product-category.model");
+const Account = require("../../models/account.model");
 const systemConfig = require("../../config/system");
 const createTreeHelper = require("../../helpers/createTree");
+const filterStatusHelpers = require("../../helpers/filterStatus");
+const searchHelpers = require("../../helpers/search");
+
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
+    //find
+    const filterStatus = filterStatusHelpers(req.query);
+    
     let find = {
         deleted: false
     };
+    if (req.query.status === "deleted"){
+        find.deleted = true;
+    } else if (req.query.status) {
+        find.status = req.query.status;
+    } 
+
+    //find
+    const objectSearch = searchHelpers(req.query);
+
+    if (objectSearch.regex) {
+        find.title = objectSearch.regex;
+    }
+
     const records = await ProductCategory.find(find);
-
-    const newRecords = createTreeHelper.createTree(records);
-
-    // console.log(newRecords);
-
     res.render("admin/pages/product-category/index.pug", {
         titlePage: "Product Category",
-        records: newRecords
+        records: records,
+        filterStatus: filterStatus
     });
+}
+
+//[PATCH] /admin/product-category/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+    const status = req.params.status;
+    const id = req.params.id;
+    console.log(status);
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updateAt: new Date()
+    };
+
+    await ProductCategory.updateOne(
+        { _id: id }, 
+        { 
+            status: status,
+            $push: { updatedBy: updatedBy }
+        }
+    );
+
+    req.flash("success", "Update status product category successfully !");
+    res.redirect("back");
 }
 
 // [GET] /admin/products-category/create
@@ -23,7 +61,7 @@ module.exports.create = async (req, res) => {
     let find = {
         deleted: false
     };
-    
+
     const records = await ProductCategory.find(find);
     const newRecords = createTreeHelper.createTree(records);
 
@@ -34,6 +72,37 @@ module.exports.create = async (req, res) => {
         records: newRecords
     });
 }
+
+// [GET] /admin/products-category/detail
+module.exports.detail = async (req, res) => {
+    const id = req.params.id;
+    let find = {
+        _id: id,
+        deleted: false
+    };
+    const record = await ProductCategory.findOne(find);
+    if (record.updatedBy && record.updatedBy.length > 0) {
+        for (let update of record.updatedBy) {
+            const account = await Account.findOne({ _id: update.account_id }).select("-password -token");
+            if (account) {
+                update.updater = account.fullName;
+            }
+        }
+    }
+    if (record.createdBy) {
+        const user = await Account.findOne({
+            _id: record.createdBy.account_id
+        });
+        if (user) {
+            record.creator = user.fullName;
+        }
+    }
+    res.render("admin/pages/product-category/detail", {
+        titlePage: "Detail product Category",
+        category: record
+    });
+}
+
 //[POST] //admin/product-categody/create
 module.exports.createPost = async (req, res) => {
     // console.log(req.body);
@@ -43,6 +112,9 @@ module.exports.createPost = async (req, res) => {
     } else {
         req.body.position = parseInt(req.body.position);
     }
+    req.body.createdBy = {
+        account_id: res.locals.user.id,
+    };
     const record = new ProductCategory(req.body);
     await ProductCategory.bulkSave([record]);
     res.redirect(`${systemConfig.prefixAdmin}/product-category`);
@@ -58,7 +130,6 @@ module.exports.edit = async (req, res) => {
 
         const record = await ProductCategory.findOne({ 
             _id: id, 
-            deleted: false 
         });
         res.render("admin/pages/product-category/edit", {
             titlePage: "Edit product Category",
@@ -76,9 +147,46 @@ module.exports.editPatch = async (req, res) => {
     const id = req.params.id;
 
     req.body.position = parseInt(req.body.position);
+
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updateAt: new Date()
+    };
     await ProductCategory.updateOne(
         { _id: id }, 
-        req.body
+        { ...req.body, $push: { updatedBy: updatedBy } }
     );
+    res.redirect("back");
+}
+
+// [DELETE] /admin/products-category/delete/:id
+module.exports.deleteItem = async (req, res) => {
+    const id = req.params.id;
+
+    await ProductCategory.updateOne(
+        { _id: id }, 
+        { 
+            deleted: true,
+            deletedBy: {
+                account_id: res.locals.user.id,
+                deleteAt: new Date()
+            } 
+        }        
+    );
+    req.flash("success", `Delete successfully !`);
+    res.redirect("back");
+}
+
+//[POST] //admin/products/restore/:id
+module.exports.restoreItem = async (req, res) => {
+    const id = req.params.id;
+
+    await ProductCategory.updateOne(
+        { _id: id }, 
+        { 
+            deleted: false
+        }        
+    );
+    req.flash("success", `Restore successfully !`);
     res.redirect("back");
 }

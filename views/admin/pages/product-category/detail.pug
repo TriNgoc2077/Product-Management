@@ -1,0 +1,96 @@
+extends ../../layouts/default.pug 
+
+block main
+    .container-fluid
+        .row.mb-4
+            .col-12
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a(href=`${prefixAdmin}/dashboard`) Dashboard
+                        li.breadcrumb-item
+                            a(href=`${prefixAdmin}/product-category`) Products Category
+                        li.breadcrumb-item.active #{category.title}
+
+        if category
+            .row
+                .col-md-4.mb-4
+                    .card.shadow-sm
+                        if category.thumbnail
+                            img.card-img-top.p-3(src=category.thumbnail alt=category.title)
+                        .card-body
+                            if category.status
+                                if category.status === "active"
+                                    span.badge.bg-success.mb-2.me-2 Active
+                                else 
+                                    span.badge.bg-danger.mb-2.me-2 Inactive
+
+                            if category.featured === "1"
+                                span.badge.bg-warning.mb-2 Feature
+                            else 
+                                span.badge.bg-dark.mb-2 Unfeatured 
+                            if category.position
+                                .small.text-muted Position: #{category.position}
+
+                .col-md-8
+                    .card.shadow-sm
+                        .card-body
+                            if category.title
+                                h2.card-title.mb-4 #{category.title}
+                            
+                            if category.description
+                                .description.mt-4
+                                    h4 Description
+                                    .bg-light.p-3.rounded !{category.description}
+                            
+                            .actions.mt-4
+                                if (role.permissions.includes("products-category_edit"))
+                                    a(href=`${prefixAdmin}/product-category/edit/${category.id}` class="btn btn-warning")
+                                        i.fas.fa-edit.me-2
+                                        | Edit Category
+                                if (role.permissions.includes("products-category_delete"))
+                                    button(type="button" class="btn btn-outline-danger ms-2" data-id=category.id button-delete)
+                                        i.fas.fa-trash.me-2
+                                        | Delete
+            .row
+                .col-md-4.mb-4
+                    .card.shadow-sm
+                        if category.updatedBy
+                            .card-header.bg-light
+                                h5.mb-0
+                                    i.fas.fa-history.me-2
+                                    | Update History
+                            .card-body.p-0
+                                .list-group.list-group-flush
+                                    each item in category.updatedBy
+                                        .list-group-item
+                                            .d-flex.align-items-center.mb-2
+                                                i.fas.fa-user-edit.me-2.text-primary
+                                                .fw-medium #{item.updater}
+                                            .d-flex.align-items-center.text-muted
+                                                i.far.fa-clock.me-2
+                                                small #{item.updateAt}
+                .col-md-4.mb-4
+                    .card.shadow-sm
+                        if category.createdBy
+                            .card-header.bg-light
+                                h5.mb-0
+                                    i.fas.fa-user-plus.me-2
+                                    | Creator
+                            .card-body
+                                .d-flex.align-items-center
+                                    .creator-avatar.me-3
+                                        i.fas.fa-user-circle.fa-2x.text-primary
+                                    .creator-info
+                                        .fw-medium #{category.creator}
+                                        small.text-muted
+                                            i.far.fa-calendar-alt.me-1
+                                            | Created at: #{category.createdBy.createAt}
+
+    form(  
+        action=""  
+        method="POST"  
+        id="form-delete-item"  
+        data-path=`${prefixAdmin}/product-category/delete`  
+    )  
+    script(src="/admin/js/product.js")

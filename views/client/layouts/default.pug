@@ -9,6 +9,9 @@ html
         link(rel="stylesheet", type="text/css", href="https://unpkg.com/file-upload-with-preview/dist/style.css")
 
     body 
+        include ../mixins/alert.pug 
+        +alert-success(3000)
+        +alert-error(3000)
         include ../partials/header.pug
 
         block main

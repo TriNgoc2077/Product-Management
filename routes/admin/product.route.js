@@ -15,7 +15,7 @@ router.patch("/change-multi", controller.changeMulti);
 
 router.delete("/delete/:id", controller.deleteItem);
 
-router.delete("/restore/:id", controller.restoreItem);
+router.post("/restore/:id", controller.restoreItem);
 
 router.get("/create", controller.create);
 

@@ -7,7 +7,9 @@ html
         link(rel="stylesheet", href="/admin/css/style.css")
         link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
     body 
-
+        include ../mixins/alert.pug
+        +alert-success(3000)
+        +alert-error(3000)
         //- if (role.permissions.length > 0)
         if (role)
 

@@ -1,7 +1,11 @@
 extends ../../layouts/default.pug  
 include ../../mixins/table-tree.pug  
+include ../../mixins/filter-status.pug  
+include ../../mixins/search.pug  
+include ../../mixins/form-change-multi.pug  
 
 block main  
+
     if (role.permissions.includes("products-category_view"))
         .d-flex.justify-content-between.align-items-center.mb-4
             h1.mb-0
@@ -15,25 +19,30 @@ block main
                     i.fas.fa-plus.mr-2  
                     | Add Category  
 
+        .row.mb-4  
+            .col-md-4  
+                .card.shadow-sm  
+                    .card-header.bg-white  
+                        h6.mb-0 Filter Status  
+                    .card-body  
+                        +filter-status(filterStatus)  
+            
+            .col-md-4  
+                .card.shadow-sm  
+                    .card-header.bg-white  
+                        h6.mb-0 Search  
+                    .card-body  
+                        +search(keyword)  
+
         .card.shadow-sm  
             .card-header.bg-white.py-3  
                 .d-flex.justify-content-between.align-items-center  
                     h5.mb-0  
                         i.fas.fa-list.mr-2  
                         | Categories List  
-                    .btn-group  
-                        button.btn.btn-outline-secondary.btn-sm(  
-                            type="button"  
-                            title="Expand All"  
-                        )  
-                            i.fas.fa-expand.mr-1  
-                            | Expand All  
-                        button.btn.btn-outline-secondary.btn-sm(  
-                            type="button"  
-                            title="Collapse All"  
-                        )  
-                            i.fas.fa-compress.mr-1  
-                            | Collapse All  
+                    +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)  
+
+
 
             .card-body.p-0  
                 .table-responsive  
@@ -54,8 +63,8 @@ block main
                                 th(width="25%") Actions  
                         tbody   
                             +table-tree(records)  
-
-        style.  
+    script(type="module", src="/admin/js/product.js") 
+        style.
             .category-tree-item {  
                 transition: all 0.3s ease;  
             }  

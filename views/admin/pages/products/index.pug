@@ -151,9 +151,74 @@ block main
                                 else  
                                     //- Deleted items row styling  
                                     tr.table-warning  
-                                        //- [Previous deleted item content remains the same]  
-                                        //- Just add proper alignment classes and styling  
-
+                                        td.align-middle  
+                                            input.form-check-input(  
+                                                type="checkbox"  
+                                                name="id"  
+                                                value=item.id  
+                                            )  
+                                        td.align-middle #{pagination.limitItem*(pagination.currentPage - 1) + index + 1}  
+                                        td.align-middle  
+                                            img.img-thumbnail(  
+                                                src=item.thumbnail  
+                                                alt=item.title  
+                                                style="max-width: 100px"  
+                                            )  
+                                        td.align-middle #{item.title}  
+                                        td.align-middle.text-primary.font-weight-bold $#{item.price}  
+                                        td.align-middle  
+                                            input.form-control.form-control-sm(  
+                                                type="number"  
+                                                value=item.position  
+                                                min="1"  
+                                                name="position"  
+                                                style="width: 70px"  
+                                            )  
+                                        if (role.permissions.includes("products_edit"))
+                                            td.align-middle  
+                                                if (item.status === "active")  
+                                                    span.badge.bg-success.mb-2(  
+                                                        button-change-status  
+                                                        data-status="active"  
+                                                        data-id=item.id  
+                                                    ) Active  
+                                                else  
+                                                    span.badge.bg-danger.mb-2(  
+                                                        button-change-status  
+                                                        data-status="inactive"  
+                                                        data-id=item.id  
+                                                    ) Inactive  
+                                        else 
+                                            td.align-middle  
+                                                if (item.status === "active")  
+                                                    span.badge.bg-success.mb-2(  
+                                                        data-status="active"  
+                                                        data-id=item.id  
+                                                    ) Active  
+                                                else  
+                                                    span.badge.bg-danger.mb-2(  
+                                                        data-status="inactive"  
+                                                        data-id=item.id  
+                                                    ) Inactive  
+                                        td.align-middle         
+                                            if (item.creator)
+                                                div #{item.creator}
+                                            if (item.createdBy.createAt)
+                                                div #{item.createdBy.createAt}
+                                        td.align-middle(colspan="2")  
+                                            .btn-group  
+                                                if (role.permissions.includes("products_edit"))
+                                                    a.btn.btn-sm.btn-outline-warning(  
+                                                        href=`${prefixAdmin}/products/edit/${item.id}`  
+                                                        title="Edit"  
+                                                    )  
+                                                        i.fas.fa-edit
+                                                    a.btn.btn-sm.btn-outline-success(  
+                                                        button-restore  
+                                                        data-id=item.id  
+                                                        title="Restore"  
+                                                    )  
+                                                        i.fas.fa-undo  
         .mt-4  
             +pagination(pagination)  
 

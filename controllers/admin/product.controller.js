@@ -62,6 +62,8 @@ module.exports.index = async (req, res) => {
             .sort(sort) // desc: giamdan, asc: tang dan
             .limit(objectPagination.limitItem)
             .skip(objectPagination.skip);
+    
+    console.log(products);
 
     //update property
     // const user = await Account.findOne({
@@ -245,7 +247,6 @@ module.exports.edit = async (req, res) => {
     
     try {
         const find = {
-            deleted: false,
             _id: req.params.id
         };
 
@@ -277,7 +278,7 @@ module.exports.editPatch = async (req, res) => {
             account_id: res.locals.user.id,
             updateAt: new Date()
         };
-        console.log(updatedBy);
+        // console.log(updatedBy);
         await Product.updateOne(
             { _id: req.params.id }, 
             { ...req.body, $push: { updatedBy: updatedBy } }
@@ -313,13 +314,15 @@ module.exports.detail = async (req, res) => {
             }
         }
         
-        const user = await Account.findOne({
-            _id: product.createdBy.account_id
-        });
-        if (user) {
-            product.creator = user.fullName;
+        if (product.createdBy) {
+            const user = await Account.findOne({
+                _id: product.createdBy.account_id
+            });
+            if (user) {
+                product.creator = user.fullName;
+            }
         }
-        
+
         res.render("admin/pages/products/detail.pug", {
             pageTitle: product.title,
             product: product

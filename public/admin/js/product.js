@@ -11,8 +11,6 @@ if(buttonChangeStatus.length > 0) {
             const id = button.getAttribute("data-id");
             
             let statusChange = (statusCurrent == "active" ? "inactive" : "active");            
-            // console.log(statusChange);
-
 
             const action = path + `/${statusChange}/${id}?_method=PATCH`;
             formChangeStatus.action = action;
@@ -30,7 +28,7 @@ if (buttonDelete.length > 0) {
     const path = formDeleteItem.getAttribute("data-path");
     buttonDelete.forEach(button => {
         button.addEventListener("click", () => {
-            const Isconfirm = confirm("Are you sure delete this product ?");
+            const Isconfirm = confirm("Are you sure delete this ?");
 
             if (Isconfirm) {
                 const id = button.getAttribute("data-id");
@@ -47,7 +45,6 @@ if (buttonDelete.length > 0) {
 const buttonRestore = document.querySelectorAll("[button-restore]");
 if (buttonRestore.length > 0) {
     const formRestoreItem = document.querySelector("#form-restore-item");
-    console.log(formRestoreItem);
     const path = formRestoreItem.getAttribute("data-path");
     buttonRestore.forEach(button => {
         button.addEventListener("click", () => {
@@ -55,7 +52,7 @@ if (buttonRestore.length > 0) {
 
             if (Isconfirm) {
                 const id = button.getAttribute("data-id");
-                const action = `${path}/${id}?_method=DELETE`;
+                const action = `${path}/${id}?_method=POST`;
                 formRestoreItem.action = action;
                 formRestoreItem.submit();
             }
