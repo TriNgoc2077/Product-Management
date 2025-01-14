@@ -10,10 +10,8 @@ module.exports.index = async (req, res) => {
     //find
     const filterStatus = filterStatusHelpers(req.query);
     
-    let find = {
-        deleted: false
-    };
-    if (req.query.status === "deleted"){
+    let find = {};
+    if (req.query.status == "deleted") {
         find.deleted = true;
     } else if (req.query.status) {
         find.status = req.query.status;
@@ -25,11 +23,22 @@ module.exports.index = async (req, res) => {
     if (objectSearch.regex) {
         find.title = objectSearch.regex;
     }
-
     const records = await ProductCategory.find(find);
+
+    let newRecords;
+    if (!req.query.status) {
+        newRecords = createTreeHelper.createTree(records);
+    } else if (find.deleted === true ){
+        newRecords = records.filter(item => item.deleted === true);
+    } else if (find.status === "inactive") {
+        newRecords = records.filter(item => item.status === "inactive");
+    } else if (find.status === "active") {
+        newRecords = records.filter(item => item.status === "active");
+    }
+    
     res.render("admin/pages/product-category/index.pug", {
         titlePage: "Product Category",
-        records: records,
+        records: newRecords,
         filterStatus: filterStatus
     });
 }
@@ -188,5 +197,56 @@ module.exports.restoreItem = async (req, res) => {
         }        
     );
     req.flash("success", `Restore successfully !`);
+    res.redirect("back");
+}
+
+//[PATCH] /admin/product-category/change-multi
+module.exports.changeMulti = async (req, res) => {
+    const type = req.body.type;
+    const ids = req.body.ids.split(", ");
+
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updateAt: new Date()
+    };
+
+    if (type == "active") {
+        await ProductCategory.updateMany(
+            { _id: { $in: ids } }, 
+            { status: "active", $push: { updatedBy: updatedBy }}
+        );
+        req.flash("success", `Update status of ${ids.length} products category successfully !`);
+    } else if (type == "inactive") {    
+        await ProductCategory.updateMany(
+            { _id: { $in: ids } },
+            { status: "inactive", $push: { updatedBy: updatedBy }}
+        );
+        req.flash("success", `Update status of ${ids.length} products category successfully !`);
+    } else if (type == "delete-all") {
+        await ProductCategory.updateMany(
+            { _id: ids },
+            { 
+                deleted: true,
+                deletedBy: {
+                    account_id: res.locals.user.id,
+                    deleteAt: new Date()
+                },
+                $push: { updatedBy: updatedBy }
+            }
+        )
+        req.flash("success", `Delete ${ids.length} products category successfully !`);
+    } else if (type == "change-position") {
+        for (const item of ids) {
+            let [id, position] = item.split("-");
+            position = parseInt(position);
+            // console.log(item.split("-"));
+            await ProductCategory.updateOne(
+                { _id: id },
+                { position: position, $push: { updatedBy: updatedBy } }
+            );
+        }
+        req.flash("success", `Change position successfully !`);
+
+    }
     res.redirect("back");
 }

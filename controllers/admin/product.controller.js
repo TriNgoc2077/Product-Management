@@ -63,7 +63,6 @@ module.exports.index = async (req, res) => {
             .limit(objectPagination.limitItem)
             .skip(objectPagination.skip);
     
-    console.log(products);
 
     //update property
     // const user = await Account.findOne({

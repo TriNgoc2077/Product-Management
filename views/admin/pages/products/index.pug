@@ -56,7 +56,7 @@ block main
                 .table-responsive  
                     table.table.table-hover.mb-0(checkbox-multi)  
                         thead.bg-light  
-                            tr  
+                            tr
                                 th(width="3%")  
                                     input.form-check-input(  
                                         type="checkbox"  
@@ -73,8 +73,8 @@ block main
                         tbody  
                             each item, index in products  
                                 if (!item.deleted)  
-                                    tr  
-                                        td.align-middle  
+                                    tr(data-href=`${prefixAdmin}/products/detail/${item.id}`)
+                                        td.align-middle.not-click
                                             input.form-check-input(  
                                                 type="checkbox"  
                                                 name="id"  
@@ -87,9 +87,10 @@ block main
                                                 alt=item.title  
                                                 style="max-width: 100px"  
                                             )  
-                                        td.align-middle #{item.title}  
+                                        td.align-middle 
+                                            | #{item.title}  
                                         td.align-middle.text-primary.font-weight-bold $#{item.price}  
-                                        td.align-middle  
+                                        td.align-middle.not-click
                                             input.form-control.form-control-sm(  
                                                 type="number"  
                                                 value=item.position  
@@ -98,7 +99,7 @@ block main
                                                 style="width: 70px"  
                                             )  
                                         if (role.permissions.includes("products_edit"))
-                                            td.align-middle  
+                                            td.align-middle.not-click
                                                 if (item.status === "active")  
                                                     span.badge.bg-success.mb-2(  
                                                         button-change-status  
@@ -112,7 +113,7 @@ block main
                                                         data-id=item.id  
                                                     ) Inactive  
                                         else 
-                                            td.align-middle  
+                                            td.align-middle.not-click
                                                 if (item.status === "active")  
                                                     span.badge.bg-success.mb-2(  
                                                         data-status="active"  
@@ -123,12 +124,12 @@ block main
                                                         data-status="inactive"  
                                                         data-id=item.id  
                                                     ) Inactive  
-                                        td.align-middle         
+                                        td.align-middle.not-click    
                                             if (item.creator)
                                                 div #{item.creator}
                                             if (item.createdBy.createAt)
                                                 div #{item.createdBy.createAt}
-                                        td.align-middle  
+                                        td.align-middle.not-click
                                             .btn-group  
                                                 a.btn.btn-sm.btn-outline-info(  
                                                     href=`${prefixAdmin}/products/detail/${item.id}`  
@@ -150,7 +151,7 @@ block main
                                                         i.fas.fa-trash  
                                 else  
                                     //- Deleted items row styling  
-                                    tr.table-warning  
+                                    tr.table-warning
                                         td.align-middle  
                                             input.form-check-input(  
                                                 type="checkbox"  

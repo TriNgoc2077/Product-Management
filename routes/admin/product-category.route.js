@@ -34,5 +34,5 @@ router.patch(
 );
 router.delete("/delete/:id", controller.deleteItem);
 router.post("/restore/:id", controller.restoreItem);
-
+router.patch("/change-multi", controller.changeMulti);
 module.exports = router;

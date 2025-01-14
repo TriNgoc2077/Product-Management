@@ -40,7 +40,7 @@ block main
                     h5.mb-0  
                         i.fas.fa-list.mr-2  
                         | Categories List  
-                    +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)  
+                    +form-change-multi(`${prefixAdmin}/product-category/change-multi?_method=PATCH`)  
 
 
 
@@ -48,7 +48,7 @@ block main
                 .table-responsive  
                     table.table.table-hover.mb-0(checkbox-multi)  
                         thead.bg-light  
-                            tr  
+                            tr
                                 th(width="3%")  
                                     .form-check  
                                         input.form-check-input(  

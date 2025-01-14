@@ -66,7 +66,7 @@ block main
                                         i.fas.fa-edit.me-2
                                         | Edit Product
                                 if (role.permissions.includes("products_delete"))
-                                    button(type="button" class="btn btn-outline-danger ms-2" data-product-id=product.id)
+                                    button(type="button" class="btn btn-outline-danger ms-2" data-id=product.id button-delete)
                                         i.fas.fa-trash.me-2
                                         | Delete
             .row
@@ -103,5 +103,10 @@ block main
                                         i.far.fa-calendar-alt.me-1
                                         | Created at: #{product.createdBy.createdAt}
 
-
+    form(  
+        action=""  
+        method="POST"  
+        id="form-delete-item"  
+        data-path=`${prefixAdmin}/products/delete`  
+    )  
     script(src="/admin/js/product.js")

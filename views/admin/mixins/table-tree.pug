@@ -2,8 +2,8 @@ mixin table-tree(items, level = -1)
     each item, index in items  
         - const prefix = Array(level + 2).join("-- ")  
         if (!item.deleted)  
-            tr.align-middle  
-                td   
+            tr.align-middle(data-href=`${prefixAdmin}/product-category/detail/${item.id}`)
+                td.not-click
                     .form-check  
                         input.form-check-input(  
                             type="checkbox"  
@@ -20,7 +20,7 @@ mixin table-tree(items, level = -1)
                 td.align-middle   
                     span.text-secondary #{prefix}  
                     span #{item.title}  
-                td.align-middle  
+                td.align-middle.not-click
                     input.form-control.form-control-sm(  
                         type="number"  
                         value=item.position   
@@ -29,7 +29,7 @@ mixin table-tree(items, level = -1)
                         name="position"  
                     )  
                 if (role.permissions.includes("products-category_edit"))
-                    td.align-middle  
+                    td.align-middle.not-click
                         if (item.status === "active")  
                             span.badge.bg-success(  
                                 href="javascript:;"  
@@ -37,7 +37,6 @@ mixin table-tree(items, level = -1)
                                 data-id=item.id  
                                 button-change-status  
                             )   
-                                i.fas.fa-check.mr-1  
                                 | Active  
                         else   
                             span.badge.bg-danger(  
@@ -46,17 +45,15 @@ mixin table-tree(items, level = -1)
                                 data-id=item.id  
                                 button-change-status  
                             )  
-                                i.fas.fa-times.mr-1  
                                 | Inactive  
                 else 
-                    td.align-middle  
+                    td.align-middle.not-click
                         if (item.status === "active")  
                             span.badge.badge-success.status-badge(  
                                 href="javascript:;"  
                                 data-status="active"  
                                 data-id=item.id  
                             )   
-                                i.fas.fa-check.mr-1  
                                 | Active  
                         else   
                             span.badge.badge-danger.status-badge(  
@@ -64,9 +61,8 @@ mixin table-tree(items, level = -1)
                                 data-status="inactive"  
                                 data-id=item.id   
                             )  
-                                i.fas.fa-times.mr-1  
                                 | Inactive  
-                td.align-middle  
+                td.align-middle.not-click
                     .btn-group  
                         a.btn.btn-sm.btn-outline-info(  
                             href=`${prefixAdmin}/product-category/detail/${item.id}`  
@@ -105,7 +101,9 @@ mixin table-tree(items, level = -1)
                         alt=item.title  
                         style="max-width: 100px; height: auto;"  
                     )  
-                td.align-middle #{item.title}  
+                td.align-middle   
+                    span.text-secondary #{prefix}  
+                    span #{item.title}  
                 td.align-middle  
                     input.form-control.form-control-sm(  
                         type="number"  
@@ -114,6 +112,13 @@ mixin table-tree(items, level = -1)
                         min="1"  
                         name="position"  
                     )  
+                td.align-middle.not-click
+                    span.badge.bg-warning(  
+                        href="javascript:;"  
+                        data-status="active"  
+                        data-id=item.id  
+                    )   
+                        | Deleted   
                 td.align-middle(colspan="2")  
                     .btn-group  
                         a.btn.btn-sm.btn-outline-warning( 
