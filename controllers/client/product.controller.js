@@ -37,16 +37,20 @@ module.exports.detail = async (req, res) => {
                 status: "active",
                 deleted: false
             });
-            listCategory.unshift(category);
-            while (category.parent_id) {
-                category = await ProductCategory.findOne({
-                    _id: category.parent_id,
-                    status: "active",
-                    deleted: false
-                });
+            if (category) {
                 listCategory.unshift(category);
+                while (category.parent_id) {
+                    category = await ProductCategory.findOne({
+                        _id: category.parent_id,
+                        status: "active",
+                        deleted: false
+                    });
+                    if (category) listCategory.unshift(category);
+                    else break;
+                }
             }
             product.category = listCategory;
+
         }
         productHelper.newPriceOneProduct(product);
         res.render("client/pages/products/detail.pug", {
@@ -54,6 +58,7 @@ module.exports.detail = async (req, res) => {
             product: product
         });
     } catch(error) {
+        console.log(error);
         res.redirect(`/products`);
     }
 }

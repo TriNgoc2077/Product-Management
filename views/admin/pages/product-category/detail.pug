@@ -87,6 +87,24 @@ block main
                                             i.far.fa-calendar-alt.me-1
                                             | Created at: #{category.createdBy.createAt}
 
+                .col-md-4.mb-4
+                    .card.shadow-sm
+                        if category.deletedBy
+                            .card-header.bg-light
+                                h5.mb-0
+                                    i.fas.fa-user-minus.me-2
+                                    | Eraser
+                            .card-body.p-0
+                                .list-group.list-group-flush
+                                    each item in category.deletedBy
+                                        .list-group-item
+                                            .d-flex.align-items-center.mb-2
+                                                i.fas.fa-user-edit.me-2.text-primary
+                                                .fw-medium #{item.eraser}
+                                            .d-flex.align-items-center.text-muted
+                                                i.far.fa-clock.me-2
+                                                small #{item.deleteAt}
+
     form(  
         action=""  
         method="POST"  

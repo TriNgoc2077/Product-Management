@@ -79,11 +79,15 @@ module.exports.success = async (req, res) => {
         for (let product of order.products) {
             const productInfo = await Product.findOne(
                 { _id: product.product_id }
-            ).select("title thumbnail");
+            ).select("title thumbnail stock");
             product.productInfo = productInfo;
             
             product = productHelper.newPriceOneProduct(product);
             product.totalPrice = product.newPrice * product.quantity;
+
+            await Product.updateOne({ _id: product.product_id }, {
+                stock: (productInfo.stock - product.quantity)
+            });
         }
         order.totalAmount = order.products.reduce((sum, item) => sum + item.totalPrice,0);
         

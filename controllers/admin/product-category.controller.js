@@ -106,6 +106,15 @@ module.exports.detail = async (req, res) => {
             record.creator = user.fullName;
         }
     }
+
+    if (record.deletedBy && record.deletedBy.length > 0) {
+        for (let del of record.deletedBy) {
+            const account = await Account.findOne({ _id: del.account_id }).select("-password -token");
+            if (account) {
+                del.eraser = account.fullName;
+            }
+        }
+    }
     res.render("admin/pages/product-category/detail", {
         titlePage: "Detail product Category",
         category: record
@@ -124,6 +133,7 @@ module.exports.createPost = async (req, res) => {
     req.body.createdBy = {
         account_id: res.locals.user.id,
     };
+    
     const record = new ProductCategory(req.body);
     await ProductCategory.bulkSave([record]);
     res.redirect(`${systemConfig.prefixAdmin}/product-category`);
@@ -176,14 +186,16 @@ module.exports.deleteItem = async (req, res) => {
         { _id: id }, 
         { 
             deleted: true,
-            deletedBy: {
-                account_id: res.locals.user.id,
-                deleteAt: new Date()
+            $push: {
+                deletedBy: {
+                    account_id: res.locals.user.id,
+                    deleteAt: new Date()
+                }
             } 
         }        
     );
     req.flash("success", `Delete successfully !`);
-    res.redirect("back");
+    res.redirect(`${systemConfig.prefixAdmin}/product-category`);
 }
 
 //[POST] //admin/products/restore/:id
@@ -193,7 +205,13 @@ module.exports.restoreItem = async (req, res) => {
     await ProductCategory.updateOne(
         { _id: id }, 
         { 
-            deleted: false
+            deleted: false,
+            ...req.body, $push: { 
+                updatedBy: {
+                    account_id: res.locals.user.id,
+                    updateAt: new Date()
+                } 
+            }
         }        
     );
     req.flash("success", `Restore successfully !`);

@@ -183,9 +183,11 @@ module.exports.deleteItem = async (req, res) => {
         { _id: id }, 
         { 
             deleted: true,
-            deletedBy: {
-                account_id: res.locals.user.id,
-                deleteAt: new Date()
+            $push: {
+                deletedBy: {
+                    account_id: res.locals.user.id,
+                    deleteAt: new Date()
+                }
             } 
         }        
     );
@@ -316,12 +318,20 @@ module.exports.detail = async (req, res) => {
         if (product.createdBy) {
             const user = await Account.findOne({
                 _id: product.createdBy.account_id
-            });
+            }).select("-password -token");
             if (user) {
                 product.creator = user.fullName;
             }
         }
 
+        if (product.deletedBy && product.deletedBy.length > 0) {
+            for (let del of product.deletedBy) {
+                const account = await Account.findOne({ _id: del.account_id }).select("-password -token");
+                if (account) {
+                    del.eraser = account.fullName;
+                }
+            }
+        }
         res.render("admin/pages/products/detail.pug", {
             pageTitle: product.title,
             product: product
