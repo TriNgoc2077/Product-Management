@@ -50,10 +50,13 @@ module.exports.createPost = async (req, res) => {
 
 // [GET] /admin/accounts/edit/:id
 module.exports.edit = async (req, res) => {
-    let find = {
-        _id: req.params.id,
-    };
     try {
+        let find = {
+            _id: req.params.id,
+        };
+        if (res.locals.user.id != req.params.id && !res.locals.role.permissions.includes("accounts_edit")) {
+            res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+        }
         const data = await Account.findOne(find);
         const roles = await Role.find({
             deleted: false
@@ -106,7 +109,7 @@ module.exports.detail = async (req, res) => {
         
         res.render("admin/pages/accounts/detail", {
             pageTitle: "Edit Account",
-            user: data,
+            data: data,
         });
     } catch(error) {
         res.redirect(`${systemConfig.prefixAdmin}/accounts`);

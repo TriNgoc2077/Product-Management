@@ -53,18 +53,30 @@ block main
                                             span.badge.badge-info.not-click #{item.role.title}  
                                         td.align-middle #{item.email}  
                                         td.align-middle.not-click
-                                            if (item.status === "active")  
-                                                span.badge.bg-success(  
-                                                    button-change-status
-                                                    data-id=item.id
-                                                    data-status="active"  
-                                                ) Active  
-                                            else    
-                                                span.badge.bg-danger(  
-                                                    button-change-status
-                                                    data-id=item.id
-                                                    data-status="inactive"  
-                                                ) Inactive  
+                                            if (role.permissions.includes("accounts_edit"))
+                                                if (item.status === "active")  
+                                                    span.badge.bg-success(  
+                                                        button-change-status
+                                                        data-id=item.id
+                                                        data-status="active"  
+                                                    ) Active  
+                                                else    
+                                                    span.badge.bg-danger(  
+                                                        button-change-status
+                                                        data-id=item.id
+                                                        data-status="inactive"  
+                                                    ) Inactive  
+                                            else
+                                                if (item.status === "active")  
+                                                    span.badge.bg-success(  
+                                                        data-id=item.id
+                                                        data-status="active"  
+                                                    ) Active  
+                                                else    
+                                                    span.badge.bg-danger(  
+                                                        data-id=item.id
+                                                        data-status="inactive"  
+                                                    ) Inactive  
                                         if (item.deleted === false)
                                             td.align-middle.not-click
                                                 .btn-group  
