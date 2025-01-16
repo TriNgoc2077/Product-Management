@@ -1,0 +1,6 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/detail-account.pug
+block main 
+    if (role.permissions.includes("accounts_view"))
+        +detail-account(user)

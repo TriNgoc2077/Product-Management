@@ -17,6 +17,7 @@ router.post(
     validate.createPost,
     controller.createPost
 );
+router.patch("/change-status/:status/:id", controller.changeStatus);
 
 router.get("/edit/:id", controller.edit);
 router.patch(
@@ -26,5 +27,8 @@ router.patch(
     validate.editPatch,
     controller.editPatch
 );
+router.get("/detail/:id", controller.detail);
+router.delete("/delete/:id", controller.delete);
+router.post("/restore/:id", controller.restore);
 
 module.exports = router;

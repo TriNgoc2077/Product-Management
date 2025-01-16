@@ -55,33 +55,78 @@ block main
                                         td.align-middle.not-click
                                             if (item.status === "active")  
                                                 span.badge.bg-success(  
+                                                    button-change-status
+                                                    data-id=item.id
                                                     data-status="active"  
                                                 ) Active  
                                             else    
                                                 span.badge.bg-danger(  
+                                                    button-change-status
+                                                    data-id=item.id
                                                     data-status="inactive"  
                                                 ) Inactive  
-                                        td.align-middle.not-click
-                                            .btn-group  
-                                                a.btn.btn-sm.btn-outline-info(  
-                                                    href=`${prefixAdmin}/accounts/detail/${item.id}`  
-                                                    title="Detail"  
-                                                )  
-                                                    i.fas.fa-eye  
-                                                if (role.permissions.includes("accounts_edit"))
-                                                    a.btn.btn-sm.btn-outline-warning(  
-                                                        href=`${prefixAdmin}/accounts/edit/${item.id}`  
-                                                        title="Edit"  
+                                        if (item.deleted === false)
+                                            td.align-middle.not-click
+                                                .btn-group  
+                                                    a.btn.btn-sm.btn-outline-info(  
+                                                        href=`${prefixAdmin}/accounts/detail/${item.id}`  
+                                                        title="Account"  
                                                     )  
-                                                        i.fas.fa-edit  
-                                                if (role.permissions.includes("accounts_delete"))
-                                                    button.btn.btn-sm.btn-outline-danger(  
-                                                        button-delete  
-                                                        data-id=item.id  
-                                                        title="Delete"  
-                                                    )  
-                                                        i.fas.fa-trash  
+                                                        i.fas.fa-eye  
+                                                        span.ml-1.d-none.d-md-inline   
+                                                    
+                                                    if (role.permissions.includes("accounts_edit"))
+                                                        a.btn.btn-sm.btn-outline-warning(  
+                                                            href=`${prefixAdmin}/accounts/edit/${item.id}`  
+                                                            title="Edit Account"  
+                                                        )  
+                                                            i.fas.fa-edit  
+                                                            span.ml-1.d-none.d-md-inline   
+                                                    
+                                                    if (role.permissions.includes("accounts_delete"))
+                                                        button.btn.btn-sm.btn-outline-danger(  
+                                                            button-delete  
+                                                            data-id=item.id  
+                                                            title="Delete Account"  
+                                                        )  
+                                                            i.fas.fa-trash  
+                                                            span.ml-1.d-none.d-md-inline 
+                                        else 
+                                            td.align-middle(colspan="2").not-click  
+                                                .btn-group  
+                                                    if (role.permissions.includes("accounts_edit"))
+                                                        a.btn.btn-sm.btn-outline-warning(  
+                                                            href=`${prefixAdmin}/accounts/edit/${item.id}`  
+                                                            title="Edit"  
+                                                        )  
+                                                            i.fas.fa-edit
+                                                    if (role.permissions.includes("accounts_delete"))
+                                                        button.btn.btn-sm.btn-outline-success(  
+                                                            button-restore  
+                                                            data-id=item.id  
+                                                            title="Restore"  
+                                                        )  
+                                                            i.fas.fa-undo       
                             else   
                                 tr   
                                     td.text-center.py-4(colspan="7")  
                                         .text-muted No accounts found
+    form(  
+        action=""  
+        method="POST"  
+        id="form-change-status"  
+        data-path=`${prefixAdmin}/accounts/change-status`  
+    )  
+    form(  
+        action=""  
+        method="POST"  
+        id="form-delete-item"  
+        data-path=`${prefixAdmin}/accounts/delete`  
+    )  
+    form(  
+        action=""  
+        method="POST"  
+        id="form-restore-item"  
+        data-path=`${prefixAdmin}/accounts/restore`  
+    )  
+    script(src="/admin/js/product.js") 

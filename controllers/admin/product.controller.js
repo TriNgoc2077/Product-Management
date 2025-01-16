@@ -103,24 +103,32 @@ module.exports.index = async (req, res) => {
 
 //[PATCH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
-    const status = req.params.status;
-    const id = req.params.id;
-
-    const updatedBy = {
-        account_id: res.locals.user.id,
-        updateAt: new Date()
-    };
-
-    await Product.updateOne(
-        { _id: id }, 
-        { 
-            status: status,
-            $push: { updatedBy: updatedBy }
+    try {
+        const status = req.params.status;
+        const id = req.params.id;
+        if (status != "active" && status != "inactive") {
+            throw new Error("Status is incorrect !");
         }
-    );
+        const updatedBy = {
+            account_id: res.locals.user.id,
+            updateAt: new Date()
+        };
 
-    req.flash("success", "Update status product successfully !");
-    res.redirect("back");
+        await Product.updateOne(
+            { _id: id }, 
+            { 
+                status: status,
+                $push: { updatedBy: updatedBy }
+            }
+        );
+
+        req.flash("success", "Update status product successfully !");
+        res.redirect("back");
+    } catch(error) {
+        console.log(error);
+        res.redirect("back");
+    }
+    
 }
 
 //[PATCH] /admin/products/change-multi

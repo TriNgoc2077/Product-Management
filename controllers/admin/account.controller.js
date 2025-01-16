@@ -4,9 +4,7 @@ const md5 = require("md5");
 const Role = require("../../models/role.model");
 // [GET] /admin/accounts
 module.exports.index = async (req, res) => {
-    let find = {
-        deleted: false
-    }
+    let find = {};
 
     const records = await Account.find(find).select("-password -token");
 
@@ -54,7 +52,6 @@ module.exports.createPost = async (req, res) => {
 module.exports.edit = async (req, res) => {
     let find = {
         _id: req.params.id,
-        deleted: false
     };
     try {
         const data = await Account.findOne(find);
@@ -96,3 +93,70 @@ module.exports.editPatch = async (req, res) => {
     }
     res.redirect("back");
 }
+
+
+// [GET] /admin/accounts/detail/:id
+module.exports.detail = async (req, res) => {
+    let find = {
+        _id: req.params.id,
+        deleted: false
+    };
+    try {
+        const data = await Account.findOne(find);
+        
+        res.render("admin/pages/accounts/detail", {
+            pageTitle: "Edit Account",
+            user: data,
+        });
+    } catch(error) {
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    }
+}
+
+//[PATCH] /admin/accounts/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+    try {
+        const status = req.params.status;
+        const id = req.params.id;
+        if (status != "active" && status != "inactive") {
+            throw new Error("Status is incorrect !");
+        }
+        await Account.updateOne({ _id: id }, { status: status });
+        req.flash("success", "Change successfully !");
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    } catch(error) {
+        console.log(error);
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    }
+} 
+
+//[DELETE] /admin/accounts/delete/:id
+module.exports.delete = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Account.updateOne({ _id: id }, { deleted: true });
+        if (res.locals.user.id == id) {
+            res.clearCookie("token");
+            res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
+        }
+        req.flash("success", "Delete successfully !");
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    } catch(error) {
+        console.log(error);
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    }
+} 
+
+//[DELETE] /admin/accounts/restore/:id
+module.exports.restore = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Account.updateOne({ _id: id }, { deleted: false });
+
+        req.flash("success", "Restore successfully !");
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    } catch(error) {
+        console.log(error);
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    }
+} 
