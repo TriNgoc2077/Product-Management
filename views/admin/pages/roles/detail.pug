@@ -1,0 +1,69 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    .container-fluid
+        .row.mb-4
+            .col-12
+                nav(aria-label='breadcrumb')
+                    ol.breadcrumb
+                        li.breadcrumb-item
+                            a(href=`${prefixAdmin}/dashboard`) Dashboard
+                        li.breadcrumb-item
+                            a(href=`${prefixAdmin}/roles`) Roles
+                        li.breadcrumb-item.active #{thisRole.title}
+
+        if thisRole
+            .row
+                .col-md-4.mb-4
+                    .card.shadow-sm
+                        .card-body
+                            h3.card-title.mb-3 #{thisRole.title}
+                            if thisRole.deleted === false
+                                span.badge.bg-success.mb-2 Active
+                            else
+                                span.badge.bg-danger.mb-2 Deleted
+                            if thisRole.description
+                                .mt-3
+                                    h5 Description
+                                    p.text-muted #{thisRole.description}
+
+                .col-md-8
+                    .card.shadow-sm
+                        .card-header.bg-light
+                            h4.mb-0
+                                i.fas.fa-shield-alt.me-2
+                                | Permissions
+                        .card-body
+                            if thisRole.permissions && thisRole.permissions.length > 0
+                                .row
+                                    each permission in thisRole.permissions
+                                        .col-md-6.mb-2
+                                            .d-flex.align-items-center
+                                                i.fas.fa-check-circle.text-success.me-2
+                                                span #{permission}
+                            else
+                                .alert.alert-info No permissions assigned
+
+            .row
+                .col-md-6.mb-4
+                    .card.shadow-sm
+                        .card-header.bg-light
+                            h5.mb-0
+                                i.fas.fa-clock.me-2
+                                | Timestamps
+                        .card-body
+                            .mb-3
+                                .text-muted Created At
+                                .fw-medium #{new Date(thisRole.createdAt).toLocaleString()}
+                            .mb-3
+                                .text-muted Last Updated
+                                .fw-medium #{new Date(thisRole.updatedAt).toLocaleString()}
+
+    form(
+        action=""
+        method="POST"
+        id="form-delete-item"
+        data-path=`${prefixAdmin}/roles/delete`
+    )
+    script(src="/admin/js/product.js")

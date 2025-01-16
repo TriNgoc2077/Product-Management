@@ -1,11 +1,10 @@
 const Role = require("../../models/role.model");
+const Account = require("../../models/account.model");
 const systemConfig = require("../../config/system");
 
 // [GET] /admin/roles
 module.exports.index = async (req, res) => {
-    let find = {
-        deleted: false
-    }
+    let find = {};
 
     const records = await Role.find(find);
 
@@ -41,7 +40,6 @@ module.exports.edit = async (req, res) => {
         const id = req.params.id;
         let find = {
             _id: id,
-            deleted: false
         };
         const record = await Role.findOne(find);
 
@@ -68,6 +66,61 @@ module.exports.editPatch = async (req, res) => {
     }
 
     res.redirect("back");
+}
+
+// [GET] /admin/roles/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const thisRole = await Role.findOne({ 
+            _id: id,
+        });
+        if (!thisRole) {
+            res.redirect("back");
+            return;
+        } 
+        res.render("admin/pages/roles/detail.pug", {
+            titlePage: (thisRole.title ? thisRole.title : "Role"),
+            thisRole: thisRole
+        });
+    } catch(error) {
+        console.log(error);
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    }
+}
+
+// [DELETE] /admin/roles/delete/:id
+module.exports.delete = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Role.updateOne({ _id: id }, {
+            deleted: true
+        });
+        await Account.updateMany({ role_id: id }, {
+            status: "inactive"
+        });
+        req.flash("success", "Deleted successfully !");
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    } catch(error) {    
+        console.log(error);
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    } 
+}
+
+// [PATCH] /admin/roles/restore/:id
+module.exports.restore = async (req, res) => {
+    try {
+        console.log("ran");
+        const id = req.params.id;
+        await Role.updateOne({ _id: id }, {
+            deleted: false
+        });
+        req.flash("success", "Restore successfully !");
+        res.redirect(`${systemConfig.prefixAdmin}/roles`)
+    } catch(error) {    
+        console.log(error);
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    } 
 }
 
 // [GET] /admin/roles/permissions
