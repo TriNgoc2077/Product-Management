@@ -12,10 +12,10 @@ block main
                         p.text-muted.mb-0 
                             | We've sent a verification code to
                             br
-                            span.fw-bold #{email || "your email"}
+                            span.fw-bold #{data.email || "your email"}
 
                     .card-body.p-4
-                        form(action="/user/password/otp" method="POST")
+                        form(action="/user/register" method="POST")
                             .text-center.mb-4
                                 .otp-inputs.d-flex.justify-content-center.gap-2
                                     each i in [1, 2, 3, 4, 5, 6]
@@ -29,8 +29,18 @@ block main
                                         )
                                     input.d-none(
                                         type="text"
+                                        name="fullName"
+                                        value=data.fullName
+                                    )
+                                    input.d-none(
+                                        type="text"
                                         name="email"
-                                        value=email
+                                        value=data.email
+                                    )
+                                    input.d-none(
+                                        type="text"
+                                        name="password"
+                                        value=data.password
                                     )
 
                             .text-center.mb-4
@@ -43,10 +53,29 @@ block main
                                     i.fas.fa-check-circle.me-2
                                     | Verify Code
 
+                        form(
+                            action=`/user/verify`
+                            method="POST"
+                        )
+                            input.d-none(
+                                type="text"
+                                name="fullName"
+                                value=data.fullName
+                            )
+                            input.d-none(
+                                type="text"
+                                name="email"
+                                value=data.email
+                            )
+                            input.d-none(
+                                type="text"
+                                name="password"
+                                value=data.password
+                            )
                             .text-center.mt-3
                                 button.btn.btn-link.text-decoration-none#resend-btn(
                                     resend-code-button
-                                    type="button"
+                                    type="submit"
                                     disabled
                                 )
                                     i.fas.fa-redo.me-2
@@ -150,4 +179,3 @@ block main
 
             updateTimer();
         });
-    script(src="/js/resendCode.js")

@@ -10,11 +10,12 @@ module.exports.register = async (req, res) => {
 		res.render("client/pages/user/register", {
 			titlePage: "Register",
 		});
-	} catch (error) {}
+	} catch (error) {
+		res.redirect("back");
+	}
 };
-
-//[POST] /user/register
-module.exports.registerPost = async (req, res) => {
+//[POST] /user/verify
+module.exports.verify = async (req, res) => {
 	try {
 		const existEmail = await User.findOne({
 			email: req.body.email,
@@ -25,24 +26,66 @@ module.exports.registerPost = async (req, res) => {
 			res.redirect("back");
 			return;
 		}
+		const data = req.body;
+		//generate otp
+		const otp = generateHelper.generateRandomNumber(6);
+		const objectForgotPassword = {
+			email: data.email,
+			otp: "",
+			expireAt: Date.now(),
+		};
 
-		req.body.password = md5(req.body.password);
+		objectForgotPassword.otp = otp;
+		const request = new ForgotPassword(objectForgotPassword);
+		await request.save();
+		//send mail
+		const subject = "Your OTP";
+		sendMailHelper.sendMail(data.email, subject, data, otp);
 
-        const cart = new Cart();
-        await cart.save();
+		res.render("client/pages/user/verify", {
+			titlePage: "Verify",
+			data: data
+		});
+	} catch (error) {
+		res.redirect("back");
+	}
+};
 
-        const expires = 1000 * 3600 * 24 * 365;
-        res.cookie("cartId", cart.id, {
-            expires: new Date(Date.now() + expires)
-        });
-        res.locals.miniCart = cart;
+//[POST] /user/register
+module.exports.registerPost = async (req, res) => {
+	try {
+		const email = req.body.email;
+		let otp = "";
+		for (let i of [1, 2, 3, 4, 5, 6]) {
+			const index = `otp${i}`;
+			otp += req.body[index];
+		}
+		const request = await ForgotPassword.findOne({
+			email: email,
+			otp: otp,
+		});
 
-		req.body.cartId = cart.id;
+		if (!request) {
+			req.flash("error", "OTP is invalid !");
+			res.redirect("back");
+			return;
+		} else {
+			req.body.password = md5(req.body.password);
+			const cart = new Cart();
+			await cart.save();
+			const expires = 1000 * 3600 * 24 * 365;
+			res.cookie("cartId", cart.id, {
+				expires: new Date(Date.now() + expires)
+			});
+			res.locals.miniCart = cart;
 
-		const user = new User(req.body);
-		await user.save();
-		res.cookie("userToken", user.userToken);
-		res.redirect("/");
+			req.body.cartId = cart.id;
+
+			const user = new User(req.body);
+			await user.save();
+			res.cookie("userToken", user.userToken);
+			res.redirect("/");
+		}
 	} catch (error) {
 		console.log(error);
 		res.redirect("back");
@@ -144,7 +187,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
 			email: email,
 			deleted: false,
 		}).select("-password -userToken");
-		if (!email) {
+		if (!user) {
 			req.flash("error", "Email does not exist !");
 			res.redirect("back");
 			return;

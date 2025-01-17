@@ -5,6 +5,7 @@ const controller = require("../../controllers/client/user.controller");
 const validates = require("../../validates/client/user.validate");
 const authMiddleware = require("../../middlewares/client/auth.middleware");
 router.get("/register", controller.register);
+router.post("/verify", controller.verify);
 router.post("/register", validates.registerPost, controller.registerPost);
 router.get("/login", controller.login);
 router.post("/login", validates.loginPost, controller.loginPost);
