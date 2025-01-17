@@ -93,7 +93,7 @@ module.exports.success = async (req, res) => {
         
         let featuredProducts = await Product.find({
             featured: "1"
-        }).limit(6);
+        }).limit(8);
         featuredProducts = productHelper.newPrice(featuredProducts);
         res.render("client/pages/checkout/success", {
             titlePage: "Order successfully !",

@@ -62,10 +62,16 @@ module.exports.cart = async (req, res) => {
             }
         }  
         cart.totalAmount = cart.products.reduce((sum, item) => sum + item.totalPrice,0);
-            
+
+        let featuredProducts = await Product.find({
+            featured: "1"
+        }).limit(8);
+        featuredProducts = productHelper.newPrice(featuredProducts);
+
         res.render("client/pages/cart/index.pug", {
             titlePage: "Cart",
             cart: cart,
+            featuredProducts: featuredProducts
         });
     } catch(error) {
 

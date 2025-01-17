@@ -1,0 +1,135 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/product-layout.pug
+
+block main
+    .container.my-5
+        .row.mb-4
+            .col-12
+                .d-flex.justify-content-between.align-items-center
+                    +box-head("My Wishlist")
+                    if wishlist.products.length
+                        span.text-muted #{wishlist.products.length} items saved for later
+
+        if wishlist.products.length
+            .row
+                .col-lg-9
+                    .row
+                        each item, index in wishlist.products
+                            .col-md-6.mb-4(data-href=`/products/detail/${item.productInfor.slug}`)
+                                .card.shadow-sm.h-100.position-relative.transition-transform
+                                    .position-absolute.top-0.end-0.m-2.not-click
+                                        form(action=`/wishlist/remove/${item.product_id}?_method=DELETE` method="POST") 
+                                            button.btn.btn-sm.btn-outline-danger.rounded-circle(
+                                                type="submit"
+                                            )
+                                                i.fas.fa-times
+                                    .row.g-0
+                                        .col-md-4
+                                            img.img-fluid.rounded-start(
+                                                src=item.productInfor.thumbnail
+                                                alt=item.productInfor.title
+                                                style="height: 200px; object-fit: cover;"
+                                            )
+                                        .col-md-8
+                                            .card-body.d-flex.flex-column.h-100
+                                                h5.card-title.mb-2
+                                                    a.text-decoration-none.text-dark(
+                                                        href=`/products/detail/${item.productInfor.slug}`
+                                                    ) #{item.productInfor.title}
+                                                .mb-3
+                                                    span.h5.text-primary.me-2 $#{item.productInfor.newPrice}
+                                                    if item.productInfor.price
+                                                        span.text-muted.text-decoration-line-through $#{item.productInfor.price}
+                                                
+                                                .mb-3.small
+                                                    if item.productInfor.stock > 10
+                                                        span.text-success
+                                                            i.fas.fa-check-circle.me-1
+                                                            | In Stock
+                                                    else if item.productInfor.stock > 0
+                                                        span.text-warning
+                                                            i.fas.fa-exclamation-circle.me-1
+                                                            | Only #{item.productInfor.stock} left
+                                                    else
+                                                        span.text-danger
+                                                            i.fas.fa-times-circle.me-1
+                                                            | Out of Stock
+                                                
+                                                .mt-auto
+                                                    .d-grid.gap-2
+                                                        button.btn.btn-primary.mb-2.not-click(
+                                                            type="button"
+                                                            onclick=`addToCart('${item.product_id}')`
+                                                        )
+                                                            i.fas.fa-shopping-cart.me-2
+                                                            | Add to Cart
+                                                        button.btn.btn-outline-secondary.btn-sm.not-click(
+                                                            type="button"
+                                                            onclick=`shareProduct('${item.productInfor.slug}')`
+                                                        )
+                                                            i.fas.fa-share-alt.me-2
+                                                            | Share
+
+                .col-lg-3
+                    .card.shadow-sm.mb-4.sticky-top(style="top: 20px")
+                        .card-header.bg-light
+                            h5.mb-0 Wishlist Summary
+                        .card-body
+                            .mb-3
+                                h6.mb-2 Total Items
+                                span.h4 #{wishlist.products.length}
+                            
+                            .mb-3
+                                h6.mb-2 Total Value
+                                span.h4.text-primary $#{wishlist.totalValue}
+
+                            hr.my-4
+
+                            .d-grid.gap-2
+                                button.btn.btn-primary(
+                                    type="button"
+                                    onclick="addAllToCart()"
+                                )
+                                    i.fas.fa-shopping-cart.me-2
+                                    | Add All to Cart
+                                
+                                button.btn.btn-outline-secondary(
+                                    type="button"
+                                    onclick="shareWishlist()"
+                                )
+                                    i.fas.fa-share-alt.me-2
+                                    | Share Wishlist
+
+                    .card.shadow-sm.mb-4
+                        .card-header.bg-light
+                            h5.mb-0 Price Watch
+                        .card-body
+                            p.small.text-muted Get notified when items in your wishlist go on sale
+                            .form-check.mb-2
+                                input.form-check-input#priceDropEmail(type="checkbox")
+                                label.form-check-label(for="priceDropEmail") Email notifications
+                            .form-check.mb-3
+                                input.form-check-input#priceDropPush(type="checkbox")
+                                label.form-check-label(for="priceDropPush") Push notifications
+                            
+                            button.btn.btn-outline-primary.btn-sm.w-100
+                                i.fas.fa-bell.me-2
+                                | Set Alert
+        else
+            .card.shadow-sm
+                .card-body.text-center.py-5
+                    i.fas.fa-heart.fa-3x.text-muted.mb-3
+                    h4.text-muted Your wishlist is empty!
+                    p.text-muted.mb-4 Save items you love for later
+                    a.btn.btn-primary.mt-3(href="/products")
+                        i.fas.fa-arrow-left.me-2
+                        | Browse Products
+
+        if recommendedProducts && recommendedProducts.length
+            .row.mt-5
+                .col-12
+                    h4.mb-4 Recommended For You
+                    .row
+                        +product-grid(recommendedProducts)
+    script(src="/js/wishlist.js") 

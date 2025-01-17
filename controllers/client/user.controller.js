@@ -1,5 +1,6 @@
 const User = require("../../models/user.model");
 const ForgotPassword = require("../../models/forgot-password.model");
+const Wishlist = require("../../models/wishlist.model");
 const generateHelper = require("../../helpers/generate");
 const Cart = require("../../models/cart.model");
 const md5 = require("md5");
@@ -71,6 +72,7 @@ module.exports.registerPost = async (req, res) => {
 			return;
 		} else {
 			req.body.password = md5(req.body.password);
+			//cart
 			const cart = new Cart();
 			await cart.save();
 			const expires = 1000 * 3600 * 24 * 365;
@@ -78,8 +80,15 @@ module.exports.registerPost = async (req, res) => {
 				expires: new Date(Date.now() + expires)
 			});
 			res.locals.miniCart = cart;
-
 			req.body.cartId = cart.id;
+			//wishlist
+			const wishlist = new Wishlist();
+			await wishlist.save();
+			res.cookie("wishlistId", wishlist.id, {
+				expires: new Date(Date.now() + expires)
+			});
+			res.locals.miniWishlist = wishlist;
+			req.body.wishlistId = wishlist.id;
 
 			const user = new User(req.body);
 			await user.save();
@@ -132,11 +141,21 @@ module.exports.loginPost = async (req, res) => {
 			return;
 		}
 		res.cookie("userToken", user.userToken);
+		
+		if (!user.wishlistId) {
+			const wishlist = new Wishlist();
+			await wishlist.save();
+			user.wishlistId = wishlist.id;
+		}
 		//save user_id to cart
 		const expires = 1000 * 3600 * 24 * 365;
         res.cookie("cartId", user.cartId, {
             expires: new Date(Date.now() + expires)
         });
+		res.cookie("wishlistId", user.wishlistId, {
+			expires: new Date(Date.now() + expires)
+		});
+
 		await User.updateOne({ _id: user.id }, { online: "online" });
 
 		//socket 
@@ -161,6 +180,7 @@ module.exports.logout = async (req, res) => {
 		});
 		res.clearCookie("userToken");
 		res.clearCookie("cartId");
+		res.clearCookie("wishlistId");
 		req.flash("success", "Log out successfully !");
 		res.redirect("/");
 	} catch (error) {

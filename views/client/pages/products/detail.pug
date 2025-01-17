@@ -72,7 +72,11 @@ block main
           .d-flex.mt-4.mb-2
             form.me-2(action=`/cart/add/${product.id}` method="POST")
               .mb-2
-                label.form-label(for="quantity") Quantity
+                .col-6
+                  .product-info-item
+                    label.form-label.info-label(for="quantity") 
+                      i.fas.fa-cart-shopping.text-success
+                      | Quantity
                 input.form-control(
                   type="number"
                   name="quantity" 
@@ -84,19 +88,24 @@ block main
               button.btn.btn-primary.btn-lg.d-inline-flex.align-items-center.btn-block(type="submit")
                 i.fas.fa-shopping-cart.me-2
                 | Add to Cart
-            .mt-2
-              .col-6.mb-3
-                  //- .product-info-item
-                  label.form-label
-                    i.fas.text-success
-                    span Current Price:
-                  span.info-value.discount#currentPrice $#{product.newPrice}
-              //- label.form-label Current Price: 
-              //- span#currentPrice $#{product.newPrice}
-                
-          button.btn.btn-outline-primary.btn-lg.d-inline-flex.align-items-center.mb-4
-            i.fas.fa-heart.me-2
-            | Add to Wishlist
+            .col-6.mb-3
+              .product-info-item
+                label.info-label
+                  i.fas.fa-dollar-sign.text-success
+                  | Total:
+                .info-value.stock.info-value.discount#currentPrice $#{product.newPrice}
+            //- .mt-2
+            //-   .col-6.mb-3
+            //-       //- .product-info-item
+            //-       label.form-label
+            //-         i.fas.text-success
+            //-         span Total:
+            //-       span.info-value.discount#currentPrice $#{product.newPrice}
+          .d-flex.mt-4.mb-2    
+            form.me-2(action=`/wishlist/add/${product.id}` method="POST")   
+              button.btn.btn-outline-primary.btn-lg.d-inline-flex.align-items-center.mb-4(type="submit")
+                i.fas.fa-heart.me-2
+                | Add to Wishlist
             
           if (product.description)
             .card.mb-4.shadow-hover

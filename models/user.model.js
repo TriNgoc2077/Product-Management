@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
             default: generate.generateRandomString(20)
         },
         cartId: String,
+        wishlistId: String,
         phone: String,
         avatar: String,
         listFriend: [
