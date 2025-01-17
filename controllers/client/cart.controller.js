@@ -5,6 +5,10 @@ const productHelper = require("../../helpers/product");
 module.exports.addPost = async (req, res) => {
     try {
         const cartId = req.cookies.cartId;
+        if (!cartId) {
+            res.redirect("/user/login");
+            return;
+        }
         const productId = req.params.productId;
         const quantity = parseInt(req.body.quantity);
         console.log(cartId, productId, quantity);

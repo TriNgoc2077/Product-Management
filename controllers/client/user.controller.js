@@ -16,7 +16,6 @@ module.exports.register = async (req, res) => {
 //[POST] /user/register
 module.exports.registerPost = async (req, res) => {
 	try {
-		console.log(req.body);
 		const existEmail = await User.findOne({
 			email: req.body.email,
 			deleted: false,
@@ -26,13 +25,28 @@ module.exports.registerPost = async (req, res) => {
 			res.redirect("back");
 			return;
 		}
+
 		req.body.password = md5(req.body.password);
+
+        const cart = new Cart();
+        await cart.save();
+
+        const expires = 1000 * 3600 * 24 * 365;
+        res.cookie("cartId", cart.id, {
+            expires: new Date(Date.now() + expires)
+        });
+        res.locals.miniCart = cart;
+
+		req.body.cartId = cart.id;
 
 		const user = new User(req.body);
 		await user.save();
 		res.cookie("userToken", user.userToken);
 		res.redirect("/");
-	} catch (error) {}
+	} catch (error) {
+		console.log(error);
+		res.redirect("back");
+	}
 };
 
 //[GET] /user/login
@@ -76,7 +90,10 @@ module.exports.loginPost = async (req, res) => {
 		}
 		res.cookie("userToken", user.userToken);
 		//save user_id to cart
-		await Cart.updateOne({ _id: req.cookies.cartId }, { user_id: user.id });
+		const expires = 1000 * 3600 * 24 * 365;
+        res.cookie("cartId", user.cartId, {
+            expires: new Date(Date.now() + expires)
+        });
 		await User.updateOne({ _id: user.id }, { online: "online" });
 
 		//socket 
@@ -85,7 +102,10 @@ module.exports.loginPost = async (req, res) => {
 		});
 
 		res.redirect("/");
-	} catch (error) {}
+	} catch (error) {
+		console.log(error);
+		res.redirect("back");
+	}
 };
 
 //[GET] /user/logout
@@ -97,6 +117,7 @@ module.exports.logout = async (req, res) => {
 			socket.broadcast.emit("SERVER_RETURN_USER_OFFLINE", res.locals.user.id);
 		});
 		res.clearCookie("userToken");
+		res.clearCookie("cartId");
 		req.flash("success", "Log out successfully !");
 		res.redirect("/");
 	} catch (error) {

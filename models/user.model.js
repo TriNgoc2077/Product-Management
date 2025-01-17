@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema(
             type: String, 
             default: generate.generateRandomString(20)
         },
+        cartId: String,
         phone: String,
         avatar: String,
         listFriend: [
