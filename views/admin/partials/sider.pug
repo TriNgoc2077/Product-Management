@@ -29,8 +29,13 @@
                 li(class="list-group-item")
                     a(href=`${prefixAdmin}/accounts` class="text-decoration-none")
                         i.fas.fa-users
-                        | Accounts
-            //- if (role.permissions.includes("general-settings_views"))
+                        | Admin Accounts
+            if (role.permissions.includes("users_view"))
+                li(class="list-group-item")
+                    a(href=`${prefixAdmin}/users` class="text-decoration-none")
+                        i.fas.fa-users
+                        | User Accounts
+            if (role.permissions.includes("settings_views"))
             li(class="list-group-item")
                 a(href=`${prefixAdmin}/setting/general` class="text-decoration-none")
                     i.fas.fa-users

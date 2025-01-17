@@ -1,19 +1,20 @@
 extends ../../layouts/default.pug  
+include ../../mixins/filter-status.pug  
 
 block main   
-    if (role.permissions.includes("accounts_view"))
+    if (role.permissions.includes("users_view"))
         .d-flex.justify-content-between.align-items-center.mb-4
             h1.mb-0
                 i.fas.fa-users.text-primary.mr-2
-                | Admin Accounts Management
-            if (role.permissions.includes("accounts_edit"))
-                a(  
-                    href=`${prefixAdmin}/accounts/create`  
-                    class="btn btn-success"  
-                )  
-                    i.fas.fa-plus.mr-2  
-                    | Add Account  
+                | User Accounts Management
 
+        .row.mb-4  
+            .col-md-4  
+                .card.shadow-sm  
+                    .card-header.bg-white  
+                        h6.mb-0 Filter Status  
+                    .card-body  
+                        +filter-status(filterStatus)  
         .card.shadow-sm  
             .card-header.bg-white.py-3  
                 .d-flex.justify-content-between.align-items-center  
@@ -23,7 +24,7 @@ block main
                         .input-group-append  
                             button.btn.btn-outline-secondary  
                                 i.fas.fa-search  
-                        
+
             .card-body.p-0  
                 .table-responsive  
                     table.table.table-hover.mb-0  
@@ -32,14 +33,13 @@ block main
                                 th(width="5%") #  
                                 th(width="15%") Avatar  
                                 th(width="20%") Full Name  
-                                th(width="15%") Permission  
                                 th(width="20%") Email  
                                 th(width="10%") Status  
                                 th(width="15%") Actions  
                         tbody   
                             if (records.length > 0)  
                                 each item, index in records   
-                                    tr(data-href=`${prefixAdmin}/accounts/detail/${item.id}`) 
+                                    tr(data-href=`${prefixAdmin}/users/detail/${item.id}`) 
                                         td.align-middle.not-click #{index + 1}  
                                         td.align-middle  
                                             img.rounded-circle(  
@@ -49,11 +49,9 @@ block main
                                                 height="40"  
                                             )  
                                         td.align-middle #{item.fullName}  
-                                        td.align-middle  
-                                            span.badge.badge-info.not-click #{item.role.title}  
                                         td.align-middle #{item.email}  
                                         td.align-middle.not-click
-                                            if (role.permissions.includes("accounts_edit"))
+                                            if (role.permissions.includes("users_edit"))
                                                 if (item.status === "active")  
                                                     span.badge.bg-success(  
                                                         button-change-status
@@ -81,19 +79,11 @@ block main
                                             td.align-middle.not-click
                                                 .btn-group  
                                                     a.btn.btn-sm.btn-outline-info(  
-                                                        href=`${prefixAdmin}/accounts/detail/${item.id}`  
+                                                        href=`${prefixAdmin}/users/detail/${item.id}`  
                                                         title="Account"  
                                                     )  
                                                         i.fas.fa-eye  
                                                         span.ml-1.d-none.d-md-inline   
-                                                    
-                                                    if (role.permissions.includes("accounts_edit"))
-                                                        a.btn.btn-sm.btn-outline-warning(  
-                                                            href=`${prefixAdmin}/accounts/edit/${item.id}`  
-                                                            title="Edit Account"  
-                                                        )  
-                                                            i.fas.fa-edit  
-                                                            span.ml-1.d-none.d-md-inline   
                                                     
                                                     if (role.permissions.includes("accounts_delete"))
                                                         button.btn.btn-sm.btn-outline-danger(  
@@ -106,12 +96,6 @@ block main
                                         else 
                                             td.align-middle(colspan="2").not-click  
                                                 .btn-group  
-                                                    if (role.permissions.includes("accounts_edit"))
-                                                        a.btn.btn-sm.btn-outline-warning(  
-                                                            href=`${prefixAdmin}/accounts/edit/${item.id}`  
-                                                            title="Edit"  
-                                                        )  
-                                                            i.fas.fa-edit
                                                     if (role.permissions.includes("accounts_delete"))
                                                         button.btn.btn-sm.btn-outline-success(  
                                                             button-restore  
@@ -127,18 +111,18 @@ block main
         action=""  
         method="POST"  
         id="form-change-status"  
-        data-path=`${prefixAdmin}/accounts/change-status`  
+        data-path=`${prefixAdmin}/users/change-status`  
     )  
     form(  
         action=""  
         method="POST"  
         id="form-delete-item"  
-        data-path=`${prefixAdmin}/accounts/delete`  
+        data-path=`${prefixAdmin}/users/delete`  
     )  
     form(  
         action=""  
         method="POST"  
         id="form-restore-item"  
-        data-path=`${prefixAdmin}/accounts/restore`  
+        data-path=`${prefixAdmin}/users/restore`  
     )  
     script(src="/admin/js/product.js") 

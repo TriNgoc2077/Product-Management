@@ -94,24 +94,27 @@ module.exports.editPatch = async (req, res) => {
         req.flash("success", "Update successfully !");
 
     }
-    res.redirect("back");
+    res.redirect(`${systemConfig.prefixAdmin}/accounts`);
 }
 
 
 // [GET] /admin/accounts/detail/:id
 module.exports.detail = async (req, res) => {
-    let find = {
-        _id: req.params.id,
-        deleted: false
-    };
     try {
+        let find = {
+            _id: req.params.id,
+            deleted: false
+        };
+
         const data = await Account.findOne(find);
-        
+        const roleTitle = await Role.findOne({ _id: data.role_id }).select("title");
+        data.roleTitle = roleTitle.title;
         res.render("admin/pages/accounts/detail", {
             pageTitle: "Edit Account",
             data: data,
         });
     } catch(error) {
+        console.log(error);
         res.redirect(`${systemConfig.prefixAdmin}/accounts`);
     }
 }

@@ -2,7 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 block main 
     .container-fluid
-        if (role.permissions.includes("accounts_view"))
+        if (role.permissions.includes("users_view"))
             .row.mb-4
                 .col-12.d-flex.justify-content-between.align-items-center
                     .d-flex.align-items-center
@@ -31,14 +31,6 @@ block main
                                     i.fas.fa-circle.fa-xs
                             
                             h4.card-title.mb-1 #{data.fullName || "No Name"}
-                            p.text-muted.mb-3
-                                i.fas.fa-user-shield.me-2
-                                | #{data.roleTitle || "No Role"}
-                            if (role.permissions.includes("accounts_edit"))
-                                a.btn.btn-primary(href=`${prefixAdmin}/accounts/edit/${data._id}`)
-                                    i.fas.fa-user-edit.me-2
-                                    | Edit Profile
-
                 .col-xl-8.col-lg-7
                     // Info Card
                     .card.shadow-sm

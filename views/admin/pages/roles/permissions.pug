@@ -1,13 +1,10 @@
 extends ../../layouts/default.pug
-include ../../mixins/alert.pug
 block main 
     if (role.permissions.includes("roles_permissions"))
         .d-flex.justify-content-between.align-items-center.mb-4
             h1.mb-0
                 i.fas.fa-key.text-primary.mr-2
                 | Permissions
-        +alert-success(4000)
-        +alert-error(4000)
         if (records)
             div(data-records=records)
             if (role.title == "Administrator")
@@ -31,8 +28,8 @@ block main
                                 input(type="text" value=item.id) 
                     //- Product category
                     tr 
-                        td(colspan="4")
-                            b Product Category 
+                        td(colspan=records.length + 1)
+                            b Product Category Management
                     tr(data-name="products-category_view")
                         td View 
                         each item in records
@@ -56,8 +53,8 @@ block main
                     
                     //- Product List 
                     tr 
-                        td(colspan="4")
-                            b Product List 
+                        td(colspan=records.length + 1)
+                            b Product Management 
                     tr(data-name="products_view")
                         td View 
                         each item in records
@@ -80,7 +77,7 @@ block main
                                 input(type="checkbox")
                     //- Role
                     tr 
-                        td(colspan="4")
+                        td(colspan=records.length + 1)
                             b Role
                     tr(data-name="roles_view")
                         td View 
@@ -107,10 +104,34 @@ block main
                         each item in records
                             td(class="text-center")
                                 input(type="checkbox")
+                    //- General Setting
+                    tr 
+                        td(colspan=records.length + 1)
+                            b General Settig 
+                    tr(data-name="settings_view")
+                        td View 
+                        each item in records
+                            td(class="text-center")
+                                input(type="checkbox")
+                    tr(data-name="settings_create")
+                        td Create
+                        each item in records
+                            td(class="text-center")
+                                input(type="checkbox")
+                    tr(data-name="settings_edit")
+                        td Edit 
+                        each item in records
+                            td(class="text-center")
+                                input(type="checkbox")
+                    tr(data-name="settings_delete")
+                        td Delete 
+                        each item in records
+                            td(class="text-center")
+                                input(type="checkbox")
                     //- Account
                     tr 
-                        td(colspan="4")
-                            b Account
+                        td(colspan=records.length + 1)
+                            b Admin Account Management
                     tr(data-name="accounts_view")
                         td View 
                         each item in records
@@ -127,6 +148,45 @@ block main
                             td(class="text-center")
                                 input(type="checkbox")
                     tr(data-name="accounts_delete")
+                        td Delete 
+                        each item in records
+                            td(class="text-center")
+                                input(type="checkbox")                 
+                    
+                    //- User
+                    tr 
+                        td(colspan=records.length + 1)
+                            b User Account Management
+                    tr(data-name="users_view")
+                        td View 
+                        each item in records
+                            td(class="text-center")
+                                input(type="checkbox")
+                    tr(data-name="users_edit")
+                        td Disable
+                        each item in records
+                            td(class="text-center")
+                                input(type="checkbox")
+                    tr(data-name="users_delete")
+                        td Delete 
+                        each item in records
+                            td(class="text-center")
+                                input(type="checkbox")
+                    //- Order
+                    tr 
+                        td(colspan=records.length + 1)
+                            b Order Management
+                    tr(data-name="orders_view")
+                        td View 
+                        each item in records
+                            td(class="text-center")
+                                input(type="checkbox")
+                    tr(data-name="orders_edit")
+                        td Edit
+                        each item in records
+                            td(class="text-center")
+                                input(type="checkbox")
+                    tr(data-name="orders_delete")
                         td Delete 
                         each item in records
                             td(class="text-center")
