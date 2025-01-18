@@ -1,6 +1,7 @@
 const Product = require("../../models/product.model");
 const productHelper = require("../../helpers/product");
 const Wishlist = require("../../models/wishlist.model");
+const addProductHelper = require("../../helpers/addProductToCart");
 module.exports.index = async (req, res) => {
     try {
         const id = req.cookies.wishlistId;
@@ -68,7 +69,6 @@ module.exports.addPost = async (req, res) => {
 //[DELETE] /wishlist/remove/:productId
 module.exports.remove = async (req, res) => {
     try {
-        console.log("123131");
         const wishlistId = req.cookies.wishlistId;
         const productId = req.params.productId;
         await Wishlist.updateOne({ _id: wishlistId }, {
@@ -79,6 +79,27 @@ module.exports.remove = async (req, res) => {
         res.redirect("back");
     } catch(error) {
         req.flash("error", "Remove failed !");
+        res.redirect("back");
+    }
+}
+
+//[GET] /wishlist/addAll
+module.exports.addAll = async (req, res) => {
+    try {
+        const wishlistId = req.cookies.wishlistId;
+        const cartId = req.cookies.cartId;
+        const wishlist = await Wishlist.findOne({ _id: wishlistId });
+        for (const product of wishlist.products) {
+            await addProductHelper.addProduct(product.product_id, 1, cartId);
+        }
+        await Wishlist.updateOne(
+            { _id: wishlistId }, 
+            { products: [] }
+        );
+        req.flash("success", "Add successfully !");
+        res.redirect(`/wishlist`);
+    } catch(error) {
+        req.flash("error", "Add failed !");
         res.redirect("back");
     }
 }

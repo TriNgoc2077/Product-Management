@@ -1,6 +1,7 @@
 const Cart = require("../../models/cart.model");
 const Product = require("../../models/product.model");
 const productHelper = require("../../helpers/product");
+const addProductHelper = require("../../helpers/addProductToCart");
 //[POST] /cart/add/:productId
 module.exports.addPost = async (req, res) => {
     try {
@@ -11,29 +12,8 @@ module.exports.addPost = async (req, res) => {
         }
         const productId = req.params.productId;
         const quantity = (req.body.quantity ? parseInt(req.body.quantity): 1);
-        const cart = await Cart.findOne({ _id: cartId });
-        let existProductInCart = cart.products.find(item => item.product_id == productId);
-        if (existProductInCart) {
-            const newQuantity = quantity + existProductInCart.quantity;
-            await Cart.updateOne(
-                { 
-                    _id: cartId,
-                    'products.product_id': productId 
-                }, 
-                { '$set': {'products.$.quantity': newQuantity} }
-            );
-        }
-        else {
-            const objectCart = {
-                product_id: productId,
-                quantity: quantity,
-            };
-    
-            await Cart.updateOne(
-                { _id: cartId}, 
-                { $push: { products: objectCart } }
-            );
-        }
+
+        await addProductHelper.addProduct(productId, quantity, cartId);
         
         req.flash("success", "Added product to cart !");
         res.redirect("back");

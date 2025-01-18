@@ -13,6 +13,9 @@ const userSchema = new mongoose.Schema(
         cartId: String,
         wishlistId: String,
         phone: String,
+        address: String,
+        birthday: String,
+        bio: String,
         avatar: String,
         listFriend: [
             {

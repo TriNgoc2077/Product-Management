@@ -5,48 +5,50 @@ block main
   .container.py-4
     .row
       +box-head("Profile")
-      .col-md-4.mb-4
-        .card
-          .card-body.text-center
-            .mb-3
-              if user.avatar
-                img.rounded-circle.img-fluid(src=user.avatar alt="Profile photo" style="width: 150px; height: 150px; object-fit: cover;")
-              else
-                .rounded-circle.bg-light.d-flex.align-items-center.justify-content-center.mx-auto(style="width: 150px; height: 150px;")
-                  span.display-4.text-primary #{user.fullName[0]}
-            .mb-3
-              label.btn.btn-primary
-                span Upload Photo
-                input.d-none(type="file" accept="image/*")
+      form.row(action="/user/profile/edit?_method=PATCH" method="POST" enctype="multipart/form-data")
+        .col-md-4.mb-4
+          .card
+            .card-body.text-center(upload-image)
+              .mb-3
+                img.rounded-circle.img-fluid(
+                  src=user.avatar 
+                  alt="Profile avatar" 
+                  style="width: 150px; height: 150px; object-fit: cover;"
+                  upload-image-preview
+                )
+              .mb-3
+                label.btn.btn-primary
+                  span Upload Avatar
+                  input.d-none(
+                    type="file" 
+                    name="avatar"
+                    accept="image/*"
+                    upload-image-input
+                  )
 
-      .col-md-8
-        .card
-          .card-body
-            form
-              .row.g-3
-                .col-md-6
-                  label.form-label Full Name
-                  input.form-control(type="text" value=user.fullName)
-                
-                .col-md-6
-                  label.form-label Email
-                  input.form-control(type="email" value=user.email readonly)
-                
-                .col-md-6
-                  label.form-label Phone
-                  input.form-control(type="tel" placeholder="Enter phone number")
-                
-                .col-md-6
-                  label.form-label Date of Birth
-                  input.form-control(type="date")
+        .col-md-8
+          .card
+            .card-body
+                .row.g-3
+                  .col-md-6
+                    label.form-label Full Name
+                    input.form-control(type="text" name="fullName" value=userInfor.fullName)
+                  
+                  .col-md-6
+                    label.form-label Phone
+                    input.form-control(type="text" name="phone" placeholder="Enter phone number" value=userInfor.phone)
+                  
+                  .col-md-6
+                    label.form-label Date of Birth
+                    input.form-control(type="date" name="birthday" value=userInfor.birthday)
 
-                .col-12
-                  label.form-label Address
-                  textarea.form-control(rows="3" placeholder="Enter your address")
+                  .col-12
+                    label.form-label Address
+                    textarea.form-control(rows="3" name="address" placeholder="Enter your address")= userInfor.address
 
-                .col-12
-                  label.form-label Bio
-                  textarea.form-control(rows="4" placeholder="Tell us about yourself")
+                  .col-12
+                    label.form-label Bio
+                    textarea.form-control(rows="4" name="bio" placeholder="Tell us about yourself")= userInfor.bio
 
-                .col-12.text-end.mt-4
-                  button.btn.btn-primary(type="submit") Save Changes
+                  .col-12.text-end.mt-4
+                    button.btn.btn-primary(type="submit") Save Changes

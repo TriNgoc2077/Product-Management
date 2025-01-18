@@ -309,12 +309,30 @@ module.exports.passwordResetPost = async (req, res) => {
 
 //[GET] /user/profile
 module.exports.profile = async (req, res) => {
-	//   try {
-	console.log(req.body);
-	res.render("client/pages/user/profile", {
-		titlePage: "Profile",
-	});
-	//   } catch (error) {
-	//     console.log(error);
-	//   }
+	try {
+		const userId = res.locals.user.id;
+		const user = await User.findOne({ _id: userId });
+		res.render("client/pages/user/profile", {
+			titlePage: "Profile",
+			userInfor: user
+		});
+	} catch (error) {
+	    console.log(error);
+	}
+};
+
+//[PATCH] /user/profile/edit
+module.exports.editProfile = async (req, res) => {
+	try {
+		const userId = res.locals.user.id;
+
+		await User.updateOne(
+			{ _id: userId},
+			{ $set: req.body }
+		);
+		req.flash("success", "Update successfully !");
+		res.redirect(req.get("Referrer") || "/");
+	} catch (error) {
+	    console.log(error);
+	}
 };
