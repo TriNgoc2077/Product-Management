@@ -41,9 +41,10 @@ block main
                                                             alt=item.productInfo.title
                                                             style="width: 80px; height: 80px; object-fit: cover;"
                                                         )
-                                                        .ml-3
+                                                        .ml-1(style="max-width: 300px;")
                                                             a.text-dark.font-weight-bold.text-decoration-none(
                                                                 href=`/products/detail/${item.productInfo.slug}`
+                                                                style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
                                                             ) #{item.productInfo.title}
                                                             .text-muted.small
                                                                 if item.productInfo.stock > 10
@@ -62,7 +63,7 @@ block main
                                                     .font-weight-bold $#{item.productInfo.newPrice}
                                                     if item.productInfo.oldPrice
                                                         small.text-muted.text-decoration-line-through $#{item.productInfo.oldPrice}
-                                                td.align-middle.text-center
+                                                td.align-middle.text-center(style="min-width: 150px;")
                                                     .input-group.justify-content-center
                                                         .input-group-prepend
                                                             button.btn.btn-outline-secondary(type="button" btn-quantity-decrease) -

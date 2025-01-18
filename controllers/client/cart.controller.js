@@ -10,10 +10,8 @@ module.exports.addPost = async (req, res) => {
             return;
         }
         const productId = req.params.productId;
-        const quantity = parseInt(req.body.quantity);
-        console.log(cartId, productId, quantity);
+        const quantity = (req.body.quantity ? parseInt(req.body.quantity): 1);
         const cart = await Cart.findOne({ _id: cartId });
-        console.log(cart);
         let existProductInCart = cart.products.find(item => item.product_id == productId);
         if (existProductInCart) {
             const newQuantity = quantity + existProductInCart.quantity;

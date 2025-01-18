@@ -16,7 +16,7 @@ block main
                 .col-lg-9
                     .row
                         each item, index in wishlist.products
-                            .col-md-6.mb-4(data-href=`/products/detail/${item.productInfor.slug}`)
+                            .col-md-6.mb-4(product-item=item.product_id data-href=`/products/detail/${item.productInfor.slug}`)
                                 .card.shadow-sm.h-100.position-relative.transition-transform
                                     .position-absolute.top-0.end-0.m-2.not-click
                                         form(action=`/wishlist/remove/${item.product_id}?_method=DELETE` method="POST") 
@@ -58,9 +58,17 @@ block main
                                                 
                                                 .mt-auto
                                                     .d-grid.gap-2
-                                                        button.btn.btn-primary.mb-2.not-click(
-                                                            type="button"
-                                                            onclick=`addToCart('${item.product_id}')`
+                                                        input.form-control.d-none(
+                                                            type="number"
+                                                            name="quantity" 
+                                                            id="quantity"
+                                                            value="1"
+                                                            min="1"
+                                                            max=item.productInfor.stock
+                                                        )
+                                                        button.btn.btn-primary.mb-2.not-click.w-100(
+                                                            add-to-cart
+                                                            type="submit"
                                                         )
                                                             i.fas.fa-shopping-cart.me-2
                                                             | Add to Cart
@@ -93,13 +101,6 @@ block main
                                 )
                                     i.fas.fa-shopping-cart.me-2
                                     | Add All to Cart
-                                
-                                button.btn.btn-outline-secondary(
-                                    type="button"
-                                    onclick="shareWishlist()"
-                                )
-                                    i.fas.fa-share-alt.me-2
-                                    | Share Wishlist
 
                     .card.shadow-sm.mb-4
                         .card-header.bg-light
@@ -132,4 +133,71 @@ block main
                     h4.mb-4 Recommended For You
                     .row
                         +product-grid(recommendedProducts)
+    style.
+        .share-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .share-dialog-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .share-dialog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .share-dialog-header h3 {
+            margin: 0;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+
+        .share-url-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .share-url-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .copy-button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+    script(src="/js/shareProductDialog.js") 
     script(src="/js/wishlist.js") 
