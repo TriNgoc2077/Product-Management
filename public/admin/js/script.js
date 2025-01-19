@@ -1,3 +1,5 @@
+// const { prefixAdmin } = require("../../../config/system");
+
 //process button status and send to url
 const buttonStatus = document.querySelectorAll("[button-status]");
 console.log(buttonStatus);
@@ -226,3 +228,33 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   });
+
+//proceed order
+const buttonProceed = document.querySelector(".btn-proceed");
+if (buttonProceed) {
+    buttonProceed.addEventListener("click", async (e) => {
+        const status = buttonProceed.getAttribute("status");
+        const id = buttonProceed.getAttribute("order-id");
+        let newStatus;
+        if (status == "processing") {
+            newStatus = "confirmed";
+        } else if (status == "confirmed") {
+            newStatus = "shipping";
+        } else if (status == "shipping") {
+            newStatus = "completed";
+        }
+        const isConfirm = confirm(`Are you sure move this order to ${newStatus} status ?`);
+        if (isConfirm) {
+            try {
+                await fetch(`/admin/orders/proceed/${id}`, {
+                    method: "POST",
+                    headers: { "Content-type": "application/json "},
+                    body: JSON.stringify({ status: newStatus })
+                });
+                window.location.reload();
+            } catch(error) {
+                console.log("new error: ", error);
+            }
+        }
+    });
+}

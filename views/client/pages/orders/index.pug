@@ -26,7 +26,7 @@ block main
                                             )
                                         )
                                     )
-                                ) #{order.status || "Pending"}
+                                ) #{order.status || "pending"}
                                         //- .bg-success
                     .card-body
                         if (order.products.length < 4)
@@ -80,7 +80,7 @@ block main
                             span.text-muted Total Amount: 
                             span.total-amount.fs-5.fw-bold $#{order.totalAmount}
                         .actions
-                            a.btn.btn-primary(href=`/user/orders/detail/${order._id}`) View Detail
+                            a.btn.btn-primary.me-2(href=`/user/orders/detail/${order._id}`) View Detail
                             if (order.status == "processing")
                                 button.btn.btn-danger(button-cancel-order) Cancel Order
     style.

@@ -1,0 +1,61 @@
+extends ../../layouts/default.pug  
+include ../../mixins/filter-status.pug  
+
+block main   
+    if (role.permissions.includes("users_view"))
+        .d-flex.justify-content-between.align-items-center.mb-4
+            h1.mb-0
+                i.fas.fa-users.text-primary.mr-2
+                | Orders Management
+
+        .row.mb-4  
+            .col-md-4  
+                .card.shadow-sm  
+                    .card-header.bg-white  
+                        h6.mb-0 Filter Status  
+                    .card-body  
+                        +filter-status(filterStatus)  
+        .card.shadow-sm  
+            .card-header.bg-white.py-3  
+                .d-flex.justify-content-between.align-items-center  
+                    h5.mb-0 Order List  
+                    .input-group.w-25  
+                        input.form-control(type="search" placeholder="Search order...")  
+                        .input-group-append  
+                            button.btn.btn-outline-secondary  
+                                i.fas.fa-search  
+
+            .card-body.p-0  
+                .table-responsive  
+                    table.table.table-hover.mb-0  
+                        thead.bg-light  
+                            tr   
+                                th.text-center(width="5%") #  
+                                th(width="20%") Full Name  
+                                th(width="20%") Phone 
+                                th(width="10%") Status  
+                        tbody   
+                            if (orders.length > 0)  
+                                each item, index in orders   
+                                    tr(data-href=`${prefixAdmin}/orders/detail/${item.id}`) 
+                                        td.align-middle.not-click #{item._id}  
+                                        td.align-middle #{item.userInfo.fullName}  
+                                        td.align-middle #{item.userInfo.phone}  
+                                        td.align-middle.not-click
+                                            span.badge.fs-6(
+                                                class=(
+                                                    item.status == "processing" ? "bg-primary" : 
+                                                    (
+                                                        item.status == "confirmed" ? "bg-success" : 
+                                                        (
+                                                            item.status == "shipping" ? "bg-info" : 
+                                                            ( item.status == "completed" ? "bg-success" : "bg-secondary" )
+                                                        )
+                                                    )
+                                                )
+                                            ) #{item.status || "pending"}
+  
+                            else   
+                                tr   
+                                    td.text-center.py-4(colspan="7")  
+                                        .text-muted No orders found

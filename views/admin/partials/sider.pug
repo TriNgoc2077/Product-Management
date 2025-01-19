@@ -5,6 +5,11 @@
                 a(href=`${prefixAdmin}/dashboard` class="text-decoration-none")
                     i.fas.fa-tachometer-alt
                     | Overview 
+            if (role.permissions.includes("settings_view"))
+                li(class="list-group-item")
+                    a(href=`${prefixAdmin}/setting/general` class="text-decoration-none")
+                        i.fas.fa-users
+                        | General Settings
             if (role.permissions.includes("products-category_view"))
                 li(class="list-group-item")
                     a(href=`${prefixAdmin}/product-category` class="text-decoration-none")
@@ -35,8 +40,8 @@
                     a(href=`${prefixAdmin}/users` class="text-decoration-none")
                         i.fas.fa-users
                         | User Accounts
-            if (role.permissions.includes("settings_views"))
-            li(class="list-group-item")
-                a(href=`${prefixAdmin}/setting/general` class="text-decoration-none")
-                    i.fas.fa-users
-                    | General Settings
+            if (role.permissions.includes("orders_view"))
+                li(class="list-group-item")
+                    a(href=`${prefixAdmin}/orders` class="text-decoration-none")
+                        i.fas.fa-truck
+                        | Orders

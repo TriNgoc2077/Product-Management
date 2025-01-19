@@ -1,0 +1,132 @@
+extends ../../layouts/default.pug  
+
+block main   
+    .container.py-5
+      .card.shadow
+        .card-header.bg-primary.text-white
+          h3.mb-0 Order Details
+          small Order ID: #{order._id}
+        
+        .card-body
+          // Customer Information
+          .row.mb-4
+            .col-md-6
+              h5.mb-3 Customer Information
+              p.mb-1
+                strong Name: 
+                span #{order.userInfo.fullName}
+              p.mb-1
+                strong Phone: 
+                span #{order.userInfo.phone}
+              p.mb-1
+                strong Address: 
+                span #{order.userInfo.address}
+          
+          // Order Information
+          .row.mb-4
+            .col-12
+              h5.mb-3 Order Information
+              p.mb-1
+                strong Order Date: 
+                span #{new Date(order.createAt).toLocaleDateString()}
+              p.mb-1
+                strong Status: 
+                span.badge.bg-success #{order.status}
+          
+          // Products Table
+          h5.mb-3 Ordered Products
+          .table-responsive
+            table.table.table-bordered
+              thead.table-light
+                tr
+                  th Product
+                  th Price
+                  th Discount
+                  th Quantity
+                  th Total
+              tbody
+                each product in order.products
+                  tr
+                    td
+                      .d-flex.align-items-center
+                        img.me-2(src=product.thumbnail alt=product.title style="width: 50px; height: 50px; object-fit: cover")
+                        span #{product.title}
+                    td $#{product.price.toFixed(2)}
+                    td #{product.discountPercentage}%
+                    td #{product.quantity}
+                    td $#{((product.price * (1 - product.discountPercentage/100)) * product.quantity).toFixed(2)}
+          
+          // Order Summary
+          .row.mt-4
+            .col-md-6.ms-auto
+              .card
+                .card-body
+                  h5.mb-3 Order Summary
+                  .d-flex.justify-content-between.mb-2
+                    span Subtotal:
+                    span $#{order.totalProducts}
+                  .d-flex.justify-content-between.mb-2
+                    span Shipping:
+                    span $#{order.shipping}
+                  .d-flex.justify-content-between.mb-2
+                    span Discount:
+                    span -$#{(order.totalProducts - order.totalProductsDiscount)}
+                  hr
+                  .d-flex.justify-content-between.fw-bold
+                    span Total:
+                    span $#{order.totalAmount}
+                
+                //- if (order.status == "processing")
+                //-     button.btn.btn-warning(button-next-step) Enter
+                //-     button.btn.btn-danger(button-next-step) Cancel Order
+
+                //- if (order.status == "confirm")
+                //-     button.btn.btn-warning(button-next-step) Enter 
+                //-     button.btn.btn-danger(button-next-step) Cancel Order
+
+                //- if (order.status == "shipping")
+                //-     button.btn.btn-warning(button-next-step) Enter
+                //-     button.btn.btn-danger(button-next-step) Cancel Order
+                if (order.status === "processing" || order.status === "confirmed" || order.status === "shipping")
+                  .action-buttons
+                    .d-flex.justify-content-center.align-items-center.gap-3
+                      button.btn.btn-action.btn-cancel(button-cancel-order order-id=order._id)
+                        i.fas.fa-times.me-2
+                        | Cancel Order
+                      button.btn.btn-action.btn-proceed(status=order.status order-id=order._id)
+                        i.fas.fa-arrow-right.me-2
+                        | Proceed
+    script(src="/admin/js/script.js") 
+    style.
+      .btn-action {
+        transition: all 0.3s ease;
+        min-width: 120px;
+        margin: 0 5px;
+      }
+      .btn-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+      .btn-proceed {
+        background-color: #ffc107;
+        border: none;
+        color: #000;
+      }
+      .btn-proceed:hover {
+        background-color: #ffca2c;
+        color: #000;
+      }
+      .btn-cancel {
+        background-color: #dc3545;
+        border: none;
+        color: white;
+      }
+      .btn-cancel:hover {
+        background-color: #bb2d3b;
+      }
+      .action-buttons {
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-top: 20px;
+      }

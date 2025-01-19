@@ -19,6 +19,7 @@ const systemConfig = require("./config/system");
 
 const app = express();
 const port = process.env.PORT;
+app.use(express.json());
 
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
