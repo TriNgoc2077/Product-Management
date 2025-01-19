@@ -42,5 +42,6 @@ router.patch(
 	controller.editProfile
 );
 router.get("/orders", authMiddleware.requireAuth, controller.orders);
+router.get("/orders/detail/:orderId", authMiddleware.requireAuth, controller.orderDetail);
 
 module.exports = router;

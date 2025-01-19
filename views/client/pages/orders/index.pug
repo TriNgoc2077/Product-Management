@@ -80,8 +80,7 @@ block main
                             span.text-muted Total Amount: 
                             span.total-amount.fs-5.fw-bold $#{order.totalAmount}
                         .actions
-                            button.btn.btn-outline-primary.me-2 Buy back
-                            a.btn.btn-light(href=`/user/orders/detail/${order._id}`) View Detail
+                            a.btn.btn-primary(href=`/user/orders/detail/${order._id}`) View Detail
     style.
         .order-card {
             transition: all 0.3s ease;

@@ -11,6 +11,7 @@ const orderSchema = new mongoose.Schema(
             notes: String,
         },
         status: String,
+        shipping: Number,
         createAt: {
             type: Date,
             default: Date.now

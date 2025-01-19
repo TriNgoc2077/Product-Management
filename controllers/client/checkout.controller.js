@@ -38,6 +38,7 @@ module.exports.order = async (req, res) => {
             { _id: cartId },
         );
         const products = [];
+        let total = 0;
         for (let product of cart.products) {
             const objectProduct = {
                 product_id: product.product_id,
@@ -52,6 +53,7 @@ module.exports.order = async (req, res) => {
             objectProduct.discountPercentage = productInfo.discountPercentage;
             objectProduct.title = productInfo.title;
             objectProduct.thumbnail = productInfo.thumbnail;
+            total += productInfo.price;
             products.push(objectProduct);
         }
 
@@ -59,6 +61,11 @@ module.exports.order = async (req, res) => {
             cart_id: cartId,
             userInfo: inforUser,
             products: products,
+        }
+        if (total > 50) {
+            objectOrder.shipping = 0;
+        } else {
+            objectOrder.shipping = 5;
         }
         const order = new Order(objectOrder);
         await order.save();

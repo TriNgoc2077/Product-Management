@@ -346,11 +346,29 @@ module.exports.orders = async (req, res) => {
 		const orders = await Order.find({ cart_id: cartId });
 		for (let order of orders) {
 			order.products = productHelper.newPrice(order.products);
-			order.totalAmount = order.products.reduce((acc, item) => acc + item.priceNew, 0);
+			order.totalProducts = order.products.reduce((acc, item) => acc + item.priceNew, 0);
+			order.totalAmount = order.totalProducts + (order.shipping ? order.shipping : 0);
 		}
-		res.render("client/pages/user/orders", {
+
+		res.render("client/pages/orders/index", {
 			titlePage: "Profile",
 			orders: orders
+		});
+	} catch (error) {
+	    console.log(error);
+	}
+};
+//[GET] /user/orders/detail/:id
+module.exports.orderDetail = async (req, res) => {
+	try {
+		const orderId = req.params.orderId;
+		const order = await Order.findOne({ _id: orderId });
+		order.products = productHelper.newPrice(order.products);
+		order.totalProducts = order.products.reduce((acc, item) => acc + item.priceNew, 0);
+		order.totalAmount = order.totalProducts + (order.shipping ? order.shipping : 0);
+		res.render("client/pages/orders/detail", {
+			titlePage: "Profile",
+			order: order
 		});
 	} catch (error) {
 	    console.log(error);
