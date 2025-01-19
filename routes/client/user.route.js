@@ -41,4 +41,6 @@ router.patch(
 	uploadCloud.upload,
 	controller.editProfile
 );
+router.get("/orders", authMiddleware.requireAuth, controller.orders);
+
 module.exports = router;

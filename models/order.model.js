@@ -10,6 +10,7 @@ const orderSchema = new mongoose.Schema(
             address: String,
             notes: String,
         },
+        status: String,
         createAt: {
             type: Date,
             default: Date.now
@@ -17,6 +18,8 @@ const orderSchema = new mongoose.Schema(
         products: [
             {
                 product_id: String,
+                title: String,
+                thumbnail: String,
                 price: Number,
                 discountPercentage: Number,
                 quantity: Number,

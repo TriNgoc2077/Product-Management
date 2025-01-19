@@ -1,7 +1,9 @@
 const User = require("../../models/user.model");
 const ForgotPassword = require("../../models/forgot-password.model");
 const Wishlist = require("../../models/wishlist.model");
+const Order = require("../../models/order.model");
 const generateHelper = require("../../helpers/generate");
+const productHelper = require("../../helpers/product");
 const Cart = require("../../models/cart.model");
 const md5 = require("md5");
 const sendMailHelper = require("../../helpers/sendMail");
@@ -311,7 +313,7 @@ module.exports.passwordResetPost = async (req, res) => {
 module.exports.profile = async (req, res) => {
 	try {
 		const userId = res.locals.user.id;
-		const user = await User.findOne({ _id: userId });
+		const user = await User.findOne({ _id: userId }).select("-password -userToken");
 		res.render("client/pages/user/profile", {
 			titlePage: "Profile",
 			userInfor: user
@@ -332,6 +334,24 @@ module.exports.editProfile = async (req, res) => {
 		);
 		req.flash("success", "Update successfully !");
 		res.redirect(req.get("Referrer") || "/");
+	} catch (error) {
+	    console.log(error);
+	}
+};
+
+//[GET] /user/orders
+module.exports.orders = async (req, res) => {
+	try {
+		const cartId = req.cookies.cartId;
+		const orders = await Order.find({ cart_id: cartId });
+		for (let order of orders) {
+			order.products = productHelper.newPrice(order.products);
+			order.totalAmount = order.products.reduce((acc, item) => acc + item.priceNew, 0);
+		}
+		res.render("client/pages/user/orders", {
+			titlePage: "Profile",
+			orders: orders
+		});
 	} catch (error) {
 	    console.log(error);
 	}

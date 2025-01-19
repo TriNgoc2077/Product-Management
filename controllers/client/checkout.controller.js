@@ -50,6 +50,8 @@ module.exports.order = async (req, res) => {
             });
             objectProduct.price = productInfo.price;
             objectProduct.discountPercentage = productInfo.discountPercentage;
+            objectProduct.title = productInfo.title;
+            objectProduct.thumbnail = productInfo.thumbnail;
             products.push(objectProduct);
         }
 
