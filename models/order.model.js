@@ -10,6 +10,7 @@ const orderSchema = new mongoose.Schema(
             address: String,
             notes: String,
         },
+        //processing -> confirmed -> shipping -> completed/canceled/failed
         status: String,
         shipping: Number,
         createAt: {

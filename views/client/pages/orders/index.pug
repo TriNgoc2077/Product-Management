@@ -7,7 +7,7 @@ block main
         
         .row.g-4
             each order in orders
-                .card.bg-light.mb-2
+                .card.bg-light.mb-2(order-id=order._id)
                     .col-12
                         .card.border-0.shadow-sm.order-card
                             .card-header.bg-white.border-bottom.py-3
@@ -17,11 +17,11 @@ block main
                                     | Order ##{order._id}
                                 span.badge.fs-6(
                                     class=(
-                                        order.status == "cancelled" ? "bg-danger" : 
+                                        order.status == "processing" ? "bg-primary" : 
                                         (
-                                            order.status == "processing" ? "bg-info" : 
+                                            order.status == "confirmed" ? "bg-success" : 
                                             (
-                                                order.status == "shipping" ? "bg-warning" : 
+                                                order.status == "shipping" ? "bg-info" : 
                                                 ( order.status == "completed" ? "bg-success" : "bg-secondary" )
                                             )
                                         )
@@ -81,6 +81,8 @@ block main
                             span.total-amount.fs-5.fw-bold $#{order.totalAmount}
                         .actions
                             a.btn.btn-primary(href=`/user/orders/detail/${order._id}`) View Detail
+                            if (order.status == "processing")
+                                button.btn.btn-danger(button-cancel-order) Cancel Order
     style.
         .order-card {
             transition: all 0.3s ease;

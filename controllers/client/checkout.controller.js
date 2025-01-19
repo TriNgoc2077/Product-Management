@@ -67,6 +67,7 @@ module.exports.order = async (req, res) => {
         } else {
             objectOrder.shipping = 5;
         }
+        objectOrder.status = "processing";
         const order = new Order(objectOrder);
         await order.save();
         await Cart.updateOne(

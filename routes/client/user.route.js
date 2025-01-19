@@ -43,5 +43,6 @@ router.patch(
 );
 router.get("/orders", authMiddleware.requireAuth, controller.orders);
 router.get("/orders/detail/:orderId", authMiddleware.requireAuth, controller.orderDetail);
+router.post("/orders/cancel/:orderId", authMiddleware.requireAuth, controller.cancelOrder);
 
 module.exports = router;

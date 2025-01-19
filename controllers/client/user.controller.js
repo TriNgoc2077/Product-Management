@@ -374,3 +374,20 @@ module.exports.orderDetail = async (req, res) => {
 	    console.log(error);
 	}
 };
+
+//[GET] /user/orders/cancel/:id
+module.exports.cancelOrder = async (req, res) => {
+	try {
+		const orderId = req.params.orderId;
+		await Order.updateOne(
+			{ _id: orderId },
+			{ status: "canceled" }
+		);
+		req.flash("success", "Order is canceled");
+		// res.redirect(req.get("Referrer") || "/");
+		res.status(200).send({ message: "Order cancelled successfully" });
+	} catch (error) {
+	    console.log(error);
+		res.status(500).send({ error: "Failed to cancel order" });
+	}
+};

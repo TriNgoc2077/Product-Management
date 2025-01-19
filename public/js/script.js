@@ -65,3 +65,31 @@ if (uploadImage){
     });
 }
 // End preview image upload
+
+//cancel order
+const buttonCancelOrder = document.querySelectorAll("[button-cancel-order]");
+if (buttonCancelOrder) {
+    buttonCancelOrder.forEach(button => {
+        button.addEventListener("click", async (e) => {
+            const order = button.closest("[order-id]");
+            console.log(order);
+            if (order) {
+                const orderId = order.getAttribute("order-id");
+                const id = prompt("\nAre you sure cancel this order ?\n\nPlease enter id of order to confirm: ");
+                if (id === orderId) {
+                    try {
+                        await fetch(`/user/orders/cancel/${orderId}`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                        });
+                        console.log("Reloading page...");
+                        window.location.reload();
+                    } catch(error) {
+                        console.log("new error:", error);
+                    }
+                }
+            }
+        });
+    });
+}
+//end cancel order
