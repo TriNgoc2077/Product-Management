@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     });
-  });
+});
 
 //proceed order
 const buttonProceed = document.querySelector(".btn-proceed-order");

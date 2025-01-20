@@ -86,6 +86,7 @@ block main
                                                 src=item.thumbnail  
                                                 alt=item.title  
                                                 style="max-width: 100px"  
+                                                loading="lazy"
                                             )  
                                         td.align-middle 
                                             | #{item.title}  
@@ -164,6 +165,7 @@ block main
                                                 src=item.thumbnail  
                                                 alt=item.title  
                                                 style="max-width: 100px"  
+                                                loading="lazy"
                                             )  
                                         td.align-middle #{item.title}  
                                         td.align-middle.text-primary.font-weight-bold $#{item.price}  

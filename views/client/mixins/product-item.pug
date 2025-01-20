@@ -11,6 +11,7 @@ mixin product-item(item)
                 img.card-img-top(
                     src=item.thumbnail
                     alt=item.title
+                    loading="lazy"
                 )
             .product-actions
                 button.btn.btn-light.btn-sm.mr-2(title="Quick View")

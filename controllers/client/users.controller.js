@@ -120,3 +120,17 @@ module.exports.friends = async (req, res) => {
         users: users
     });
 }
+
+//[GET] /user/detail/:userId
+module.exports.detailUser = async (req, res) => {
+	try {
+		const id = req.params.userId;
+		const inforUser = await User.findOne({ _id: id }).select("-password -userToken");
+		res.render("client/pages/users/detail.pug", {
+			titlePage: "Information User",
+			inforUser: inforUser
+		});
+	} catch(error) {
+		console.log("New Error: ", error);
+	}
+}

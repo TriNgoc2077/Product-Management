@@ -11,4 +11,6 @@ router.get("/accept", controller.accept);
 
 router.get("/friends", controller.friends);
 
+router.get("/detail/:userId", controller.detailUser);
+
 module.exports = router;

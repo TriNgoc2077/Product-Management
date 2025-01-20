@@ -37,7 +37,7 @@ block main
             each product in order.products  
               .row.mb-3.border-bottom.pb-3  
                 .col-md-2  
-                  img.img-fluid(src=product.thumbnail alt=product.title)  
+                  img.img-fluid(src=product.thumbnail alt=product.title loading="lazy")  
                 .col-md-6  
                   h6 #{product.title}  
                   p.text-muted Product ID: #{product.product_id}  
