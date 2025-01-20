@@ -146,11 +146,13 @@ module.exports.loginPost = async (req, res) => {
 			const cart = new Cart();
 			await cart.save();
 			user.cartId = cart.id;
+			await user.save();
 		}
 		if (!user.wishlistId) {
 			const wishlist = new Wishlist();
 			await wishlist.save();
 			user.wishlistId = wishlist.id;
+			await user.save();
 		}
 		// save user_id to cart
 		const expires = 1000 * 3600 * 24 * 365;
@@ -329,7 +331,7 @@ module.exports.profile = async (req, res) => {
 module.exports.editProfile = async (req, res) => {
 	try {
 		const userId = res.locals.user.id;
-
+		delete req.body.email;
 		await User.updateOne(
 			{ _id: userId},
 			{ $set: req.body }

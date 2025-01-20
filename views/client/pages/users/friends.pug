@@ -11,7 +11,7 @@ block main
         
         .row.g-4(data-users-friend)
             each user in friends
-                .col-12.col-md-4(user-id=user.id)
+                .col-12.col-md-4.box-user(user-id=user.id)
                     .card.h-100.border-0.shadow-sm.rounded-3.bg-white
                         .card-body.p-3
                             .d-flex.align-items-center
@@ -33,17 +33,24 @@ block main
                                 .flex-grow-1
                                     .fw-semibold.mb-2.fs-5.text-dark.lh-sm #{user.fullName}
                                     .d-flex.gap-2
-                                        a.btn.btn-primary.btn-sm.d-inline-flex.align-items-center.gap-2(
+                                        a.btn.btn-primary.btn-sm.align-items-center.gap-2.btn-action(
                                             href=`/chat/${user.roomChatId}`
+                                            button-inbox
                                         )
                                             i.fas.fa-comment-dots
                                             span Inbox
                                         
-                                        button.btn.btn-outline-danger.btn-sm.d-inline-flex.align-items-center.gap-2(
-                                            href="#"
+                                        button.btn.btn-outline-danger.btn-sm.align-items-center.gap-2.btn-action(
+                                            button-unfriend
                                         )
                                             i.fas.fa-user-minus
                                             span Unfriend
+                                        button.btn.btn-secondary.btn-sm.align-items-center.gap-2.btn-unfriended(
+                                            button-unfriended
+                                            disabled
+                                        )
+                                            i.fas.fa-ban
+                                            span Unfriended
 
     block users
         script(type="module", src="/js/users.js")
@@ -58,4 +65,19 @@ block main
         .btn-outline-danger:hover {
             background-color: #dc3545;
             color: white;
+        }
+        .box-user [button-inbox], 
+        .box-user [button-unfriend] {
+            display: inline-flex;
+        }
+        .box-user [button-unfriended] {
+            display: none;
+        }
+
+        .box-user.unfriended [button-inbox], 
+        .box-user.unfriended [button-unfriend] {
+            display: none !important;
+        }
+        .box-user.unfriended [button-unfriended] {
+            display: inline-flex !important;
         }

@@ -191,5 +191,40 @@ module.exports = async (res) => {
                 );
             }            
         });
+        //unfriend
+        socket.on("CLIENT_UNFRIEND", async (userId) => {
+            const myUserId = res.locals.user.id;            
+            const existUserAinB = await User.findOne({ _id: myUserId, "listFriend.user_id": userId });
+            const existUserBinA = await User.findOne({ _id: userId, "listFriend.user_id": myUserId });            
+            if (existUserAinB) {
+                await User.updateOne(
+                    {
+                        _id: myUserId
+                    }, 
+                    { 
+                        $pull: { 
+                            listFriend: { 
+                                user_id: userId, 
+                            }, 
+                        },
+                    }
+                );
+            }
+            if (existUserBinA) {
+                await User.updateOne(
+                    {
+                        _id: userId
+                    }, 
+                    { 
+                        $pull: { 
+                            listFriend: {
+                                user_id: myUserId,
+                            },
+                        },
+                    }
+                );
+            }      
+
+        });
     });
 }

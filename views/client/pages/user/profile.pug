@@ -42,6 +42,9 @@ block main
                     label.form-label Date of Birth
                     input.form-control(type="date" name="birthday" value=userInfor.birthday)
 
+                  .col-md-6
+                    label.form-label Email
+                    input.form-control(type="text" name="email" value=userInfor.email disabled="disabled")
                   .col-12
                     label.form-label Address
                     textarea.form-control(rows="3" name="address" placeholder="Enter your address")= userInfor.address
