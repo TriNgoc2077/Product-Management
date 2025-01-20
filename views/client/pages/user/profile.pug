@@ -11,7 +11,7 @@ block main
             .card-body.text-center(upload-image)
               .mb-3
                 img.rounded-circle.img-fluid(
-                  src=user.avatar 
+                  src=(user.avatar ? user.avatar : "/images/avatar.svg")
                   alt="Profile avatar" 
                   style="width: 150px; height: 150px; object-fit: cover;"
                   upload-image-preview

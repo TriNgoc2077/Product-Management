@@ -4,46 +4,141 @@ include ../../mixins/box-head.pug
 block main 
     include ../../partials/list-btn-users.pug
 
-   .container.py-4
-       .row.mb-4
-           .col-12
-               +box-head("List request sent")
+    .container.py-4
+        .row.mb-4
+            .col-12
+                +box-head("List request sent")
 
-       .row.g-4
-           each user in users
-               .col-12.col-md-4
-                   div(class="box-user add card h-100 shadow-sm") 
-                       .card-body.p-3
-                           .d-flex.align-items-center.position-relative
-                               .inner-avatar.position-relative.me-3
-                                   img.rounded-circle.border.border-2.border-light(
-                                       src=user.avatar
-                                       alt="avatar"
-                                       style="width: 80px; height: 80px; object-fit: cover;"
-                                   )
-                               
-                               .inner-info.flex-grow-1
-                                   .inner-name.fw-semibold.mb-2.fs-5 #{user.fullName}
-                                   .inner-buttons.d-flex.gap-2
-                                       button(
-                                           class="btn btn-sm btn-primary"
-                                           button-add-friend=user.id
-                                       ) Add friend
-                                       button(
-                                           class="btn btn-sm btn-secondary d-none"
-                                           button-cancel-friend=user.id
-                                       ) Cancel
-   
-   block users
+        .row.g-4
+            each user in requests
+                .col-12.col-md-4
+                    div(class="box-user add card h-100 position-relative") 
+                        .card-body.p-4
+                            .d-flex.align-items-center.position-relative
+                                .inner-avatar.position-relative.me-3
+                                    img.rounded-circle.border.border-3.border-white.shadow-sm(
+                                        src=(user.avatar ? user.avatar : "/images/avatar.svg")
+                                        alt=user.fullName
+                                        style="width: 90px; height: 90px; object-fit: cover;"
+                                    )
+                                    .status-dot
+                                
+                                .inner-info.flex-grow-1
+                                    .inner-name.fw-bold.mb-2.fs-5 #{user.fullName}
+                                    .inner-buttons.d-flex.gap-2
+                                        button(
+                                            class="btn btn-sm btn-primary d-flex align-items-center gap-2"
+                                            button-add-friend=user.id
+                                        )
+                                            i.fas.fa-user-plus
+                                            | Add friend
+                                        button(
+                                            class="btn btn-sm btn-secondary d-flex align-items-center gap-2 d-none"
+                                            button-cancel-friend=user.id
+                                        )
+                                            i.fas.fa-times
+                                            | Cancel
+
+    block users
         script(type="module", src="/js/users.js") 
 
-   style.
+    style.
+        .card {
+            transition: all 0.3s ease;
+            border: none;
+            background: #ffffff;
+            border-radius: 15px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+        .inner-avatar {
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .inner-avatar {
+            transform: scale(1.05);
+        }
+
+        .inner-avatar img {
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .inner-avatar img {
+            border-color: #4361ee !important;
+        }
+
+        .status-dot {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 12px;
+            height: 12px;
+            background-color: #2ec4b6;
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .btn {
+            transition: all 0.2s ease;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #4361ee;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #3451db;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #94a3b8;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #64748b;
+            transform: translateY(-2px);
+        }
+
         .box-user [button-cancel-friend] {
             display: none !important;
         }
+
         .box-user.add [button-add-friend] {
             display: none !important;
         }
+
         .box-user.add [button-cancel-friend] {
-            display: inline-block !important;
+            display: inline-flex !important;
+        }
+
+        .inner-name {
+            color: #1e293b;
+            letter-spacing: -0.02em;
+        }
+
+        /* Optional: Add a subtle gradient overlay on hover */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 15px;
+            background: linear-gradient(45deg, rgba(67, 97, 238, 0.03), rgba(46, 196, 182, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::after {
+            opacity: 1;
         }

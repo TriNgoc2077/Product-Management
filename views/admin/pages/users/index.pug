@@ -43,7 +43,7 @@ block main
                                         td.align-middle.not-click #{index + 1}  
                                         td.align-middle  
                                             img.rounded-circle(  
-                                                src=item.avatar  
+                                                src=(item.avatar ? item.avatar : "/images/avatar.svg")
                                                 alt=item.fullName  
                                                 width="40"  
                                                 height="40"  

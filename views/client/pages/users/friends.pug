@@ -10,36 +10,52 @@ block main
                 +box-head("List friend")
         
         .row.g-4(data-users-friend)
-            each user in users
+            each user in friends
                 .col-12.col-md-4(user-id=user.id)
-                    .card.h-100.shadow-sm
-                        .card-body
-                            .d-flex.align-items-center.position-relative
+                    .card.h-100.border-0.shadow-sm.rounded-3.bg-white
+                        .card-body.p-3
+                            .d-flex.align-items-center
                                 .position-relative.me-3
-                                    img.rounded-circle(
-                                        src=user.avatar
-                                        alt="avatar"
-                                        style="width: 80px; height: 80px; object-fit: cover;"
+                                    img.rounded-circle.border.border-2.border-light.shadow-sm(
+                                        src=(user.avatar ? user.avatar : "/images/avatar.svg")
+                                        alt=user.fullName
+                                        width="80"
+                                        height="80"
+                                        style="object-fit: cover;"
                                     )
-                                    //- Status indicator repositioned to bottom-right of avatar
-                                    .position-absolute.bottom-0.end-0.translate-middle-y
-                                        i.fa-solid.fa-circle.fs-6(
-                                            status=user.online
+                                    //- Enhanced status indicator
+                                    .position-absolute.bottom-0.end-0.translate-middle
+                                        span.status-dot.rounded-circle.border.border-2.border-white(
+                                            class=user.online ? 'bg-success' : 'bg-secondary'
+                                            style="width: 14px; height: 14px; display: block;"
                                         )
                                 
                                 .flex-grow-1
-                                    .fw-semibold.mb-2.fs-5 #{user.fullName}
-                                    .d-flex.gap-1
-                                        a.btn.btn-primary.btn-sm(href=`/chat/${user.roomChatId}`) Inbox
-                                        a.btn.btn-secondary.btn-sm(href="#") Unfriend
+                                    .fw-semibold.mb-2.fs-5.text-dark.lh-sm #{user.fullName}
+                                    .d-flex.gap-2
+                                        a.btn.btn-primary.btn-sm.d-inline-flex.align-items-center.gap-2(
+                                            href=`/chat/${user.roomChatId}`
+                                        )
+                                            i.fas.fa-comment-dots
+                                            span Inbox
+                                        
+                                        button.btn.btn-outline-danger.btn-sm.d-inline-flex.align-items-center.gap-2(
+                                            href="#"
+                                        )
+                                            i.fas.fa-user-minus
+                                            span Unfriend
 
-block users
-    script(type="module", src="/js/users.js")
+    block users
+        script(type="module", src="/js/users.js")
 
     style.
-        .fa-solid.fa-circle[status="online"] {
-            color: #00d800;
+        .card {
+            transition: transform 0.2s ease;
         }
-        .fa-solid.fa-circle[status="offline"] {
-            color: #6c757d;
+        .card:hover {
+            transform: translateY(-3px);
+        }
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: white;
         }

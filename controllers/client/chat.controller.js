@@ -15,7 +15,7 @@ module.exports.index = async (req, res) => {
     for (const chat of chats) {
         const inforUser = await User.findOne({
             _id: chat.user_id
-        }).select("fullName");
+        }).select("fullName avatar");
         chat.inforUser = inforUser;
     }
 

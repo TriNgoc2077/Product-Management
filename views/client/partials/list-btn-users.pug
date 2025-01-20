@@ -1,55 +1,63 @@
-.container.my-3
-    .row 
+.container.my-4
+    .row
         .col-12
-            if (user)
-                a(href="/users/not-friend" class="btn btn-primary") 
-                    | List User 
-                    span(
-                        class="btn btn-light"
-                    ) #{users.length ? users.length : 0}
-                a(href="/users/friends" class="btn btn-primary") 
-                    | List friend
-                    span(
-                        class="btn btn-light"
-                    ) #{user.listFriend.length ? user.listFriend.length : 0}
-                a(href="/users/request" class="btn btn-primary") 
-                    | Request sent 
-                    span(
-                        class="btn btn-light"
-                    ) #{user.requestFriend.length ? user.requestFriend.length : 0}
-                a(href="/users/accept" class="btn btn-primary") 
-                    | Friend request 
-                    span(
-                        class="btn btn-light"
-                        badge-users-accept=user.id
-                    ) #{user.acceptFriend.length ? user.acceptFriend.length : 0}
+            .d-flex.gap-3.flex-wrap
+                if (user)
+                    a(href="/users/not-friend" class="btn btn-primary d-flex align-items-center gap-2 position-relative shadow-sm") 
+                        i.fas.fa-users
+                        | List Users
+                        span.badge.bg-light.text-primary.rounded-pill.ms-1 #{users.length ? users.length : 0}
+                    
+                    a(href="/users/friends" class="btn btn-success d-flex align-items-center gap-2 position-relative shadow-sm") 
+                        i.fas.fa-user-friends
+                        | Friends
+                        span.badge.bg-light.text-success.rounded-pill.ms-1 #{user.listFriend.length ? user.listFriend.length : 0}
+                    
+                    a(href="/users/request" class="btn btn-info d-flex align-items-center gap-2 position-relative shadow-sm") 
+                        i.fas.fa-paper-plane
+                        | Sent Requests
+                        span.badge.bg-light.text-info.rounded-pill.ms-1 #{user.requestFriend.length ? user.requestFriend.length : 0}
+                    
+                    a(href="/users/accept" class="btn btn-warning d-flex align-items-center gap-2 position-relative shadow-sm") 
+                        i.fas.fa-user-plus
+                        | Friend Requests
+                        span.badge.bg-light.text-warning.rounded-pill.ms-1(
+                            badge-users-accept=user.id
+                        ) #{user.acceptFriend.length ? user.acceptFriend.length : 0}
+
     style.
-
-        /* Button styles */
-        .inner-buttons {
-        display: flex;
-        gap: 10px;
-        }
-
         .btn {
-        padding: 6px 12px;
-        border: none;
-        border-radius: 5px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: opacity 0.2s ease;
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
         }
 
         .btn:hover {
-        opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
         }
 
+        .badge {
+            font-size: 0.875rem;
+            padding: 0.35em 0.65em;
+        }
+
+        /* Custom button colors */
         .btn-primary {
-        background-color: #4CAF50;
-        color: white;
+            background-color: #4361ee;
         }
 
-        .btn-secondary {
-        background-color: #95a5a6;
-        color: white;
+        .btn-success {
+            background-color: #2ec4b6;
+        }
+
+        .btn-info {
+            background-color: #3f87f5;
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: #ff9f1c;
+            color: white;
         }

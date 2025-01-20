@@ -3,6 +3,7 @@ const Chat = require("../../models/chat.model");
 module.exports = async (req, res) => {
     const userId = res.locals.user.id;
     const fullName = res.locals.user.fullName;
+    const avatar = res.locals.user.avatar;
     const roomChatId = req.params.roomChatId;
     // SocketIO 
     _io.once('connection', (socket) => {
@@ -18,6 +19,7 @@ module.exports = async (req, res) => {
             _io.to(roomChatId).emit("SERVER_RETURN_MESSAGE", {
                 userId: userId,
                 fullName: fullName,
+                avatar: avatar,
                 content: content 
             });
         });

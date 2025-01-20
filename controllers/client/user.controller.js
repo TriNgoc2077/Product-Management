@@ -117,7 +117,6 @@ module.exports.loginPost = async (req, res) => {
 	try {
 		const email = req.body.email;
 		const password = req.body.password;
-
 		const user = await User.findOne({
 			email: email,
 			deleted: false,
@@ -143,13 +142,17 @@ module.exports.loginPost = async (req, res) => {
 			return;
 		}
 		res.cookie("userToken", user.userToken);
-		
+		if (!user.cartId) {
+			const cart = new Cart();
+			await cart.save();
+			user.cartId = cart.id;
+		}
 		if (!user.wishlistId) {
 			const wishlist = new Wishlist();
 			await wishlist.save();
 			user.wishlistId = wishlist.id;
 		}
-		//save user_id to cart
+		// save user_id to cart
 		const expires = 1000 * 3600 * 24 * 365;
         res.cookie("cartId", user.cartId, {
             expires: new Date(Date.now() + expires)
@@ -164,7 +167,6 @@ module.exports.loginPost = async (req, res) => {
 		_io.once('connection', (socket) => {
 			socket.broadcast.emit("SERVER_RETURN_USER_ONLINE", user.id);
 		});
-
 		res.redirect("/");
 	} catch (error) {
 		console.log(error);

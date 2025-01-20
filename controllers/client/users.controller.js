@@ -7,14 +7,15 @@ module.exports.notFriend = async (req, res) => {
     userSocket(res);
     const userId = res.locals.user.id;
     const myUser = await User.findOne({ _id: userId });
-    const requestFriend = myUser.requestFriend;
-    const acceptFriend = myUser.acceptFriend;
+
     const listFriend = myUser.listFriend.map(item => item.user_id);
+    const exceptId = [ ...myUser.requestFriend, ...myUser.acceptFriend, ...listFriend];
     const users = await User.find({
-        _id: { $nin: requestFriend, $ne: userId, $nin: acceptFriend, $nin: listFriend },
+        _id: { $nin: exceptId, $ne: userId },
         status: "active",
         deleted: false
     }).select("avatar fullName");
+
     res.render("client/pages/users/not-friend", {
         titlePage: "List user",
         users: users
@@ -29,17 +30,26 @@ module.exports.request = async (req, res) => {
     const myUser = await User.findOne({
         _id: userId
     });
-    const requestFriend = myUser.requestFriend;
-    const users = await User.find(
+    const listFriend = myUser.listFriend.map(item => item.user_id);
+    const exceptId = [ ...myUser.requestFriend, ...myUser.acceptFriend, ...listFriend];
+    const requests = await User.find(
         {
-            _id: { $in: requestFriend },
+            _id: { $in: myUser.requestFriend },
             status: "active",
             deleted: false
         }
     ).select("id fullName avatar");
+
+    const users = await User.find({
+        _id: { $nin: exceptId, $ne: userId },
+        status: "active",
+        deleted: false
+    }).select("avatar fullName");
+
     res.render("client/pages/users/request", {
         titlePage: "List request sent",
-        users: users
+        requests: requests,
+        users: users,
     });
 }
 
@@ -51,16 +61,26 @@ module.exports.accept = async (req, res) => {
     const myUser = await User.findOne({
         _id: userId
     });
-    const acceptFriend = myUser.acceptFriend;
-    const users = await User.find(
+    const listFriend = myUser.listFriend.map(item => item.user_id);
+    const exceptId = [ ...myUser.requestFriend, ...myUser.acceptFriend, ...listFriend];
+    
+    const accepts = await User.find(
         {
-            _id: { $in: acceptFriend },
+            _id: { $in: myUser.acceptFriend },
             status: "active",
             deleted: false
         }
     ).select("id fullName avatar");
+
+    const users = await User.find({
+        _id: { $nin: exceptId, $ne: userId },
+        status: "active",
+        deleted: false
+    }).select("avatar fullName");
+
     res.render("client/pages/users/accept", {
         titlePage: "List request received",
+        accepts: accepts,
         users: users
     });
 }
@@ -73,24 +93,30 @@ module.exports.friends = async (req, res) => {
     const myUser = await User.findOne({
         _id: userId
     });
-
-    const listFriend = myUser.listFriend;
-    const listIdFriend = listFriend.map(item => item.user_id);
-    const users = await User.find(
+    const listFriend = myUser.listFriend.map(item => item.user_id);
+    const exceptId = [ ...myUser.requestFriend, ...myUser.acceptFriend, ...listFriend];
+    const friends = await User.find(
     {
-        _id: { $in: listIdFriend },
+        _id: { $in: listFriend },
         status: "active",
         deleted: false
     }
     ).select("id fullName avatar online");
-    
-    users.forEach(user => {
-        const inforUser = listFriend.find(friend => friend.user_id == user.id);
+
+    const users = await User.find({
+        _id: { $nin: exceptId, $ne: userId },
+        status: "active",
+        deleted: false
+    }).select("avatar fullName");
+
+    friends.forEach(user => {
+        const inforUser = myUser.listFriend.find(friend => friend.user_id == user.id);
         user.roomChatId = inforUser.room_chat_id;
     });
 
     res.render("client/pages/users/friends", {
         titlePage: "List request received",
+        friends: friends,
         users: users
     });
 }

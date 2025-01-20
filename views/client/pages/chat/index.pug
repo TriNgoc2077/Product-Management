@@ -18,7 +18,7 @@ block main
                                 div(class=(chat.inforUser.id == user.id ? "sent" : "received"))
                                     .message-wrapper
                                         .avatar
-                                            img(src="https://via.placeholder.com/30" alt="User avatar")
+                                            img(src=chat.inforUser.avatar || "/images/avatar.svg" alt="User avatar")
                                         .message-content
                                             .message-bubble #{chat.content}
                                             .message-time 10:30 AM
@@ -72,7 +72,9 @@ block main
             height: 40px;
             border-radius: 50%;
         }
-
+        .sent .avatar {
+            opacity: 0;
+        }
         .message-content {
             max-width: 60%;
             word-wrap: break-word;

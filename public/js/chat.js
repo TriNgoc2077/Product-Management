@@ -16,6 +16,7 @@ if (formSendData) {
 
 //SERVER_RETURN_MESSAGE
 socket.on("SERVER_RETURN_MESSAGE", (data) => {
+    console.log(data);
     const bodyChat = document.querySelector(".chat-messages");
     const myId = document.querySelector("[my-id]").getAttribute("my-id");
     const boxTyping = document.querySelector(".inner-list-typing");
@@ -28,7 +29,7 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
             <div class="sent">
                 <div class="message-wrapper">
                     <div class="avatar">
-                        <img src="https://via.placeholder.com/30" alt="User avatar">
+                        <img src=${data.avatar || "/images/avatar.svg"} alt="User avatar"/>
                     </div>
                     <div class="message-content">
                         <div class="message-bubble">${data.content}</div>
@@ -42,7 +43,7 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
             <div class="received">
                 <div class="message-wrapper">
                     <div class="avatar">
-                        <img src="https://via.placeholder.com/30" alt="User avatar">
+                        <img src=${data.avatar || "/images/avatar.svg"} alt="User avatar">
                     </div>
                     <div class="message-content">
                         <div class="message-bubble">${data.content}</div>
