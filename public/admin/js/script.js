@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
 //proceed order
-const buttonProceed = document.querySelector(".btn-proceed");
+const buttonProceed = document.querySelector(".btn-proceed-order");
 if (buttonProceed) {
     buttonProceed.addEventListener("click", async (e) => {
         const status = buttonProceed.getAttribute("status");
@@ -258,3 +258,24 @@ if (buttonProceed) {
         }
     });
 }
+
+//cancel order
+const buttonCancelOrder = document.querySelector(".btn-cancel-order");
+if (buttonCancelOrder) {
+    buttonCancelOrder.addEventListener("click", async (e) => {
+        const id = buttonCancelOrder.getAttribute("order-id");
+        const isConfirm = confirm(`Are you sure cancel this order ?`);
+        if (isConfirm) {
+            try {
+                await fetch(`/admin/orders/cancel/${id}`, {
+                    method: "POST",
+                    headers: { "Content-type": "application/json" },
+                })
+            } catch(error) {
+                console.log("new error: ", error);
+            }
+            window.location.reload();
+        }
+    });
+}
+//end cancel order

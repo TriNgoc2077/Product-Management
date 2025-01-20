@@ -44,16 +44,16 @@ block main
                                         td.align-middle.not-click
                                             span.badge.fs-6(
                                                 class=(
-                                                    item.status == "processing" ? "bg-primary" : 
+                                                    item.status == "processing" ? "bg-secondary" : 
                                                     (
-                                                        item.status == "confirmed" ? "bg-success" : 
+                                                        item.status == "confirmed" ? "bg-primary" : 
                                                         (
                                                             item.status == "shipping" ? "bg-info" : 
-                                                            ( item.status == "completed" ? "bg-success" : "bg-secondary" )
+                                                            ( item.status == "completed" ? "bg-success" : "bg-danger" )
                                                         )
                                                     )
                                                 )
-                                            ) #{item.status || "pending"}
+                                                ) #{item.status || "pending"}
   
                             else   
                                 tr   

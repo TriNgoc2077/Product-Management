@@ -74,18 +74,18 @@ block main
               strong Shipping Fee:   
               span $#{order.shipping}  
             hr  
-            span.badge.fs-6(
+              span.badge.fs-6(
                 class=(
-                    order.status == "cancelled" ? "bg-danger" : 
+                    item.status == "processing" ? "bg-secondary" : 
                     (
-                        order.status == "processing" ? "bg-info" : 
+                        item.status == "confirmed" ? "bg-primary" : 
                         (
-                            order.status == "shipping" ? "bg-warning" : 
-                            ( order.status == "completed" ? "bg-success" : "bg-secondary" )
+                            item.status == "shipping" ? "bg-info" : 
+                            ( item.status == "completed" ? "bg-success" : "bg-danger" )
                         )
                     )
                 )
-            ) #{order.status || "pending"}
+                ) #{item.status || "pending"}
             h5.text-end  
               strong Total Amount:   
               span $#{order.totalAmount}

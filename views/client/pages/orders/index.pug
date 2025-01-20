@@ -17,16 +17,16 @@ block main
                                     | Order ##{order._id}
                                 span.badge.fs-6(
                                     class=(
-                                        order.status == "processing" ? "bg-primary" : 
+                                        order.status == "processing" ? "bg-secondary" : 
                                         (
-                                            order.status == "confirmed" ? "bg-success" : 
+                                            order.status == "confirmed" ? "bg-primary" : 
                                             (
                                                 order.status == "shipping" ? "bg-info" : 
-                                                ( order.status == "completed" ? "bg-success" : "bg-secondary" )
+                                                ( order.status == "completed" ? "bg-success" : "bg-danger" )
                                             )
                                         )
                                     )
-                                ) #{order.status || "pending"}
+                                    ) #{order.status || "pending"}
                                         //- .bg-success
                     .card-body
                         if (order.products.length < 4)

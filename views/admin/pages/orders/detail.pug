@@ -31,7 +31,18 @@ block main
                 span #{new Date(order.createAt).toLocaleDateString()}
               p.mb-1
                 strong Status: 
-                span.badge.bg-success #{order.status}
+                span.badge.fs-6(
+                class=(
+                    order.status == "processing" ? "bg-secondary" : 
+                    (
+                        order.status == "confirmed" ? "bg-primary" : 
+                        (
+                            order.status == "shipping" ? "bg-info" : 
+                            ( order.status == "completed" ? "bg-success" : "bg-danger" )
+                        )
+                    )
+                )
+                ) #{order.status || "pending"}
           
           // Products Table
           h5.mb-3 Ordered Products
@@ -75,27 +86,21 @@ block main
                   .d-flex.justify-content-between.fw-bold
                     span Total:
                     span $#{order.totalAmount}
-                
-                //- if (order.status == "processing")
-                //-     button.btn.btn-warning(button-next-step) Enter
-                //-     button.btn.btn-danger(button-next-step) Cancel Order
-
-                //- if (order.status == "confirm")
-                //-     button.btn.btn-warning(button-next-step) Enter 
-                //-     button.btn.btn-danger(button-next-step) Cancel Order
-
-                //- if (order.status == "shipping")
-                //-     button.btn.btn-warning(button-next-step) Enter
-                //-     button.btn.btn-danger(button-next-step) Cancel Order
                 if (order.status === "processing" || order.status === "confirmed" || order.status === "shipping")
                   .action-buttons
                     .d-flex.justify-content-center.align-items-center.gap-3
-                      button.btn.btn-action.btn-cancel(button-cancel-order order-id=order._id)
+                      button.btn.btn-action.btn-cancel-order(button-cancel-order order-id=order._id)
                         i.fas.fa-times.me-2
                         | Cancel Order
-                      button.btn.btn-action.btn-proceed(status=order.status order-id=order._id)
+                      button.btn.btn-action.btn-proceed-order(status=order.status order-id=order._id)
                         i.fas.fa-arrow-right.me-2
                         | Proceed
+                else if (order.status == "pending")
+                  .action-buttons
+                    .d-flex.justify-content-center.align-items-center.gap-3
+                      button.btn.btn-action.btn-cancel-order(button-cancel-order order-id=order._id)
+                        i.fas.fa-times.me-2
+                        | Cancel Order
     script(src="/admin/js/script.js") 
     style.
       .btn-action {
@@ -107,21 +112,21 @@ block main
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       }
-      .btn-proceed {
-        background-color: #ffc107;
+      .btn-proceed-order {
+        background-color:rgb(0, 183, 244);
         border: none;
         color: #000;
       }
-      .btn-proceed:hover {
-        background-color: #ffca2c;
+      .btn-proceed-order:hover {
+        background-color:rgb(73, 7, 255);
         color: #000;
       }
-      .btn-cancel {
+      .btn-cancel-order {
         background-color: #dc3545;
         border: none;
         color: white;
       }
-      .btn-cancel:hover {
+      .btn-cancel-order:hover {
         background-color: #bb2d3b;
       }
       .action-buttons {

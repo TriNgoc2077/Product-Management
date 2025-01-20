@@ -41,3 +41,16 @@ module.exports.proceed = async (req, res) => {
         res.status(500).send({ message: "Proceed error !" })
     }
 }
+
+// [POST] /admin/orders/cancel/:id
+module.exports.cancel = async (req, res) => {
+    try {
+        const orderId = req.params.id;
+        await Order.updateOne({ _id: orderId }, {
+            status: "canceled"
+        });
+        res.status(200).send({ message: "Canceled !" });
+    } catch(error) {
+        res.status(500).send({ message: "Cancel error !" })
+    }
+}
