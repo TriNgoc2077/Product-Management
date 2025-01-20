@@ -32,9 +32,9 @@ module.exports = (app) => {
         "/search",
         searchRoutes
     );
-    app.use("/cart", cartRoutes);
-    app.use("/wishlist", wishlistRoutes);
-    app.use("/checkout", checkoutRoutes);
+    app.use("/cart", authMiddleware.requireAuth, cartRoutes);
+    app.use("/wishlist", authMiddleware.requireAuth, wishlistRoutes);
+    app.use("/checkout", authMiddleware.requireAuth, checkoutRoutes);
     
     app.use("/user", userRoutes);
     app.use("/chat", authMiddleware.requireAuth, chatRoute);

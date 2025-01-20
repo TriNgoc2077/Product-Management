@@ -267,7 +267,7 @@ module.exports.otpPasswordPost = async (req, res) => {
 		const request = await ForgotPassword.findOne({
 			email: email,
 			otp: otp,
-		});
+		}).sort({ createdAt: -1 });
 
 		if (!request) {
 			req.flash("error", "OTP is invalid !");
