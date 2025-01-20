@@ -6,18 +6,21 @@ const productCategoryHelper = require("../../helpers/productCategory");
 // [GET] /products
 
 module.exports.index = async (req, res) => {
+    try {
+        const products = await Product.find({
+            status: "active",
+            deleted: "false"
+        }).sort({ position: "asc" });
 
-    const products = await Product.find({
-        status: "active",
-        deleted: "false"
-    }).sort({ position: "asc" });
-
-    const newProducts = productHelper.newPrice(products);
-    
-    res.render("client/pages/products/index.pug", {
-        titlePage: "Our products",
-        products: newProducts,
-    });
+        const newProducts = productHelper.newPrice(products);
+        
+        res.render("client/pages/products/index.pug", {
+            titlePage: "Our products",
+            products: newProducts,
+        });
+    } catch(error) {
+        console.log("New error: ", error);
+    }
 }
 
 // [GET] /products/detail/:slugProduct

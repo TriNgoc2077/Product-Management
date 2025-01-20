@@ -4,19 +4,23 @@ const filterStatusHelpers = require("../../helpers/filterStatus");
 
 // [GET] /admin/users
 module.exports.index = async (req, res) => {
-    const filterStatus = filterStatusHelpers(req.query);
-    let find = {};
-    if (req.query.status === "deleted") {
-        find.deleted = true
-    } else if (req.query.status) {
-        find.status = req.query.status
+    try {
+        const filterStatus = filterStatusHelpers(req.query);
+        let find = {};
+        if (req.query.status === "deleted") {
+            find.deleted = true
+        } else if (req.query.status) {
+            find.status = req.query.status
+        }
+        const records = await User.find(find).select("-password -userToken");
+        res.render("admin/pages/users/index.pug", {
+            titlePage: "User Account Page",
+            filterStatus: filterStatus,
+            records: records
+        });
+    } catch(error) {
+        console.log("New error: ", error);
     }
-    const records = await User.find(find).select("-password -userToken");
-    res.render("admin/pages/users/index.pug", {
-        titlePage: "User Account Page",
-        filterStatus: filterStatus,
-        records: records
-    });
 }
 
 // [GET] /admin/users/detail/:id

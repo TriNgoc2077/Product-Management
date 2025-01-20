@@ -1,11 +1,15 @@
 const generalSetting = require("../../models/general-settings.model");
 //[GET] admin/setting/general
 module.exports.general = async (req, res) => {
-    const record = await generalSetting.findOne({});
-    res.render("admin/pages/settings/general", {
-        titlePage: "General Setting" ,
-        generalSetting: record
-    });
+    try {
+        const record = await generalSetting.findOne({});
+        res.render("admin/pages/settings/general", {
+            titlePage: "General Setting" ,
+            generalSetting: record
+        });
+    } catch(error) {
+        console.log("New error: ", error);
+    }
 }
 //[PATCH] admin/setting/general
 module.exports.generalPatch = async (req, res) => {

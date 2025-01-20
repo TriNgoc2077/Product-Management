@@ -4,27 +4,35 @@ const productHelper = require("../../helpers/product");
 const filterStatusHelpers = require("../../helpers/filterStatus");
 // [GET] /admin/orders
 module.exports.index = async (req, res) => {
-    const orders = await Order.find({}).sort({ createAt: 1 });
-    const filterStatus = filterStatusHelpers(req.query);
-    res.render("admin/pages/orders/index.pug", {
-        titlePage: "Orders",
-        orders: orders,
-        filterStatus: filterStatus
-    });
+    try {
+        const orders = await Order.find({}).sort({ createAt: 1 });
+        const filterStatus = filterStatusHelpers(req.query);
+        res.render("admin/pages/orders/index.pug", {
+            titlePage: "Orders",
+            orders: orders,
+            filterStatus: filterStatus
+        });
+    } catch(error) {
+        console.log("New error: ", error);
+    }
 }
 
 // [GET] /admin/orders/detail/:id
 module.exports.detail = async (req, res) => {
-    const orderId = req.params.id;
-    const order = await Order.findOne({ _id: orderId });
-    order.products = productHelper.newPrice(order.products);
-    order.totalProducts = order.products.reduce((acc, item) => acc + item.price, 0);
-    order.totalProductsDiscount = order.products.reduce((acc, item) => acc + item.priceNew, 0);
-    order.totalAmount = order.totalProductsDiscount + (order.shipping ? order.shipping : 0);
-    res.render("admin/pages/orders/detail.pug", {
-        titlePage: "Order Detail",
-        order: order
-    });
+    try {
+        const orderId = req.params.id;
+        const order = await Order.findOne({ _id: orderId });
+        order.products = productHelper.newPrice(order.products);
+        order.totalProducts = order.products.reduce((acc, item) => acc + item.price, 0);
+        order.totalProductsDiscount = order.products.reduce((acc, item) => acc + item.priceNew, 0);
+        order.totalAmount = order.totalProductsDiscount + (order.shipping ? order.shipping : 0);
+        res.render("admin/pages/orders/detail.pug", {
+            titlePage: "Order Detail",
+            order: order
+        });
+    } catch(error) {
+        console.log("New error: ", error);
+    }
 }
 
 // [GET] /admin/orders/proceed/:id

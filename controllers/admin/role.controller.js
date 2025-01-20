@@ -4,34 +4,46 @@ const systemConfig = require("../../config/system");
 
 // [GET] /admin/roles
 module.exports.index = async (req, res) => {
-    let find = {};
+    try {
+        let find = {};
 
-    const records = await Role.find(find);
+        const records = await Role.find(find);
 
-    res.render("admin/pages/roles/index.pug", {
-        titlePage: "Roles Page",
-        records: records
-    });
+        res.render("admin/pages/roles/index.pug", {
+            titlePage: "Roles Page",
+            records: records
+        });
+    } catch(error) {
+        console.log("New error: ", error);
+    }
 }
 
 // [GET] /admin/roles/create
 module.exports.create = async (req, res) => {
-    let find = {
-        deleted: false
+    try {
+        let find = {
+            deleted: false
+        }
+
+        const records = await Role.find(find);
+
+        res.render("admin/pages/roles/create.pug", {
+            titlePage: "Permission Page"
+        });
+    } catch(error) {
+        console.log("New error: ", error);
     }
-
-    const records = await Role.find(find);
-
-    res.render("admin/pages/roles/create.pug", {
-        titlePage: "Permission Page"
-    });
 }
 // [POST] /admin/roles/create
 module.exports.createPost = async (req, res) => {
-    const record = new Role(req.body);
-    await record.save();
+    try {
+        const record = new Role(req.body);
+        await record.save();
 
-    res.redirect(`${systemConfig.prefixAdmin}/roles`);
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    } catch(error) {
+        console.log("New error: ", error);
+    }
 }
 
 // [GET] /admin/roles/edit/:id
@@ -125,16 +137,20 @@ module.exports.restore = async (req, res) => {
 
 // [GET] /admin/roles/permissions
 module.exports.permissions = async (req, res) => {
-    let find = {
-        deleted: false
+    try {
+        let find = {
+            deleted: false
+        }
+
+        const records = await Role.find(find);
+
+        res.render("admin/pages/roles/permissions", {
+            titlePage: "Permission Page",
+            records: records
+        });
+    } catch(error) {
+        console.log("New error: ", error);
     }
-
-    const records = await Role.find(find);
-
-    res.render("admin/pages/roles/permissions", {
-        titlePage: "Permission Page",
-        records: records
-    });
 }
 
 // [PATCH] /admin/roles/permissions

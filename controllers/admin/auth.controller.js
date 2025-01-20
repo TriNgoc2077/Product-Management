@@ -27,28 +27,32 @@ module.exports.login = async (req, res) => {
 
 //[POST] /admin/auth/login
 module.exports.loginPost = async (req, res) => {
-    const { email, password } = req.body;
+    try {
+        const { email, password } = req.body;
 
-    const user = await Account.findOne({
-        email: email,
-        deleted: false
-    });
-    if (!user) {
-        req.flash("error", "Email does not exist !");
-        res.redirect("back");
-        return;
+        const user = await Account.findOne({
+            email: email,
+            deleted: false
+        });
+        if (!user) {
+            req.flash("error", "Email does not exist !");
+            res.redirect("back");
+            return;
+        }
+        if (md5(password) != user.password){
+            req.flash("error", "Password is incorrect !");
+            res.redirect("back");
+            return;
+        } else if (user.status == "inactive"){
+            req.flash("error", "This account is locked !");
+            res.redirect("back");
+            return;
+        }
+        res.cookie("token", user.token);
+        res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+    } catch(error) {
+        console.log("New error: ", error);
     }
-    if (md5(password) != user.password){
-        req.flash("error", "Password is incorrect !");
-        res.redirect("back");
-        return;
-    } else if (user.status == "inactive"){
-        req.flash("error", "This account is locked !");
-        res.redirect("back");
-        return;
-    }
-    res.cookie("token", user.token);
-    res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
 }
 
 //[GET] /admin/auth/logout
