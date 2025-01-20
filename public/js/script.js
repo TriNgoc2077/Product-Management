@@ -106,3 +106,53 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
 });
+
+//resend otp
+const resendButton = document.querySelector("[resend-code-button]");
+if (resendButton) {
+    resendButton.addEventListener("click", (e) => {
+        const form = resendButton.closest("form");
+        if (form) {
+            form.submit();
+        }
+    });
+}
+
+
+//wishlist
+// State to manage dialog
+let shareDialog = null;
+function shareProduct(productSlug) {
+  // Initialize dialog if not already done
+  ShareProductDialog.init();
+  // Open dialog with product slug
+  ShareProductDialog.open(productSlug);
+}
+//remove product when click
+const buttonAddToCart = document.querySelectorAll("[add-to-cart]");
+if (buttonAddToCart) {
+  buttonAddToCart.forEach(button => {
+    button.addEventListener("click", async (e) => {
+      const product = button.closest("[product-item]");
+      const productId = product.getAttribute("product-item");
+
+      try {
+        await fetch(`/cart/add/${productId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: { quantity: 1 },
+        });
+
+        await fetch(`/wishlist/remove/${productId}?_method=DELETE`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        window.location.href = "/wishlist";
+      } catch (error) {
+        console.error(error);
+      }
+    })
+  });
+}
+//end wishlist

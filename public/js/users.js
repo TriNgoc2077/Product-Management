@@ -211,21 +211,6 @@ socket.on("SERVER_RETURN_USER_ONLINE", (userId) => {
 socket.on("SERVER_RETURN_USER_OFFLINE", (userId) => {
     onlineMarkup(userId, "offline");
 });
-
-// //accept friend
-// const listButtonAcceptFriend = document.querySelectorAll("[button-accept-friend]");
-// if (listButtonAcceptFriend.length > 0) {
-//     listButtonAcceptFriend.forEach((button) => {
-//         button.addEventListener("click", (e) => {
-
-//             button.closest(".box-user").classList.add("accepted");
-//             const userId = button.getAttribute("button-accept-friend");
-//             console.log(userId);
-//             socket.emit("CLIENT_ACCEPT_FRIEND", userId);
-//         });
-//     });
-// }
-
 //unfiend
 const buttonUnfriend = document.querySelectorAll("[button-unfriend]");
 if (buttonUnfriend) {
