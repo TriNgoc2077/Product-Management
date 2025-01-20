@@ -24,16 +24,11 @@ block main
                 .card-body
                     .row.align-items-center
                         .col-auto
-                            if (user.avatar)
-                                img.rounded-circle.profile-avatar(
-                                    src=user.avatar,
-                                    alt="Profile Avatar",
-                                    style="width: 100px; height: 100px; object-fit: cover"
-                                )
-                            else
-                                .avatar-placeholder.rounded-circle.bg-secondary.text-white.d-flex.align-items-center.justify-content-center(
-                                    style="width: 100px; height: 100px; font-size: 2.5rem;"
-                                ) #{user.fullName ? user.fullName[0].toUpperCase() : 'A'}
+                            img.rounded-circle.profile-avatar(
+                                src=(user.avatar ? user.avatar : "/images/avatar.svg"),
+                                alt="Profile Avatar",
+                                style="width: 100px; height: 100px; object-fit: cover"
+                            )
                         .col
                             .row
                                 .col-md-6

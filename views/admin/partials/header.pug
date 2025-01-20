@@ -14,7 +14,7 @@ header.header
                         .user-name #{user.fullName}  
                         .user-email #{user.email}  
                     .user-profile.dropdown  
-                        img(src=user.avatar  
+                        img(src=(user.avatar ? user.avatar : "/images/avatar.svg")  
                             alt="User"   
                             class="rounded-circle dropdown-toggle"  
                             width="40"  
