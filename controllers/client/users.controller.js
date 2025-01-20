@@ -141,6 +141,11 @@ module.exports.detailUser = async (req, res) => {
 	try {
 		const id = req.params.userId;
 		const inforUser = await User.findOne({ _id: id }).select("-password -userToken");
+        for (let friend of inforUser.listFriend) {
+            const infor = await User.findOne({ _id: friend.user_id }).select("fullName avatar");
+            friend.avatar = infor.avatar;
+            friend.fullName = infor.fullName;
+        }
 		res.render("client/pages/users/detail.pug", {
 			titlePage: "Information User",
 			inforUser: inforUser

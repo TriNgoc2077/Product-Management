@@ -11,7 +11,7 @@ block main
         
         .row.g-4(data-users-friend)
             each user in friends
-                .col-12.col-md-4.box-user(user-id=user.id)
+                .col-12.col-md-4.box-user(user-id=user.id data-href=`/users/detail/${user.id}`)
                     .card.h-100.border-0.shadow-sm.rounded-3.bg-white
                         .card-body.p-3
                             .d-flex.align-items-center
@@ -32,7 +32,7 @@ block main
                                 
                                 .flex-grow-1
                                     .fw-semibold.mb-2.fs-5.text-dark.lh-sm #{user.fullName}
-                                    .d-flex.gap-2
+                                    .d-flex.gap-2.not-click
                                         a.btn.btn-primary.btn-sm.align-items-center.gap-2.btn-action(
                                             href=`/chat/${user.roomChatId}`
                                             button-inbox

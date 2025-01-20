@@ -11,7 +11,7 @@ block main
 
         .row.g-4
             each user in requests
-                .col-12.col-md-4
+                .col-12.col-md-4(data-href=`/users/detail/${user.id}`)
                     div(class="box-user add card h-100 position-relative") 
                         .card-body.p-4
                             .d-flex.align-items-center.position-relative
@@ -25,7 +25,7 @@ block main
                                 
                                 .inner-info.flex-grow-1
                                     .inner-name.fw-bold.mb-2.fs-5 #{user.fullName}
-                                    .inner-buttons.d-flex.gap-2
+                                    .inner-buttons.d-flex.gap-2.not-click
                                         button(
                                             class="btn btn-sm btn-primary d-flex align-items-center gap-2"
                                             button-add-friend=user.id

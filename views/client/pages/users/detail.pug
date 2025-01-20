@@ -1,7 +1,75 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
-block main 
-    div #{inforUser.fullName}
-    div #{inforUser.phone}
+block main
+  .container.py-5
+    .row
+      .col-lg-4
+        // Profile Card
+        .card.mb-4
+          .card-body.text-center
+            if inforUser.avatar
+              img.rounded-circle.mb-3(src=inforUser.avatar alt=inforUser.fullName style='width: 150px; height: 150px; object-fit: cover;')
+            else
+              img.rounded-circle.mb-3(src="/images/avatar.svg" alt=inforUser.fullName style='width: 150px; height: 150px; object-fit: cover;')
+            h5.mb-2= inforUser.fullName
+            p.text-muted.mb-2
+              i.fas.fa-envelope.me-2
+              = inforUser.email
+            p.text-muted.mb-4= inforUser.bio || 'No bio available'
+        // Friends Card
+        .card.mb-4
+          .card-body
+            h5.card-title
+              i.fas.fa-user-friends.me-2
+              | Friends
+              span.float-end.badge.bg-primary= inforUser.listFriend.length
+            hr
+            .row.g-2
+              each friend in inforUser.listFriend
+                .col-4.text-center.mb-3
+                  img.img-fluid.rounded.mb-2(src=(friend.avatar || "/images/avatar.svg") alt=friend.name style="width: 80px; height: 80px; object-fit: cover;")
+                  .small.text-truncate= friend.fullName
+      .col-lg-8
+        // About Card
+        .card.mb-4
+          .card-body
+            h5.card-title
+              i.fas.fa-user.me-2
+              | About
+            hr
+            .row.mb-3
+              .col-sm-3
+                i.fas.fa-phone.me-2
+                strong Phone
+              .col-sm-9= inforUser.phone
 
+            .row.mb-3
+              .col-sm-3
+                i.fas.fa-map-marker-alt.me-2
+                strong Address
+              .col-sm-9= inforUser.address
+
+            .row.mb-3
+              .col-sm-3
+                i.fas.fa-birthday-cake.me-2
+                strong Birthday
+              .col-sm-9= new Date(inforUser.birthday).toLocaleDateString()
+
+            .row.mb-3
+              .col-sm-3
+                i.fas.fa-circle.me-2
+                strong Status
+              .col-sm-9
+                span(class=inforUser.online === 'online' ? 'text-success' : 'text-secondary')
+                  i.fas.fa-circle.me-2
+                  = inforUser.online
+
+        //- // Activity Card
+        //- .card
+        //-   .card-body
+        //-     h5.card-title
+        //-       i.fas.fa-clock.me-2
+        //-       | Recent Activity
+        //-     hr
+        //-     p.text-muted Member since #{new Date(inforUser.createdAt.$date.$numberLong).toLocaleDateString()}

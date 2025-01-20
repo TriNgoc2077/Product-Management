@@ -11,7 +11,7 @@ block main
 
         .row.g-4(data-user-accept=user.id)
             each user in accepts
-                .col-12.col-md-4(user-id=user.id)
+                .col-12.col-md-4(user-id=user.id data-href=`/users/detail/${user.id}`)
                     .box-user.card.h-100.border-0.shadow-sm.rounded-3.bg-white
                         .card-body.p-3
                             .d-flex.align-items-center
@@ -26,7 +26,7 @@ block main
                                 
                                 .flex-grow-1
                                     .fw-semibold.mb-2.fs-5.text-dark.lh-sm #{user.fullName}
-                                    .d-flex.gap-2.flex-wrap
+                                    .d-flex.gap-2.flex-wrap.not-click
                                         button.btn.btn-primary.btn-sm.d-inline-flex.align-items-center.gap-2(
                                             button-accept-friend=user.id
                                         )

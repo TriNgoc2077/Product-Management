@@ -8,7 +8,6 @@ module.exports.requireAuth = async (req, res, next) => {
 		const user = await User.findOne({
 			userToken: req.cookies.userToken,
 		}).select("-password -token");
-		console.log(user);
 		if (!user) {
 			res.redirect(`/user/login`);
 			return;
