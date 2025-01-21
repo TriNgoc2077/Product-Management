@@ -278,7 +278,7 @@ module.exports.otpPasswordPost = async (req, res) => {
 				email: email,
 			}).select("userToken");
 
-			res.cookie("userToken", userToken);
+			res.cookie("userToken", userToken.userToken);
 			res.redirect("/user/password/reset");
 		}
 	} catch (error) {

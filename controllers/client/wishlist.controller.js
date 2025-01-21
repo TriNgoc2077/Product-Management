@@ -55,7 +55,6 @@ module.exports.addPost = async (req, res) => {
                 { $push: { products: objectWishlist } }
             );
         }
-        
         req.flash("success", "Added product to wishlist !");
         res.redirect("back");
 

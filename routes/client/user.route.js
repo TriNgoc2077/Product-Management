@@ -26,9 +26,10 @@ router.post(
 router.get("/password/otp", controller.otpPassword);
 router.post("/password/otp", controller.otpPasswordPost);
 
-router.get("/password/reset", controller.passwordReset);
+router.get("/password/reset", authMiddleware.requireAuth,  controller.passwordReset);
 router.post(
 	"/password/reset",
+	authMiddleware.requireAuth, 
 	validates.resetPasswordPost,
 	controller.passwordResetPost
 );

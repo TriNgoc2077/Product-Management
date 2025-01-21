@@ -14,12 +14,14 @@ mixin product-item(item)
                     loading="lazy"
                 )
             .product-actions
-                button.btn.btn-light.btn-sm.mr-2(title="Quick View")
+                a.btn.btn-light.btn-sm.mr-2(title="Quick View" href=`/products/detail/${item.slug}`)
                     i.fas.fa-eye
-                button.btn.btn-light.btn-sm.mr-2(title="Add to Wishlist")
-                    i.fas.fa-heart
-                button.btn.btn-light.btn-sm(title="Add to Cart")
-                    i.fas.fa-shopping-cart
+                form.d-inline(action=`/wishlist/add/${item.id}` method="POST")
+                    button.btn.btn-light.btn-sm.mr-2(title="Add to Wishlist" quick-button-add-wishlist=item.id type="submit")
+                        i.fas.fa-heart
+                form.d-inline(action=`/cart/add/${item.id}` method="POST")
+                    button.btn.btn-light.btn-sm(title="Add to Cart" quick-button-add-cart=item.id type="submit")
+                        i.fas.fa-shopping-cart
         .card-body.inner-content.position-relative.text-center
             h3.inner-title.h5.mb-3
                 a.text-dark(href=`/products/${item.slug}`) #{item.title}

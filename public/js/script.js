@@ -120,6 +120,7 @@ if (resendButton) {
 
 
 //wishlist
+
 // State to manage dialog
 let shareDialog = null;
 function shareProduct(productSlug) {
@@ -128,6 +129,7 @@ function shareProduct(productSlug) {
   // Open dialog with product slug
   ShareProductDialog.open(productSlug);
 }
+
 //remove product when click
 const buttonAddToCart = document.querySelectorAll("[add-to-cart]");
 if (buttonAddToCart) {
@@ -156,3 +158,39 @@ if (buttonAddToCart) {
   });
 }
 //end wishlist
+
+// //quick button add product to cart, wishlist
+// const quickButtonWishlist = document.querySelectorAll("[quick-button-add-wishlist]");
+// if (quickButtonWishlist) {
+//     quickButtonWishlist.forEach(button => {
+//         button.addEventListener("click", async (e) => {
+//             const id = button.getAttribute("quick-button-add-wishlist");
+//             try{
+//                 await fetch(`/wishlist/add/${id}`, {
+//                     method: "POST",
+//                     headers: { "Content-Type": "application/json" }
+//                 })
+//                 window.location.reload();
+//             } catch(error) {
+//                 console.log("new error: ", error);
+//             }
+//         });
+//     });
+// }
+// const quickButtonCart = document.querySelectorAll("[quick-button-add-cart]");
+// if (quickButtonCart) {
+//     quickButtonCart.forEach(button => {
+//         button.addEventListener("click", async (e) => {
+//             const id = button.getAttribute("quick-button-add-cart");
+//             try{
+//                 await fetch(`/cart/add/${id}`, {
+//                     method: "POST",
+//                     headers: { "Content-Type": "application/json" }
+//                 })
+//                 window.location.reload();
+//             } catch(error) {
+//                 console.log("new error: ", error);
+//             }
+//         });
+//     });
+// }
