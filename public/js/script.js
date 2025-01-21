@@ -159,38 +159,24 @@ if (buttonAddToCart) {
 }
 //end wishlist
 
-// //quick button add product to cart, wishlist
-// const quickButtonWishlist = document.querySelectorAll("[quick-button-add-wishlist]");
-// if (quickButtonWishlist) {
-//     quickButtonWishlist.forEach(button => {
-//         button.addEventListener("click", async (e) => {
-//             const id = button.getAttribute("quick-button-add-wishlist");
-//             try{
-//                 await fetch(`/wishlist/add/${id}`, {
-//                     method: "POST",
-//                     headers: { "Content-Type": "application/json" }
-//                 })
-//                 window.location.reload();
-//             } catch(error) {
-//                 console.log("new error: ", error);
-//             }
-//         });
-//     });
-// }
-// const quickButtonCart = document.querySelectorAll("[quick-button-add-cart]");
-// if (quickButtonCart) {
-//     quickButtonCart.forEach(button => {
-//         button.addEventListener("click", async (e) => {
-//             const id = button.getAttribute("quick-button-add-cart");
-//             try{
-//                 await fetch(`/cart/add/${id}`, {
-//                     method: "POST",
-//                     headers: { "Content-Type": "application/json" }
-//                 })
-//                 window.location.reload();
-//             } catch(error) {
-//                 console.log("new error: ", error);
-//             }
-//         });
-//     });
-// }
+//form search
+const formSearch = document.querySelector("#form-search");
+console.log(formSearch);
+if(formSearch){
+    let url = new URL(window.location.origin + "/products");
+
+    formSearch.addEventListener("submit", (e) => {
+        e.preventDefault(); //prevent redirection => search by status feature
+
+        const keyword = e.target.elements.keyword.value;
+        
+        if(keyword){
+            url.searchParams.set("keyword", keyword);
+        }
+        else {
+            url.searchParams.delete("keyword");
+        }
+        window.location.href = url.href;
+    }); 
+}
+//end form search

@@ -1,5 +1,6 @@
 const Product = require('../../models/product.model');
 const productHelper = require("../../helpers/product");
+const searchHelpers = require("../../helpers/search");
 const ProductCategory = require("../../models/product-category.model");
 const { all } = require('../../routes/client/product.route');
 const productCategoryHelper = require("../../helpers/productCategory");
@@ -7,16 +8,24 @@ const productCategoryHelper = require("../../helpers/productCategory");
 
 module.exports.index = async (req, res) => {
     try {
-        const products = await Product.find({
+        let find = {
             status: "active",
             deleted: "false"
-        }).sort({ position: "asc" });
+        };
+        //find
+        const objectSearch = searchHelpers(req.query);
 
+        if (objectSearch.regex) {
+            find.title = objectSearch.regex;
+        }
+        const products = await Product.find(find).sort({ position: "asc" });
+        
         const newProducts = productHelper.newPrice(products);
         
         res.render("client/pages/products/index.pug", {
             titlePage: "Our products",
             products: newProducts,
+            keyword: objectSearch.keyword,
         });
     } catch(error) {
         console.log("New error: ", error);
