@@ -25,6 +25,17 @@ const productSchema = new mongoose.Schema(
             unique: true
         },
         // deletedAt: Date,
+        review: [
+            {
+                userAvatar: String, 
+                userFullname: String,
+                content: String,
+                createdAt: {
+                    type: Date, 
+                    default: Date.now
+                }
+            }
+        ],
         deleted: {
             type: Boolean,
             default: false

@@ -2,8 +2,11 @@ const Product = require('../../models/product.model');
 const productHelper = require("../../helpers/product");
 const searchHelpers = require("../../helpers/search");
 const ProductCategory = require("../../models/product-category.model");
+const Order = require("../../models/order.model");
+const checkReviewHelpers = require("../../helpers/checkReview");
 const { all } = require('../../routes/client/product.route');
 const productCategoryHelper = require("../../helpers/productCategory");
+const { body } = require("express-validator");
 // [GET] /products
 
 module.exports.index = async (req, res) => {
@@ -41,7 +44,7 @@ module.exports.detail = async (req, res) => {
         };
 
         let product = await Product.findOne(find);
-
+        //category
         if (product.product_category_id) {
             let listCategory = [];
             let category = await ProductCategory.findOne({
@@ -62,12 +65,24 @@ module.exports.detail = async (req, res) => {
                 }
             }
             product.category = listCategory;
-
         }
         productHelper.newPriceOneProduct(product);
+        //review
+        const purchasedProducts = await Order.find({ cart_id: req.cookies.cartId, status: "completed" }).select("products");
+        var canReview = false;
+        for (let order of purchasedProducts) {
+            canReview = checkReviewHelpers.checkReview(order, product);
+            if (canReview) {
+                break;
+            }
+        }
+        if (!product.review) {
+            product.review = [];
+        }
         res.render("client/pages/products/detail.pug", {
             titlePage: product.title,
-            product: product
+            product: product,
+            canReview: canReview
         });
     } catch(error) {
         console.log(error);
@@ -105,3 +120,27 @@ module.exports.category = async (req, res) => {
         res.redirect(`/products`);
     }
 }
+
+//[POST] /products/review/:id
+module.exports.review = [
+    body('review').trim() .escape(), async (req, res) => {
+        try {
+            const content = req.body.review;
+            // const user = res.locals.user;
+            const objectUpdate = {
+                userAvatar: res.locals.user.avatar,
+                userFullname: res.locals.user.fullName,
+                content: content
+            };
+            await Product.updateOne(
+                { _id: req.params.id },
+                { $push: { review: objectUpdate } }
+            );
+            req.flash("success", "Review successfully !");
+            res.redirect(req.get("Referrer") || "/");
+        } catch(error) {
+            console.log(error);
+            return res.redirect(`/products`);
+        }
+    }
+];

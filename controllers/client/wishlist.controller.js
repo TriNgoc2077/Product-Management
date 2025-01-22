@@ -56,11 +56,10 @@ module.exports.addPost = async (req, res) => {
             );
         }
         req.flash("success", "Added product to wishlist !");
-        res.redirect("back");
-
+        res.redirect(req.get("Referrer") || "/");
     } catch(error) {
         req.flash("error", "Added failed !");
-        res.redirect("back");
+        res.redirect(req.get("Referrer") || "/");
     }
 }
 
@@ -75,10 +74,10 @@ module.exports.remove = async (req, res) => {
         });
 
         req.flash("success", "Remove successfully !");
-        res.redirect("back");
+        res.redirect(req.get("Referrer") || "/");
     } catch(error) {
         req.flash("error", "Remove failed !");
-        res.redirect("back");
+        res.redirect(req.get("Referrer") || "/");
     }
 }
 
@@ -99,6 +98,6 @@ module.exports.addAll = async (req, res) => {
         res.redirect(`/wishlist`);
     } catch(error) {
         req.flash("error", "Add failed !");
-        res.redirect("back");
+        res.redirect(req.get("Referrer") || "/");
     }
 }

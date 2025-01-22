@@ -114,6 +114,63 @@ block main
                 | Product Description
               .card-body
                 p.lead.mb-0 !{product.description}
+    .row.mt-4
+      .col-12
+        .card.shadow-hover
+          .card-header.bg-primary.text-white.d-flex.align-items-center
+            i.fas.fa-comments.me-2
+            h5.mb-0 Product Reviews
+
+          .card-body
+            if product.review && product.review.length > 0
+              each review in product.review
+                .review-item.mb-4.p-3.border.rounded
+                  .d-flex.align-items-start
+                    if review.userAvatar
+                      img.rounded-circle.me-3(
+                        src=review.userAvatar
+                        alt=review.userFullname
+                        width="50"
+                        height="50"
+                      )
+                    else 
+                      .avatar-placeholder.rounded-circle.me-3.d-flex.align-items-center.justify-content-center.bg-secondary.text-white(
+                        style="width: 50px; height: 50px;"
+                      )
+                        i.fas.fa-user
+                    
+                    .review-content.flex-grow-1
+                      .d-flex.justify-content-between.align-items-center.mb-2
+                        h6.mb-0.fw-bold #{review.userFullname}
+                        small.text-muted
+                          i.fas.fa-clock.me-1
+                          | #{review.createdAt}
+                      p.mb-0 #{review.content}
+
+            else
+              .text-center.py-4
+                i.fas.fa-inbox.fa-3x.text-muted.mb-3
+                p.lead.text-muted No reviews yet. Be the first to review this product!
+
+            if canReview
+              form.mt-4(action=`/products/review/${product.id}` method="POST")
+                .card.border-primary
+                  .card-header.bg-light
+                    h6.mb-0
+                      i.fas.fa-pen.me-2
+                      | Write a Review
+                  .card-body
+                    .form-group
+                      textarea.form-control(
+                        name="review"
+                        rows="4"
+                        placeholder="Share your thoughts about this product..."
+                        required
+                      )
+                    .d-flex.justify-content-end.mt-3
+                      button.btn.btn-primary(type="submit")
+                        i.fas.fa-paper-plane.me-2
+                        | Submit Review
 
   script(type="module", src="/js/script.js") 
   
@@ -192,5 +249,32 @@ block main
       .position {
         color: #dc3545;
       }
+      .review-item {
+        transition: all 0.3s ease;
+        background: #fff;
+      }
+      
+      .review-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      }
 
+      .avatar-placeholder {
+        font-size: 1.5rem;
+      }
 
+      .review-content {
+        line-height: 1.6;
+      }
+
+      textarea.form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+      }
+
+      .card-header h5 {
+        font-size: 1.25rem;
+      }
+
+      .review-item:last-child {
+        margin-bottom: 0 !important;
+      }

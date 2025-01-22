@@ -7,5 +7,6 @@ router.get("/", controller.index);
 router.get("/:slugCategory", controller.category);
 
 router.get("/detail/:slugProduct", controller.detail);
+router.post("/review/:id", controller.review);
 
 module.exports = router;
