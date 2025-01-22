@@ -243,8 +243,8 @@ module.exports.create = async (req, res) => {
 //[POST] //admin/products/create
 module.exports.createPost = async (req, res) => {
     try {
-        req.body.price = parseInt(req.body.price);
-        req.body.discountPercentage = parseInt(req.body.discountPercentage);
+        req.body.price = Number(req.body.price);
+        req.body.discountPercentage = Number(req.body.discountPercentage);
         req.body.stock = parseInt(req.body.stock);
         if (req.body.position == ""){
             const countProducts = await Product.countDocuments();
@@ -291,8 +291,8 @@ module.exports.edit = async (req, res) => {
 //[PATCH] //admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
     try {
-        req.body.price = parseInt(req.body.price);
-        req.body.discountPercentage = parseInt(req.body.discountPercentage);
+        req.body.price = Number(req.body.price);
+        req.body.discountPercentage = Number(req.body.discountPercentage);
         req.body.stock = parseInt(req.body.stock);
         req.body.position = parseInt(req.body.position);
     
