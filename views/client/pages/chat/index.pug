@@ -7,6 +7,25 @@ block main
         .row
             .col-12
                 +box-head("Chat")
+        .row.chat-header  
+            .col-12.d-flex.align-items-center.gap-3.p-3  
+                if (roomInfor.typeRoom == "friend")  
+                    img.rounded-circle(  
+                        src=(roomInfor.userAvatar || "/images/avatar.svg")  
+                        alt="User Avatar"  
+                        style="width: 50px; height: 50px; object-fit: cover;"  
+                    )  
+                    .user-info  
+                        div.user-name.fw-bold #{roomInfor.userFullname}  
+                else   
+                    img.rounded-circle(  
+                        src=(roomInfor.avatar || "/images/avatar-room-chat.png")  
+                        alt="Room Avatar"  
+                        style="width: 50px; height: 50px; object-fit: cover;"  
+                    )  
+                    .room-info  
+                        div.room-title.fw-bold #{roomInfor.title}  
+
         .row
             .col-12
                 .chat-container.chat(my-id=user.id)
