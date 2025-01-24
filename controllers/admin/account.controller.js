@@ -2,6 +2,7 @@ const Account = require("../../models/account.model");
 const systemConfig = require("../../config/system");
 const md5 = require("md5");
 const Role = require("../../models/role.model");
+const { generateRandomString } = require("../../helpers/generate");
 // [GET] /admin/accounts
 module.exports.index = async (req, res) => {
     try {
@@ -49,7 +50,7 @@ module.exports.createPost = async (req, res) => {
             res.redirect("back");
         } else{
             req.body.password = md5(req.body.password);
-
+            req.body.token = generateRandomString(20);
             const record = new Account(req.body);
             await record.save();
             res.redirect(`${systemConfig.prefixAdmin}/accounts`);

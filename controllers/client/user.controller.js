@@ -91,7 +91,7 @@ module.exports.registerPost = async (req, res) => {
 			});
 			res.locals.miniWishlist = wishlist;
 			req.body.wishlistId = wishlist.id;
-
+			req.body.userToken = generateHelper.generateRandomString(20);
 			const user = new User(req.body);
 			await user.save();
 			res.cookie("userToken", user.userToken);
