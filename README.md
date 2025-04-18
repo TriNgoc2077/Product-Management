@@ -1,1 +1,1 @@
-Dự án đã deploy tại: e-comerce-ctn.store
+Deployed at: e-comerce-ctn.store
